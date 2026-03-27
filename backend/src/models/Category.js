@@ -2,10 +2,10 @@ const { query: dbQuery, get, run } = require('../config/database');
 
 class Category {
   /**
-   * 获取所有分类
-   * @param {Object} options 查询选项
-   * @param {string} options.status 分类状态
-   * @returns {Promise<Array>} 分类列表
+   * huo qu suo youCategory
+   * @param {Object} options Queryxuan xiang
+   * @param {string} options.status CategoryStatus
+   * @returns {Promise<Array>} CategoryList
    */
   static async getAll(options = {}) {
     const { status = 'active' } = options;
@@ -30,9 +30,9 @@ class Category {
   }
 
   /**
-   * 根据ID获取分类
-   * @param {number} id 分类ID
-   * @returns {Promise<Object|null>} 分类信息
+   * gen juIDhuo quCategory
+   * @param {number} id CategoryID
+   * @returns {Promise<Object|null>} CategoryInfo
    */
   static async getById(id) {
     const query = `
@@ -46,9 +46,9 @@ class Category {
   }
 
   /**
-   * 创建分类
-   * @param {Object} categoryData 分类数据
-   * @returns {Promise<Object>} 创建的分类信息
+   * CreateCategory
+   * @param {Object} categoryData Categoryshu ju
+   * @returns {Promise<Object>} CreatedeCategoryInfo
    */
   static async create(categoryData) {
     const {
@@ -68,10 +68,10 @@ class Category {
   }
 
   /**
-   * 更新分类
-   * @param {number} id 分类ID
-   * @param {Object} categoryData 分类数据
-   * @returns {Promise<Object|null>} 更新后的分类信息
+   * UpdateCategory
+   * @param {number} id CategoryID
+   * @param {Object} categoryData Categoryshu ju
+   * @returns {Promise<Object|null>} Updatehou deCategoryInfo
    */
   static async update(id, categoryData) {
     const {
@@ -88,7 +88,7 @@ class Category {
     const updates = [];
     const params = [];
 
-    // 构建更新字段
+    // gou jianUpdatezi duan
     if (name !== undefined) {
       updates.push('name = ?');
       params.push(name);
@@ -122,17 +122,17 @@ class Category {
   }
 
   /**
-   * 删除分类（软删除）
-   * @param {number} id 分类ID
-   * @returns {Promise<boolean>} 是否删除成功
+   * DeleteCategory（ruanDelete）
+   * @param {number} id CategoryID
+   * @returns {Promise<boolean>} shi fouDeleteSucceeded
    */
   static async delete(id) {
-    // 检查是否有商品使用该分类
+    // jian cha shi fou youProductshi yong gaiCategory
     const productCheckQuery = 'SELECT COUNT(*) as count FROM products WHERE category_id = ? AND deleted_at IS NULL';
     const productCheckResult = await get(productCheckQuery, [id]);
     
     if (productCheckResult.count > 0) {
-      throw new Error('该分类下存在商品，无法删除');
+      throw new Error('gaiCategoryxia cun zaiProduct，wu faDelete');
     }
 
     const deleteQuery = 'UPDATE categories SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?';
@@ -141,8 +141,8 @@ class Category {
   }
 
   /**
-   * 获取分类及其商品数量
-   * @returns {Promise<Array>} 分类列表，包含每个分类的商品数量
+   * huo quCategoryji qiProductshu liang
+   * @returns {Promise<Array>} CategoryList，bao han mei geCategorydeProductshu liang
    */
   static async getWithProductCount() {
     const query = `

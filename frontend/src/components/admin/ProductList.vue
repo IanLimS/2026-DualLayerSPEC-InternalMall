@@ -1,21 +1,21 @@
 <template>
   <div class="product-list">
-    <!-- 搜索和过滤区域 -->
+    <!-- Searchhe guo lv qu yu -->
     <el-card class="filter-card">
       <el-form :inline="true" :model="filters" class="filter-form">
-        <el-form-item label="商品名称">
+        <el-form-item label="Productming cheng">
           <el-input
             v-model="filters.keyword"
-            placeholder="请输入商品名称"
+            placeholder="qing shu ruProductming cheng"
             clearable
             @keyup.enter="handleSearch"
           />
         </el-form-item>
         
-        <el-form-item label="商品分类">
+        <el-form-item label="ProductCategory">
           <el-select
             v-model="filters.categoryId"
-            placeholder="请选择分类"
+            placeholder="qing xuan zeCategory"
             clearable
             style="width: 160px"
           >
@@ -28,48 +28,48 @@
           </el-select>
         </el-form-item>
         
-        <el-form-item label="商品状态">
+        <el-form-item label="ProductStatus">
           <el-select
             v-model="filters.status"
-            placeholder="请选择状态"
+            placeholder="qing xuan zeStatus"
             clearable
             style="width: 120px"
           >
-            <el-option label="已上架" value="active" />
-            <el-option label="已下架" value="inactive" />
+            <el-option label="yiPublish" value="active" />
+            <el-option label="yiUnpublish" value="inactive" />
           </el-select>
         </el-form-item>
         
         <el-form-item>
           <el-button type="primary" @click="handleSearch" :loading="loading">
             <el-icon><Search /></el-icon>
-            搜索
+            Search
           </el-button>
           <el-button @click="handleReset">
             <el-icon><Refresh /></el-icon>
-            重置
+            zhong zhi
           </el-button>
         </el-form-item>
       </el-form>
     </el-card>
     
-    <!-- 操作按钮区域 -->
+    <!-- cao zuo an niu qu yu -->
     <el-card class="action-card">
       <el-button type="primary" @click="handleAdd">
         <el-icon><Plus /></el-icon>
-        新增商品
+        CreateProduct
       </el-button>
       <el-button type="success" @click="handleImport">
         <el-icon><Upload /></el-icon>
-        批量导入
+        BatchImport
       </el-button>
       <el-button type="warning" @click="handleExport">
         <el-icon><Download /></el-icon>
-        导出商品
+        ExportProduct
       </el-button>
     </el-card>
     
-    <!-- 商品列表表格 -->
+    <!-- ProductListbiao ge -->
     <el-card class="table-card">
       <el-table
         v-loading="loading"
@@ -83,7 +83,7 @@
         
         <el-table-column prop="id" label="ID" width="80" />
         
-        <el-table-column label="商品图片" width="100">
+        <el-table-column label="Producttu pian" width="100">
           <template #default="scope">
             <el-image
               v-if="scope.row.images && scope.row.images.length > 0"
@@ -104,41 +104,41 @@
           </template>
         </el-table-column>
         
-        <el-table-column prop="name" label="商品名称" min-width="150" />
+        <el-table-column prop="name" label="Productming cheng" min-width="150" />
         
-        <el-table-column prop="category" label="分类" width="100">
+        <el-table-column prop="category" label="Category" width="100">
           <template #default="scope">
-            {{ scope.row.category?.name || '未分类' }}
+            {{ scope.row.category?.name || 'weiCategory' }}
           </template>
         </el-table-column>
         
-        <el-table-column prop="price" label="价格(元)" width="100">
+        <el-table-column prop="price" label="jia ge(yuan)" width="100">
           <template #default="scope">
             ¥{{ scope.row.price?.toFixed(2) }}
           </template>
         </el-table-column>
         
-        <el-table-column prop="pointsRequired" label="所需积分" width="100" />
+        <el-table-column prop="pointsRequired" label="suo xuPoints" width="100" />
         
-        <el-table-column prop="stock" label="库存" width="80" />
+        <el-table-column prop="stock" label="Stock" width="80" />
         
-        <el-table-column prop="sales" label="销量" width="80" sortable="custom" />
+        <el-table-column prop="sales" label="xiao liang" width="80" sortable="custom" />
         
-        <el-table-column label="状态" width="80">
+        <el-table-column label="Status" width="80">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
-              {{ scope.row.status === 'active' ? '已上架' : '已下架' }}
+              {{ scope.row.status === 'active' ? 'yiPublish' : 'yiUnpublish' }}
             </el-tag>
           </template>
         </el-table-column>
         
-        <el-table-column prop="createdAt" label="创建时间" width="160">
+        <el-table-column prop="createdAt" label="Createshi jian" width="160">
           <template #default="scope">
             {{ formatDateTime(scope.row.createdAt) }}
           </template>
         </el-table-column>
         
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="cao zuo" width="200" fixed="right">
           <template #default="scope">
             <el-button
               link
@@ -146,7 +146,7 @@
               size="small"
               @click="handleEdit(scope.row)"
             >
-              编辑
+              Edit
             </el-button>
             <el-button
               link
@@ -154,7 +154,7 @@
               size="small"
               @click="handleToggleStatus(scope.row)"
             >
-              {{ scope.row.status === 'active' ? '下架' : '上架' }}
+              {{ scope.row.status === 'active' ? 'Unpublish' : 'Publish' }}
             </el-button>
             <el-button
               link
@@ -162,7 +162,7 @@
               size="small"
               @click="handleAdjustStock(scope.row)"
             >
-              调整库存
+              tiao zhengStock
             </el-button>
             <el-button
               link
@@ -170,13 +170,13 @@
               size="small"
               @click="handleDelete(scope.row)"
             >
-              删除
+              Delete
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       
-      <!-- 分页 -->
+      <!-- Pagination -->
       <div class="pagination-wrapper">
         <el-pagination
           v-model:current-page="pagination.page"
@@ -190,17 +190,17 @@
       </div>
     </el-card>
     
-    <!-- 调整库存对话框 -->
+    <!-- tiao zhengStockdui hua kuang -->
     <el-dialog
       v-model="stockDialogVisible"
-      title="调整库存"
+      title="tiao zhengStock"
       width="400px"
     >
       <el-form :model="stockForm" :rules="stockRules" ref="stockFormRef">
-        <el-form-item label="当前库存">
+        <el-form-item label="dang qianStock">
           <el-input v-model="stockForm.currentStock" disabled />
         </el-form-item>
-        <el-form-item label="新库存" prop="stock">
+        <el-form-item label="xinStock" prop="stock">
           <el-input-number
             v-model="stockForm.stock"
             :min="0"
@@ -210,22 +210,22 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="stockDialogVisible = false">取消</el-button>
+        <el-button @click="stockDialogVisible = false">qu xiao</el-button>
         <el-button type="primary" @click="handleConfirmStock" :loading="loading">
-          确定
+          que ding
         </el-button>
       </template>
     </el-dialog>
     
-    <!-- 商品导入对话框 -->
+    <!-- ProductImportdui hua kuang -->
     <el-dialog
       v-model="importDialogVisible"
-      title="批量导入商品"
+      title="BatchImportProduct"
       width="500px"
     >
       <div class="import-tips">
-        <p>请按照模板格式上传Excel文件，支持.xlsx格式</p>
-        <el-link type="primary" @click="handleDownloadTemplate">下载导入模板</el-link>
+        <p>qing an zhao mu ban ge shiUploadExcelwen jian，zhi chi.xlsxge shi</p>
+        <el-link type="primary" @click="handleDownloadTemplate">DownloadImport Template</el-link>
       </div>
       <el-upload
         ref="uploadRef"
@@ -236,18 +236,18 @@
       >
         <el-icon class="el-icon--upload"><upload-filled /></el-icon>
         <div class="el-upload__text">
-          将文件拖到此处，或<em>点击上传</em>
+          jiang wen jian tuo dao ci chu，huo<em>dian jiUpload</em>
         </div>
         <template #tip>
           <div class="el-upload__tip">
-            只能上传xlsx/xls文件，且不超过10MB
+            zhi nengUploadxlsx/xlswen jian，qie bu chao guo10MB
           </div>
         </template>
       </el-upload>
       <template #footer>
-        <el-button @click="importDialogVisible = false">取消</el-button>
+        <el-button @click="importDialogVisible = false">qu xiao</el-button>
         <el-button type="primary" @click="handleConfirmImport" :loading="loading">
-          导入
+          Import
         </el-button>
       </template>
     </el-dialog>
@@ -264,7 +264,7 @@ import { apiAdminProduct } from '@/api/product'
 // Store
 const productStore = useProductStore()
 
-// 响应式数据
+// xiang ying shi shu ju
 const loading = computed(() => productStore.loading)
 const products = computed(() => productStore.products)
 const categories = computed(() => productStore.categories)
@@ -289,12 +289,12 @@ const stockForm = reactive({
 
 const stockRules = {
   stock: [
-    { required: true, message: '请输入库存数量', trigger: 'blur' },
-    { type: 'number', min: 0, message: '库存不能小于0', trigger: 'blur' }
+    { required: true, message: 'qing shu ruStockshu liang', trigger: 'blur' },
+    { type: 'number', min: 0, message: 'Stockbu neng xiao yu0', trigger: 'blur' }
   ]
 }
 
-// 方法
+// fang fa
 const formatDateTime = (dateString) => {
   if (!dateString) return ''
   const date = new Date(dateString)
@@ -304,10 +304,10 @@ const formatDateTime = (dateString) => {
 const getImageUrl = (image) => {
   if (!image) return ''
   
-  // 如果是对象，获取URL属性
+  // ru guo shi dui xiang，huo quURLshu xing
   const url = typeof image === 'object' ? image.url : image
   
-  // 直接返回后端提供的完整URL
+  // zhi jie fan huiBackendti gong de wan zhengURL
   return url
 }
 
@@ -342,21 +342,21 @@ const handleCurrentChange = (page) => {
 }
 
 const handleAdd = () => {
-  // 跳转到新增商品页面
+  // tiao zhuan daoCreateProductye mian
   emit('add')
 }
 
 const handleEdit = (row) => {
-  // 跳转到编辑商品页面
+  // tiao zhuan daoEditProductye mian
   emit('edit', row)
 }
 
 const handleToggleStatus = async (row) => {
-  const action = row.status === 'active' ? '下架' : '上架'
+  const action = row.status === 'active' ? 'Unpublish' : 'Publish'
   try {
-    await ElMessageBox.confirm(`确定要${action}商品"${row.name}"吗？`, '确认操作', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    await ElMessageBox.confirm(`que ding yao${action}Product"${row.name}"ma？`, 'que ren cao zuo', {
+      confirmButtonText: 'que ding',
+      cancelButtonText: 'qu xiao',
       type: 'warning'
     })
     
@@ -367,7 +367,7 @@ const handleToggleStatus = async (row) => {
       ElMessage.success(result.message)
     }
   } catch (error) {
-    // 用户取消操作
+    // Userqu xiao cao zuo
   }
 }
 
@@ -390,18 +390,18 @@ const handleConfirmStock = async () => {
       stockDialogVisible.value = false
     }
   } catch (error) {
-    console.error('调整库存失败:', error)
+    console.error('tiao zhengStockFailed:', error)
   }
 }
 
 const handleDelete = async (row) => {
   try {
     await ElMessageBox.confirm(
-      `确定要删除商品"${row.name}"吗？删除后不可恢复！`,
-      '确认删除',
+      `que ding yaoDeleteProduct"${row.name}"ma？Deletehou bu ke hui fu！`,
+      'que renDelete',
       {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: 'que ding',
+        cancelButtonText: 'qu xiao',
         type: 'warning'
       }
     )
@@ -412,7 +412,7 @@ const handleDelete = async (row) => {
       ElMessage.success(result.message)
     }
   } catch (error) {
-    // 用户取消操作
+    // Userqu xiao cao zuo
   }
 }
 
@@ -424,27 +424,27 @@ const handleExport = async () => {
   try {
     const response = await apiAdminProduct.exportProducts(filters)
     
-    // 创建下载链接
+    // CreateDownloadlian jie
     const blob = new Blob([response], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     })
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = `商品列表_${new Date().toISOString().slice(0, 10)}.xlsx`
+    link.download = `ProductList_${new Date().toISOString().slice(0, 10)}.xlsx`
     link.click()
     window.URL.revokeObjectURL(url)
     
-    ElMessage.success('导出成功')
+    ElMessage.success('ExportSucceeded')
   } catch (error) {
-    console.error('导出失败:', error)
-    ElMessage.error('导出失败')
+    console.error('ExportFailed:', error)
+    ElMessage.error('ExportFailed')
   }
 }
 
 const handleDownloadTemplate = () => {
-  // 下载导入模板
-  ElMessage.info('模板下载功能开发中')
+  // DownloadImport Template
+  ElMessage.info('mu banDownloadgong nengIn Development')
 }
 
 const handleConfirmImport = async () => {
@@ -452,7 +452,7 @@ const handleConfirmImport = async () => {
   
   const file = uploadRef.value.uploadFiles[0]
   if (!file) {
-    ElMessage.warning('请选择要导入的文件')
+    ElMessage.warning('qing xuan ze yaoImportde wen jian')
     return
   }
   
@@ -461,19 +461,19 @@ const handleConfirmImport = async () => {
   
   try {
     await apiAdminProduct.importProducts(formData)
-    ElMessage.success('导入成功')
+    ElMessage.success('ImportSucceeded')
     importDialogVisible.value = false
     productStore.fetchProducts()
   } catch (error) {
-    console.error('导入失败:', error)
-    ElMessage.error('导入失败')
+    console.error('ImportFailed:', error)
+    ElMessage.error('ImportFailed')
   }
 }
 
-// 事件定义
+// shi jian ding yi
 const emit = defineEmits(['add', 'edit'])
 
-// 生命周期
+// sheng ming zhou qi
 onMounted(() => {
   productStore.fetchCategories()
   productStore.fetchProducts()

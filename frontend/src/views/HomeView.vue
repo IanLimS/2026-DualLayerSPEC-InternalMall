@@ -1,23 +1,23 @@
 <template>
   <div class="page-container">
     <div class="card-container">
-      <h1 class="page-title">企业内部福利商城</h1>
-      <p>欢迎使用企业内部福利商城系统！</p>
+      <h1 class="page-title">Internal Employee Benefits Mall</h1>
+      <p>huan ying shi yongInternal Employee Benefits MallSystem！</p>
       <div class="button-group">
         <el-button type="success" @click="goToUserLogin">
-          用户登录
+          UserLogin
         </el-button>
         <el-button type="warning" @click="goToAdminLogin">
-          管理员登录
+          AdminLogin
         </el-button>
         <el-button type="info" @click="$router.push('/connectivity-test')">
-          服务连通性测试
+          fu wuConnectivityTest
         </el-button>
       </div>
       <div class="account-tips">
-        <p>测试账号：</p>
-        <p>用户账号：user1/password1, user2/password2, user3/password3</p>
-        <p>管理员账号：admin/admin123</p>
+        <p>Testzhang hao：</p>
+        <p>Userzhang hao：user1/password1, user2/password2, user3/password3</p>
+        <p>Adminzhang hao：admin/admin123</p>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// 跳转到用户登录页面
+// tiao zhuan daoUserLoginye mian
 const goToUserLogin = () => {
   router.push({
     path: '/login',
@@ -36,7 +36,7 @@ const goToUserLogin = () => {
   });
 };
 
-// 跳转到管理员登录页面
+// tiao zhuan daoAdminLoginye mian
 const goToAdminLogin = () => {
   router.push({
     path: '/login',

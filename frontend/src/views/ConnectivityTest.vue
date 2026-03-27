@@ -1,25 +1,25 @@
 <template>
   <div class="page-container">
     <div class="card-container">
-      <h1 class="page-title">服务连通性测试</h1>
-      <p class="section-title">测试前后端API接口连通性</p>
+      <h1 class="page-title">fu wuConnectivityTest</h1>
+      <p class="section-title">TestqianBackendAPIjie kouConnectivity</p>
       
       <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-        <!-- 基础连通性测试 -->
-        <el-tab-pane label="基础连通性" name="basic">
+        <!-- ji chuConnectivityTest -->
+        <el-tab-pane label="ji chuConnectivity" name="basic">
           <div style="margin-bottom: 20px;">
             <el-button 
               type="primary" 
               @click="testBasicConnectivity" 
               :loading="loading.basic"
             >
-              测试基础连通性
+              Testji chuConnectivity
             </el-button>
           </div>
           
           <div v-if="result.basic" class="test-result">
             <el-alert
-              :title="result.basic.success ? '连接成功' : '连接失败'"
+              :title="result.basic.success ? 'lian jieSucceeded' : 'lian jieFailed'"
               :type="result.basic.success ? 'success' : 'error'"
               :description="result.basic.message"
               show-icon
@@ -27,7 +27,7 @@
             />
             
             <div v-if="result.basic.data" style="margin-top: 20px;">
-              <h4>响应数据:</h4>
+              <h4>xiang ying shu ju:</h4>
               <el-scrollbar height="200px">
                 <pre>{{ JSON.stringify(result.basic.data, null, 2) }}</pre>
               </el-scrollbar>
@@ -35,21 +35,21 @@
           </div>
         </el-tab-pane>
         
-        <!-- 数据库连通性测试 -->
-        <el-tab-pane label="数据库连通性" name="database">
+        <!-- DatabaseConnectivityTest -->
+        <el-tab-pane label="DatabaseConnectivity" name="database">
           <div style="margin-bottom: 20px;">
             <el-button 
               type="primary" 
               @click="testDatabaseConnectivity" 
               :loading="loading.database"
             >
-              测试数据库连通性
+              TestDatabaseConnectivity
             </el-button>
           </div>
           
           <div v-if="result.database" class="test-result">
             <el-alert
-              :title="result.database.success ? '数据库连接成功' : '数据库连接失败'"
+              :title="result.database.success ? 'Databaselian jieSucceeded' : 'Databaselian jieFailed'"
               :type="result.database.success ? 'success' : 'error'"
               :description="result.database.message"
               show-icon
@@ -57,29 +57,29 @@
             />
             
             <div v-if="result.database.data" style="margin-top: 20px;">
-              <h4>数据库表信息:</h4>
+              <h4>DatabasebiaoInfo:</h4>
               <el-table :data="formatTableData(result.database.data.tables)" style="width: 100%">
-                <el-table-column prop="table" label="表名" />
-                <el-table-column prop="count" label="记录数" />
+                <el-table-column prop="table" label="biao ming" />
+                <el-table-column prop="count" label="ji lu shu" />
               </el-table>
             </div>
           </div>
         </el-tab-pane>
         
-        <!-- 用户登录测试 -->
-        <el-tab-pane label="用户登录" name="login">
+        <!-- UserLoginTest -->
+        <el-tab-pane label="UserLogin" name="login">
           <div style="margin-bottom: 20px;">
             <el-form :model="loginForm" label-width="80px">
-              <el-form-item label="用户名">
-                <el-input v-model="loginForm.username" placeholder="请输入用户名" />
+              <el-form-item label="Username">
+                <el-input v-model="loginForm.username" placeholder="qing shu ruUsername" />
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" />
+              <el-form-item label="Password">
+                <el-input v-model="loginForm.password" type="password" placeholder="qing shu ruPassword" />
               </el-form-item>
-              <el-form-item label="用户类型">
-                <el-select v-model="loginForm.type" placeholder="请选择用户类型">
-                  <el-option label="普通用户" value="user" />
-                  <el-option label="管理员" value="admin" />
+              <el-form-item label="Userlei xing">
+                <el-select v-model="loginForm.type" placeholder="qing xuan zeUserlei xing">
+                  <el-option label="pu tongUser" value="user" />
+                  <el-option label="Admin" value="admin" />
                 </el-select>
               </el-form-item>
               <el-form-item>
@@ -88,16 +88,16 @@
                   @click="testUserLogin" 
                   :loading="loading.login"
                 >
-                  测试登录
+                  TestLogin
                 </el-button>
-                <el-button @click="fillTestCredentials">填充测试账号</el-button>
+                <el-button @click="fillTestCredentials">tian chongTestzhang hao</el-button>
               </el-form-item>
             </el-form>
           </div>
           
           <div v-if="result.login" class="test-result">
             <el-alert
-              :title="result.login.success ? '登录成功' : '登录失败'"
+              :title="result.login.success ? 'LoginSucceeded' : 'LoginFailed'"
               :type="result.login.success ? 'success' : 'error'"
               :description="result.login.message"
               show-icon
@@ -105,21 +105,21 @@
             />
             
             <div v-if="result.login.data" style="margin-top: 20px;">
-              <h4>登录响应:</h4>
+              <h4>Loginxiang ying:</h4>
               <el-descriptions :column="2" border>
-                <el-descriptions-item label="用户ID">{{ result.login.data.userId }}</el-descriptions-item>
-                <el-descriptions-item label="用户类型">{{ result.login.data.userType }}</el-descriptions-item>
-                <el-descriptions-item label="Token">{{ result.login.data.token ? '已获取' : '未获取' }}</el-descriptions-item>
+                <el-descriptions-item label="UserID">{{ result.login.data.userId }}</el-descriptions-item>
+                <el-descriptions-item label="Userlei xing">{{ result.login.data.userType }}</el-descriptions-item>
+                <el-descriptions-item label="Token">{{ result.login.data.token ? 'yi huo qu' : 'wei huo qu' }}</el-descriptions-item>
               </el-descriptions>
             </div>
           </div>
         </el-tab-pane>
         
-        <!-- 用户接口测试 -->
-        <el-tab-pane label="用户接口" name="user" :disabled="!isUserLoggedIn">
+        <!-- Userjie kouTest -->
+        <el-tab-pane label="Userjie kou" name="user" :disabled="!isUserLoggedIn">
           <div style="margin-bottom: 20px;">
             <el-alert
-              title="请先登录后测试用户接口"
+              title="Please log in firsthouTestUserjie kou"
               type="info"
               show-icon
               :closable="false"
@@ -131,13 +131,13 @@
               @click="testUserAPI" 
               :loading="loading.user"
             >
-              测试用户接口
+              TestUserjie kou
             </el-button>
           </div>
           
           <div v-if="result.user" class="test-result">
             <el-alert
-              :title="result.user.success ? '用户接口测试成功' : '用户接口测试失败'"
+              :title="result.user.success ? 'Userjie kouTestSucceeded' : 'Userjie kouTestFailed'"
               :type="result.user.success ? 'success' : 'error'"
               :description="result.user.message"
               show-icon
@@ -145,22 +145,22 @@
             />
             
             <div v-if="result.user.data" style="margin-top: 20px;">
-              <h4>用户信息:</h4>
+              <h4>UserInfo:</h4>
               <el-descriptions :column="2" border>
                 <el-descriptions-item label="ID">{{ result.user.data.id }}</el-descriptions-item>
-                <el-descriptions-item label="用户名">{{ result.user.data.username }}</el-descriptions-item>
-                <el-descriptions-item label="积分">{{ result.user.data.points }}</el-descriptions-item>
-                <el-descriptions-item label="角色">{{ result.user.data.role }}</el-descriptions-item>
+                <el-descriptions-item label="Username">{{ result.user.data.username }}</el-descriptions-item>
+                <el-descriptions-item label="Points">{{ result.user.data.points }}</el-descriptions-item>
+                <el-descriptions-item label="Role">{{ result.user.data.role }}</el-descriptions-item>
               </el-descriptions>
             </div>
           </div>
         </el-tab-pane>
         
-        <!-- 管理员接口测试 -->
-        <el-tab-pane label="管理员接口" name="admin" :disabled="!isAdminLoggedIn">
+        <!-- Adminjie kouTest -->
+        <el-tab-pane label="Adminjie kou" name="admin" :disabled="!isAdminLoggedIn">
           <div style="margin-bottom: 20px;">
             <el-alert
-              title="请先以管理员身份登录后测试管理员接口"
+              title="qing xian yiAdminshen fenLoginhouTestAdminjie kou"
               type="info"
               show-icon
               :closable="false"
@@ -173,21 +173,21 @@
                 :loading="loading.admin"
                 style="margin-right: 10px;"
               >
-                测试管理员接口
+                TestAdminjie kou
               </el-button>
               <el-button 
                 type="primary" 
                 @click="testSystemStatus" 
                 :loading="loading.system"
               >
-                测试系统状态
+                TestSystemStatus
               </el-button>
             </div>
           </div>
           
           <div v-if="result.admin" class="test-result">
             <el-alert
-              :title="result.admin.success ? '管理员接口测试成功' : '管理员接口测试失败'"
+              :title="result.admin.success ? 'Adminjie kouTestSucceeded' : 'Adminjie kouTestFailed'"
               :type="result.admin.success ? 'success' : 'error'"
               :description="result.admin.message"
               show-icon
@@ -197,7 +197,7 @@
           
           <div v-if="result.system" class="test-result">
             <el-alert
-              :title="result.system.success ? '系统状态获取成功' : '系统状态获取失败'"
+              :title="result.system.success ? 'SystemStatushuo quSucceeded' : 'SystemStatushuo quFailed'"
               :type="result.system.success ? 'success' : 'error'"
               :description="result.system.message"
               show-icon
@@ -205,22 +205,22 @@
             />
             
             <div v-if="result.system.data" style="margin-top: 20px;">
-              <h4>系统状态:</h4>
+              <h4>SystemStatus:</h4>
               <el-descriptions :column="2" border>
-                <el-descriptions-item label="状态">{{ result.system.data.system.status }}</el-descriptions-item>
-                <el-descriptions-item label="版本">{{ result.system.data.system.version }}</el-descriptions-item>
-                <el-descriptions-item label="管理员">{{ result.system.data.admin }}</el-descriptions-item>
-                <el-descriptions-item label="时间">{{ result.system.data.system.timestamp }}</el-descriptions-item>
+                <el-descriptions-item label="Status">{{ result.system.data.system.status }}</el-descriptions-item>
+                <el-descriptions-item label="ban ben">{{ result.system.data.system.version }}</el-descriptions-item>
+                <el-descriptions-item label="Admin">{{ result.system.data.admin }}</el-descriptions-item>
+                <el-descriptions-item label="shi jian">{{ result.system.data.system.timestamp }}</el-descriptions-item>
               </el-descriptions>
             </div>
           </div>
         </el-tab-pane>
         
-        <!-- 测试商品接口 -->
-        <el-tab-pane label="测试商品接口" name="products" :disabled="!isUserLoggedIn">
+        <!-- TestProductjie kou -->
+        <el-tab-pane label="TestProductjie kou" name="products" :disabled="!isUserLoggedIn">
           <div style="margin-bottom: 20px;">
             <el-alert
-              title="请先登录后测试商品接口"
+              title="Please log in firsthouTestProductjie kou"
               type="info"
               show-icon
               :closable="false"
@@ -232,13 +232,13 @@
               @click="testProductsAPI" 
               :loading="loading.products"
             >
-              测试商品接口
+              TestProductjie kou
             </el-button>
           </div>
           
           <div v-if="result.products" class="test-result">
             <el-alert
-              :title="result.products.success ? '商品接口测试成功' : '商品接口测试失败'"
+              :title="result.products.success ? 'Productjie kouTestSucceeded' : 'Productjie kouTestFailed'"
               :type="result.products.success ? 'success' : 'error'"
               :description="result.products.message"
               show-icon
@@ -246,13 +246,13 @@
             />
             
             <div v-if="result.products.data && result.products.data.products" style="margin-top: 20px;">
-              <h4>测试商品列表:</h4>
+              <h4>TestProductList:</h4>
               <el-table :data="result.products.data.products" style="width: 100%">
                 <el-table-column prop="id" label="ID" width="60" />
-                <el-table-column prop="name" label="商品名称" />
-                <el-table-column prop="pointsRequired" label="所需积分" width="120" />
-                <el-table-column prop="stock" label="库存" width="80" />
-                <el-table-column prop="status" label="状态" width="80" />
+                <el-table-column prop="name" label="Productming cheng" />
+                <el-table-column prop="pointsRequired" label="suo xuPoints" width="120" />
+                <el-table-column prop="stock" label="Stock" width="80" />
+                <el-table-column prop="status" label="Status" width="80" />
               </el-table>
             </div>
           </div>
@@ -260,7 +260,7 @@
       </el-tabs>
       
       <div style="margin-top: 30px;">
-        <el-button @click="$router.push('/')">返回首页</el-button>
+        <el-button @click="$router.push('/')">fan huiHome</el-button>
       </div>
     </div>
   </div>
@@ -274,10 +274,10 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-// 当前激活的标签页
+// dang qian ji huo de biao qian ye
 const activeTab = ref('basic')
 
-// 加载状态
+// jia zaiStatus
 const loading = reactive({
   basic: false,
   database: false,
@@ -288,7 +288,7 @@ const loading = reactive({
   products: false
 })
 
-// 测试结果
+// Testjie guo
 const result = reactive({
   basic: null,
   database: null,
@@ -299,23 +299,23 @@ const result = reactive({
   products: null
 })
 
-// 登录表单
+// Loginbiao dan
 const loginForm = reactive({
   username: '',
   password: '',
   type: 'user'
 })
 
-// 计算属性
+// ji suan shu xing
 const isUserLoggedIn = computed(() => authStore.isAuthenticated)
 const isAdminLoggedIn = computed(() => authStore.isAuthenticated && authStore.isAdmin)
 
-// 标签页切换处理
+// biao qian ye qie huan chu li
 const handleTabClick = () => {
-  // 可以在切换时执行一些逻辑
+  // ke yi zai qie huan shi zhi xing yi xie luo ji
 }
 
-// 测试基础连通性
+// Testji chuConnectivity
 const testBasicConnectivity = async () => {
   loading.basic = true
   result.basic = null
@@ -327,20 +327,20 @@ const testBasicConnectivity = async () => {
       message: response.message,
       data: response
     }
-    ElMessage.success('基础连通性测试成功')
+    ElMessage.success('ji chuConnectivityTestSucceeded')
   } catch (error) {
     result.basic = {
       success: false,
-      message: error.message || '基础连通性测试失败',
+      message: error.message || 'ji chuConnectivityTestFailed',
       data: null
     }
-    ElMessage.error('基础连通性测试失败')
+    ElMessage.error('ji chuConnectivityTestFailed')
   } finally {
     loading.basic = false
   }
 }
 
-// 测试数据库连通性
+// TestDatabaseConnectivity
 const testDatabaseConnectivity = async () => {
   loading.database = true
   result.database = null
@@ -352,23 +352,23 @@ const testDatabaseConnectivity = async () => {
       message: response.message,
       data: response
     }
-    ElMessage.success('数据库连通性测试成功')
+    ElMessage.success('DatabaseConnectivityTestSucceeded')
   } catch (error) {
     result.database = {
       success: false,
-      message: error.message || '数据库连通性测试失败',
+      message: error.message || 'DatabaseConnectivityTestFailed',
       data: null
     }
-    ElMessage.error('数据库连通性测试失败')
+    ElMessage.error('DatabaseConnectivityTestFailed')
   } finally {
     loading.database = false
   }
 }
 
-// 测试用户登录
+// TestUserLogin
 const testUserLogin = async () => {
   if (!loginForm.username || !loginForm.password) {
-    ElMessage.warning('请输入用户名和密码')
+    ElMessage.warning('qing shu ruUsernamehePassword')
     return
   }
   
@@ -382,7 +382,7 @@ const testUserLogin = async () => {
       loginForm.type
     )
     
-    // 保存登录状态
+    // bao cunLoginStatus
     authStore.setAuth({
       token: response.token,
       userId: response.userId,
@@ -392,23 +392,23 @@ const testUserLogin = async () => {
     
     result.login = {
       success: true,
-      message: response.message || '登录成功',
+      message: response.message || 'LoginSucceeded',
       data: response
     }
-    ElMessage.success('登录测试成功')
+    ElMessage.success('LoginTestSucceeded')
   } catch (error) {
     result.login = {
       success: false,
-      message: error.message || '登录测试失败',
+      message: error.message || 'LoginTestFailed',
       data: null
     }
-    ElMessage.error('登录测试失败')
+    ElMessage.error('LoginTestFailed')
   } finally {
     loading.login = false
   }
 }
 
-// 填充测试账号
+// tian chongTestzhang hao
 const fillTestCredentials = () => {
   if (loginForm.type === 'user') {
     loginForm.username = 'user1'
@@ -419,7 +419,7 @@ const fillTestCredentials = () => {
   }
 }
 
-// 测试用户接口
+// TestUserjie kou
 const testUserAPI = async () => {
   loading.user = true
   result.user = null
@@ -428,23 +428,23 @@ const testUserAPI = async () => {
     const response = await apiUser.getProfile()
     result.user = {
       success: true,
-      message: '用户信息获取成功',
+      message: 'UserInfohuo quSucceeded',
       data: response.data
     }
-    ElMessage.success('用户接口测试成功')
+    ElMessage.success('Userjie kouTestSucceeded')
   } catch (error) {
     result.user = {
       success: false,
-      message: error.message || '用户接口测试失败',
+      message: error.message || 'Userjie kouTestFailed',
       data: null
     }
-    ElMessage.error('用户接口测试失败')
+    ElMessage.error('Userjie kouTestFailed')
   } finally {
     loading.user = false
   }
 }
 
-// 测试管理员接口
+// TestAdminjie kou
 const testAdminAPI = async () => {
   loading.admin = true
   result.admin = null
@@ -453,23 +453,23 @@ const testAdminAPI = async () => {
     const response = await apiAdmin.test()
     result.admin = {
       success: true,
-      message: response.message || '管理员接口测试成功',
+      message: response.message || 'Adminjie kouTestSucceeded',
       data: response
     }
-    ElMessage.success('管理员接口测试成功')
+    ElMessage.success('Adminjie kouTestSucceeded')
   } catch (error) {
     result.admin = {
       success: false,
-      message: error.message || '管理员接口测试失败',
+      message: error.message || 'Adminjie kouTestFailed',
       data: null
     }
-    ElMessage.error('管理员接口测试失败')
+    ElMessage.error('Adminjie kouTestFailed')
   } finally {
     loading.admin = false
   }
 }
 
-// 测试系统状态
+// TestSystemStatus
 const testSystemStatus = async () => {
   loading.system = true
   result.system = null
@@ -478,23 +478,23 @@ const testSystemStatus = async () => {
     const response = await apiAdmin.getSystemStatus()
     result.system = {
       success: true,
-      message: response.message || '系统状态获取成功',
+      message: response.message || 'SystemStatushuo quSucceeded',
       data: response
     }
-    ElMessage.success('系统状态测试成功')
+    ElMessage.success('SystemStatusTestSucceeded')
   } catch (error) {
     result.system = {
       success: false,
-      message: error.message || '系统状态测试失败',
+      message: error.message || 'SystemStatusTestFailed',
       data: null
     }
-    ElMessage.error('系统状态测试失败')
+    ElMessage.error('SystemStatusTestFailed')
   } finally {
     loading.system = false
   }
 }
 
-// 测试商品接口
+// TestProductjie kou
 const testProductsAPI = async () => {
   loading.products = true
   result.products = null
@@ -503,23 +503,23 @@ const testProductsAPI = async () => {
     const response = await apiUser.getTestProducts()
     result.products = {
       success: true,
-      message: '测试商品列表获取成功',
+      message: 'TestProductListhuo quSucceeded',
       data: response.data
     }
-    ElMessage.success('商品接口测试成功')
+    ElMessage.success('Productjie kouTestSucceeded')
   } catch (error) {
     result.products = {
       success: false,
-      message: error.message || '商品接口测试失败',
+      message: error.message || 'Productjie kouTestFailed',
       data: null
     }
-    ElMessage.error('商品接口测试失败')
+    ElMessage.error('Productjie kouTestFailed')
   } finally {
     loading.products = false
   }
 }
 
-// 格式化表格数据
+// ge shi hua biao ge shu ju
 const formatTableData = (tables) => {
   return Object.entries(tables).map(([table, count]) => ({
     table,

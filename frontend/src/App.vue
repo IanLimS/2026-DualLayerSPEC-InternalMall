@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-// 应用根组件
+// ying yong gen zu jian
 </script>
 
 <style>
@@ -17,7 +17,7 @@
 
 body {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    'Microsoft YaHei', 'wei ruan ya hei', Arial, sans-serif;
   background-color: #f5f5f5;
 }
 

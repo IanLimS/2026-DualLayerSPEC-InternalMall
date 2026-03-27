@@ -1,103 +1,103 @@
-# AI2AI文档说明
+# AI2AIwen dang shuo ming
 
-## 概述
+## gai shu
 
-本目录下的AI2AI文档是企业内部福利商城项目的AI协作开发文档，由AI维护，用于描述当前工程的系统状态、架构设计和数据协议，为AI编码协作提供清晰的技术规范和系统认知。
+ben mu lu xia deAI2AIwen dang shiInternal Employee Benefits Mallxiang mu diAIxie zuo kai fa wen dang，youAIwei hu，yong yu miao shu dang qian gong cheng deSystemStatus、jia gou she ji he shu ju xie yi，weiAIbian ma xie zuo ti gong qing xi de ji shu gui fan heSystemren zhi。
 
-## 文档结构
+## wen dang jie gou
 
-- **前端架构信息.md**: 描述前端Vue 3应用的目录结构、模块特性和组件设计
-- **后端架构信息.md**: 描述后端Express.js应用的目录结构、模块特性和服务设计
-- **协议和数据.md**: 描述前后端API协议、数据库设计和数据交互规范
-- **README.md**: 本文件，说明AI2AI文档的用途和使用方法
+- **Frontend Architecture Info.md**: miao shuFrontendVue 3ying yong deDirectory Structure、mo kuai te xing he zu jian she ji
+- **Backend Architecture Info.md**: miao shuBackendExpress.jsying yong deDirectory Structure、mo kuai te xing he fu wu she ji
+- **Protocols and Data.md**: miao shu qianBackendAPIxie yi、Database Designhe shu ju jiao hu gui fan
+- **README.md**: ben wen jian，shuo mingAI2AIwen dang de yong tu he shi yong fang fa
 
-## 文档使用原则
+## wen dang shi yong yuan ze
 
-1. **AI维护原则**: AI2AI文档由AI完全维护，人类开发者不应直接修改这些文档
-2. **一致性原则**: 所有AI2AI文档应保持内容一致，相互引用时应保持同步更新
-3. **实时更新原则**: 当代码结构发生变更时，AI应立即更新对应的AI2AI文档
-4. **完整性原则**: 文档应尽可能完整地描述系统的各个模块和组件
-5. **标准化原则**: 文档格式和内容组织应遵循统一的标准
+1. **AIwei hu yuan ze**: AI2AIwen dang youAIwan quan wei hu，ren lei kai fa zhe bu ying zhi jie xiu gai zhe xie wen dang
+2. **yi zhi xing yuan ze**: suo youAI2AIwen dang ying bao chi nei rong yi zhi，xiang hu yin yong shi ying bao chi tong buUpdate
+3. **shi shiUpdateyuan ze**: dang dai ma jie gou fa sheng bian geng shi，AIying li jiUpdatedui ying deAI2AIwen dang
+4. **wan zheng xing yuan ze**: wen dang ying jin ke neng wan zheng di miao shuSystemde ge ge mo kuai he zu jian
+5. **biao zhun hua yuan ze**: wen dang ge shi he nei rong zu zhi ying zun xun tong yi de biao zhun
 
-## 文档更新时机
+## wen dangUpdateshi ji
 
-以下情况需要更新AI2AI文档：
+yi xia qing kuang xu yaoUpdateAI2AIwen dang：
 
-1. **新增功能模块**: 添加新的页面、组件、服务或API时
-2. **修改现有功能**: 更改现有模块的功能、接口或数据结构时
-3. **重构代码**: 重构代码导致目录结构或模块关系变化时
-4. **技术栈变更**: 更换或升级技术栈组件时
-5. **架构调整**: 调整系统架构或设计模式时
+1. **Creategong neng mo kuai**: tian jia xin de ye mian、zu jian、fu wu huoAPIshi
+2. **xiu gai xian you gong neng**: geng gai xian you mo kuai de gong neng、jie kou huo shu ju jie gou shi
+3. **zhong gou dai ma**: zhong gou dai ma dao zhiDirectory Structurehuo mo kuai guan xi bian hua shi
+4. **ji shu zhan bian geng**: geng huan huo sheng ji ji shu zhan zu jian shi
+5. **jia gou tiao zheng**: tiao zhengSystemjia gou huo she ji mo shi shi
 
-## 文档内容标准
+## wen dang nei rong biao zhun
 
-### 前端架构信息.md
+### Frontend Architecture Info.md
 
-应包含以下内容：
-- 完整的目录结构，包括所有文件和文件夹
-- 每个模块的外部特性描述
-- 组件间的依赖关系
-- 状态管理方案
-- 路由配置信息
-- 工具函数和公共组件说明
-- 每个模块的实现状态（已实现/未实现/部分实现）
+ying bao han yi xia nei rong：
+- wan zheng deDirectory Structure，bao kuo suo you wen jian he wen jian jia
+- mei ge mo kuai de wai bu te xing miao shu
+- zu jian jian de yi lai guan xi
+- Statusguan li fang an
+- lu you pei zhiInfo
+- gong ju han shu he gong gong zu jian shuo ming
+- mei ge mo kuai de shi xianStatus（yi shi xian/Not implemented/bu fen shi xian）
 
-### 后端架构信息.md
+### Backend Architecture Info.md
 
-应包含以下内容：
-- 完整的目录结构，包括所有文件和文件夹
-- 每个模块的外部特性描述
-- 控制器、服务、模型的关系
-- 中间件的使用说明
-- 数据库连接和配置
-- 安全策略和认证机制
-- 每个模块的实现状态（已实现/未实现/部分实现）
+ying bao han yi xia nei rong：
+- wan zheng deDirectory Structure，bao kuo suo you wen jian he wen jian jia
+- mei ge mo kuai de wai bu te xing miao shu
+- kong zhi qi、fu wu、mo xing de guan xi
+- zhong jian jian de shi yong shuo ming
+- Databaselian jie he pei zhi
+- an quan ce lve he ren zheng ji zhi
+- mei ge mo kuai de shi xianStatus（yi shi xian/Not implemented/bu fen shi xian）
 
-### 协议和数据.md
+### Protocols and Data.md
 
-应包含以下内容：
-- 前后端API协议的完整定义
-- 统一的请求/响应格式
-- 错误码定义和处理
-- 数据库表结构设计
-- 数据库索引和优化策略
-- 数据操作规范和安全措施
-- 测试数据和示例
+ying bao han yi xia nei rong：
+- qianBackendAPIxie yi de wan zheng ding yi
+- tong yi de qing qiu/xiang ying ge shi
+- Error Codesding yi he chu li
+- Databasebiao jie gou she ji
+- Databasesuo yin he you hua ce lve
+- shu ju cao zuo gui fan he an quan cuo shi
+- Testshu ju he shi li
 
-## 文档维护流程
+## wen dang wei hu liu cheng
 
-1. **更新触发**: 在代码变更后立即更新对应的AI2AI文档
-2. **内容检查**: 确保更新后的文档内容准确、完整、一致
-3. **版本记录**: 更新文档中的版本号和更新日期
-4. **交叉引用**: 检查并更新文档间的交叉引用
-5. **验证确认**: 确保文档与实际代码保持一致
+1. **Updatechu fa**: zai dai ma bian geng hou li jiUpdatedui ying deAI2AIwen dang
+2. **nei rong jian cha**: que baoUpdatehou de wen dang nei rong zhun que、wan zheng、yi zhi
+3. **ban ben ji lu**: Updatewen dang zhong de ban ben hao heUpdated Date
+4. **jiao cha yin yong**: jian cha bingUpdatewen dang jian de jiao cha yin yong
+5. **yan zheng que ren**: que bao wen dang yu shi ji dai ma bao chi yi zhi
 
-## 协作规范
+## xie zuo gui fan
 
-1. **AI责任**: AI负责维护AI2AI文档的准确性和完整性
-2. **人类参考**: 人类开发者可以参考AI2AI文档了解系统设计
-3. **变更建议**: 人类开发者可以提出文档变更建议，但由AI执行实际更新
-4. **冲突解决**: 当AI2AI文档与实际代码不一致时，以实际代码为准，AI应修正文档
+1. **AIze ren**: AIfu ze wei huAI2AIwen dang de zhun que xing he wan zheng xing
+2. **ren lei can kao**: ren lei kai fa zhe ke yi can kaoAI2AIwen dang liao jieSystemshe ji
+3. **bian geng jian yi**: ren lei kai fa zhe ke yi ti chu wen dang bian geng jian yi，dan youAIzhi xing shi jiUpdate
+4. **chong tu jie jue**: dangAI2AIwen dang yu shi ji dai ma bu yi zhi shi，yi shi ji dai ma wei zhun，AIying xiu zheng wen dang
 
-## 质量保证
+## zhi liang bao zheng
 
-1. **定期审查**: 定期检查AI2AI文档的准确性和完整性
-2. **自动化验证**: 使用工具验证文档与代码的一致性
-3. **版本控制**: 对AI2AI文档进行版本控制，记录变更历史
-4. **反馈机制**: 建立反馈机制，收集文档使用中发现的问题和建议
+1. **ding qi shen cha**: ding qi jian chaAI2AIwen dang de zhun que xing he wan zheng xing
+2. **zi dong hua yan zheng**: shi yong gong ju yan zheng wen dang yu dai ma de yi zhi xing
+3. **ban ben kong zhi**: duiAI2AIwen dang jin xing ban ben kong zhi，ji lu bian geng li shi
+4. **fan kui ji zhi**: jian li fan kui ji zhi，shou ji wen dang shi yong zhong fa xian de wen ti he jian yi
 
-## 注意事项
+## zhu yi shi xiang
 
-1. 不要在AI2AI文档中包含敏感信息，如密码、密钥等
-2. 保持文档简洁明了，避免冗余和重复
-3. 使用标准化的术语和命名规范
-4. 确保文档的可读性和可维护性
-5. 定期备份AI2AI文档，防止意外丢失
+1. bu yao zaiAI2AIwen dang zhong bao han min ganInfo，ruPassword、mi yao deng
+2. bao chi wen dang jian jie ming liao，bi mian rong yu he chong fu
+3. shi yong biao zhun hua de shu yu he ming ming gui fan
+4. que bao wen dang de ke du xing he ke wei hu xing
+5. ding qi bei fenAI2AIwen dang，fang zhi yi wai diu shi
 
-## 文档联系
+## wen dang lian xi
 
-AI2AI文档与Me2AI文档的关系：
-- Me2AI文档由人类维护，包含需求描述和技术约束
-- AI2AI文档由AI维护，基于Me2AI文档生成系统设计
-- AI在执行编码任务时，应同时参考Me2AI和AI2AI文档
-- 当AI2AI文档与Me2AI文档有冲突时，以Me2AI文档为准，AI应调整AI2AI文档内容
+AI2AIwen dang yuMe2AIwen dang de guan xi：
+- Me2AIwen dang you ren lei wei hu，bao hanRequirements DescriptionheTechnical Constraints
+- AI2AIwen dang youAIwei hu，ji yuMe2AIwen dang sheng chengSystemshe ji
+- AIzai zhi xing bian ma ren wu shi，ying tong shi can kaoMe2AIheAI2AIwen dang
+- dangAI2AIwen dang yuMe2AIwen dang you chong tu shi，yiMe2AIwen dang wei zhun，AIying tiao zhengAI2AIwen dang nei rong

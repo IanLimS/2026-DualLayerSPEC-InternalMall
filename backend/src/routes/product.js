@@ -3,22 +3,22 @@ const router = express.Router();
 const ProductController = require('../controllers/productController');
 const { authenticateToken } = require('../middleware/auth');
 
-// 商品列表 - 公开接口
+// ProductList - gong kai jie kou
 router.get('/', ProductController.getProducts);
 
-// 商品搜索 - 公开接口
+// ProductSearch - gong kai jie kou
 router.get('/search', ProductController.searchProducts);
 
-// 商品分类 - 公开接口
+// ProductCategory - gong kai jie kou
 router.get('/categories', ProductController.getCategories);
 
-// 用户收藏商品 - 需要登录
+// UserFavoritesProduct - xu yaoLogin
 router.get('/favorites', authenticateToken, ProductController.getFavorites);
 
-// 商品详情 - 公开接口
+// Product Detail - gong kai jie kou
 router.get('/:id', ProductController.getProductById);
 
-// 添加/取消收藏 - 需要登录
+// tian jia/qu xiaoFavorites - xu yaoLogin
 router.post('/:id/favorite', authenticateToken, ProductController.toggleFavorite);
 router.delete('/:id/favorite', authenticateToken, ProductController.toggleFavorite);
 

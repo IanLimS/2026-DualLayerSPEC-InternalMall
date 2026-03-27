@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { query } = require('../config/database');
 
-// 健康检查接口
+// Health Checkjie kou
 router.get('/', async (req, res) => {
   try {
-    // 检查数据库连接
+    // jian chaDatabaselian jie
     const dbCheck = await query('SELECT 1 as test');
     
     res.status(200).json({
       success: true,
-      message: '服务运行正常',
+      message: 'fu wu yun xing zheng chang',
       timestamp: new Date().toISOString(),
       database: 'connected',
       services: {
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '服务异常',
+      message: 'fu wuException',
       timestamp: new Date().toISOString(),
       database: 'disconnected',
       services: {
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 数据库状态检查
+// DatabaseStatusjian cha
 router.get('/database', async (req, res) => {
   try {
     const tables = await query(`
@@ -50,13 +50,13 @@ router.get('/database', async (req, res) => {
     
     res.status(200).json({
       success: true,
-      message: '数据库状态正常',
+      message: 'DatabaseStatuszheng chang',
       tables: tableCounts
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '数据库检查失败',
+      message: 'Databasejian chaFailed',
       error: error.message
     });
   }

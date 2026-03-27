@@ -3,9 +3,9 @@ const { successResponse, errorResponse } = require('../utils/response');
 
 class CartController {
   /**
-   * 获取用户购物车列表
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * huo quUserCartList
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async getCart(req, res) {
     try {
@@ -13,7 +13,7 @@ class CartController {
       const result = await CartService.getCartItems(userId);
       
       if (result.success) {
-        return successResponse(res, result.message || '获取购物车成功', {
+        return successResponse(res, result.message || 'huo quCartSucceeded', {
           cartItems: result.cartItems,
           summary: result.summary
         });
@@ -21,15 +21,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_001');
       }
     } catch (error) {
-      console.error('获取购物车失败:', error);
-      return errorResponse(res, '获取购物车失败', 'SYS_001', error.message);
+      console.error('huo quCartFailed:', error);
+      return errorResponse(res, 'huo quCartFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 添加商品到购物车
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * tian jiaProductdaoCart
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async addToCart(req, res) {
     try {
@@ -37,15 +37,15 @@ class CartController {
       const { productId, quantity = 1 } = req.body;
       
       if (!productId) {
-        return errorResponse(res, '商品ID不能为空', 'CART_002');
+        return errorResponse(res, 'ProductIDCannot be empty', 'CART_002');
       }
       
       if (!Number.isInteger(productId) || productId <= 0) {
-        return errorResponse(res, '商品ID必须为正整数', 'CART_003');
+        return errorResponse(res, 'ProductIDbi xu wei zheng zheng shu', 'CART_003');
       }
       
       if (!Number.isInteger(quantity) || quantity <= 0) {
-        return errorResponse(res, '数量必须为正整数', 'CART_004');
+        return errorResponse(res, 'shu liang bi xu wei zheng zheng shu', 'CART_004');
       }
       
       const result = await CartService.addToCart(userId, productId, quantity);
@@ -56,15 +56,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_005');
       }
     } catch (error) {
-      console.error('添加商品到购物车失败:', error);
-      return errorResponse(res, '添加商品到购物车失败', 'SYS_001', error.message);
+      console.error('tian jiaProductdaoCartFailed:', error);
+      return errorResponse(res, 'tian jiaProductdaoCartFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 更新购物车商品数量
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * UpdateCartProductshu liang
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async updateQuantity(req, res) {
     try {
@@ -73,11 +73,11 @@ class CartController {
       const { quantity } = req.body;
       
       if (!cartId || !Number.isInteger(parseInt(cartId))) {
-        return errorResponse(res, '购物车项ID必须为正整数', 'CART_006');
+        return errorResponse(res, 'CartxiangIDbi xu wei zheng zheng shu', 'CART_006');
       }
       
       if (!quantity || !Number.isInteger(quantity) || quantity <= 0) {
-        return errorResponse(res, '数量必须为正整数', 'CART_007');
+        return errorResponse(res, 'shu liang bi xu wei zheng zheng shu', 'CART_007');
       }
       
       const result = await CartService.updateItemQuantity(userId, parseInt(cartId), quantity);
@@ -88,15 +88,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_008');
       }
     } catch (error) {
-      console.error('更新购物车商品数量失败:', error);
-      return errorResponse(res, '更新购物车商品数量失败', 'SYS_001', error.message);
+      console.error('UpdateCartProductshu liangFailed:', error);
+      return errorResponse(res, 'UpdateCartProductshu liangFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 更新购物车商品选中状态
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * UpdateCartProductxuan zhongStatus
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async updateSelectedStatus(req, res) {
     try {
@@ -105,11 +105,11 @@ class CartController {
       const { isSelected } = req.body;
       
       if (!cartId || !Number.isInteger(parseInt(cartId))) {
-        return errorResponse(res, '购物车项ID必须为正整数', 'CART_009');
+        return errorResponse(res, 'CartxiangIDbi xu wei zheng zheng shu', 'CART_009');
       }
       
       if (typeof isSelected !== 'boolean') {
-        return errorResponse(res, '选中状态必须为布尔值', 'CART_010');
+        return errorResponse(res, 'xuan zhongStatusbi xu wei bu er zhi', 'CART_010');
       }
       
       const result = await CartService.updateItemSelection(userId, parseInt(cartId), isSelected);
@@ -120,15 +120,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_011');
       }
     } catch (error) {
-      console.error('更新购物车商品选中状态失败:', error);
-      return errorResponse(res, '更新购物车商品选中状态失败', 'SYS_001', error.message);
+      console.error('UpdateCartProductxuan zhongStatusFailed:', error);
+      return errorResponse(res, 'UpdateCartProductxuan zhongStatusFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 批量更新购物车商品选中状态
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * BatchUpdateCartProductxuan zhongStatus
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async updateMultipleSelectedStatus(req, res) {
     try {
@@ -136,21 +136,21 @@ class CartController {
       const { cartIds, isSelected } = req.body;
       
       if (!Array.isArray(cartIds) || cartIds.length === 0) {
-        return errorResponse(res, '购物车项ID数组不能为空', 'CART_012');
+        return errorResponse(res, 'CartxiangIDshu zuCannot be empty', 'CART_012');
       }
       
-      // 验证所有ID都是正整数
+      // yan zheng suo youIDdou shi zheng zheng shu
       for (const id of cartIds) {
         if (!Number.isInteger(parseInt(id))) {
-          return errorResponse(res, '购物车项ID必须为正整数', 'CART_013');
+          return errorResponse(res, 'CartxiangIDbi xu wei zheng zheng shu', 'CART_013');
         }
       }
       
       if (typeof isSelected !== 'boolean') {
-        return errorResponse(res, '选中状态必须为布尔值', 'CART_014');
+        return errorResponse(res, 'xuan zhongStatusbi xu wei bu er zhi', 'CART_014');
       }
       
-      // 转换为整数数组
+      // zhuan huan wei zheng shu shu zu
       const intCartIds = cartIds.map(id => parseInt(id));
       
       const result = await CartService.updateMultipleItemsSelection(userId, intCartIds, isSelected);
@@ -161,15 +161,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_015');
       }
     } catch (error) {
-      console.error('批量更新购物车商品选中状态失败:', error);
-      return errorResponse(res, '批量更新购物车商品选中状态失败', 'SYS_001', error.message);
+      console.error('BatchUpdateCartProductxuan zhongStatusFailed:', error);
+      return errorResponse(res, 'BatchUpdateCartProductxuan zhongStatusFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 删除购物车商品
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * DeleteCartProduct
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async removeFromCart(req, res) {
     try {
@@ -177,7 +177,7 @@ class CartController {
       const { cartId } = req.params;
       
       if (!cartId || !Number.isInteger(parseInt(cartId))) {
-        return errorResponse(res, '购物车项ID必须为正整数', 'CART_016');
+        return errorResponse(res, 'CartxiangIDbi xu wei zheng zheng shu', 'CART_016');
       }
       
       const result = await CartService.removeFromCart(userId, parseInt(cartId));
@@ -188,15 +188,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_017');
       }
     } catch (error) {
-      console.error('删除购物车商品失败:', error);
-      return errorResponse(res, '删除购物车商品失败', 'SYS_001', error.message);
+      console.error('DeleteCartProductFailed:', error);
+      return errorResponse(res, 'DeleteCartProductFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 批量删除购物车商品
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * BatchDeleteCartProduct
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async batchRemoveFromCart(req, res) {
     try {
@@ -204,17 +204,17 @@ class CartController {
       const { cartIds } = req.body;
       
       if (!Array.isArray(cartIds) || cartIds.length === 0) {
-        return errorResponse(res, '购物车项ID数组不能为空', 'CART_018');
+        return errorResponse(res, 'CartxiangIDshu zuCannot be empty', 'CART_018');
       }
       
-      // 验证所有ID都是正整数
+      // yan zheng suo youIDdou shi zheng zheng shu
       for (const id of cartIds) {
         if (!Number.isInteger(parseInt(id))) {
-          return errorResponse(res, '购物车项ID必须为正整数', 'CART_019');
+          return errorResponse(res, 'CartxiangIDbi xu wei zheng zheng shu', 'CART_019');
         }
       }
       
-      // 转换为整数数组
+      // zhuan huan wei zheng shu shu zu
       const intCartIds = cartIds.map(id => parseInt(id));
       
       const result = await CartService.batchRemoveFromCart(userId, intCartIds);
@@ -225,15 +225,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_020');
       }
     } catch (error) {
-      console.error('批量删除购物车商品失败:', error);
-      return errorResponse(res, '批量删除购物车商品失败', 'SYS_001', error.message);
+      console.error('BatchDeleteCartProductFailed:', error);
+      return errorResponse(res, 'BatchDeleteCartProductFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 清空购物车
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * qing kongCart
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async clearCart(req, res) {
     try {
@@ -247,15 +247,15 @@ class CartController {
         return errorResponse(res, result.message, 'CART_021');
       }
     } catch (error) {
-      console.error('清空购物车失败:', error);
-      return errorResponse(res, '清空购物车失败', 'SYS_001', error.message);
+      console.error('qing kongCartFailed:', error);
+      return errorResponse(res, 'qing kongCartFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 获取购物车统计信息
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * huo quCartStatisticsInfo
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async getCartSummary(req, res) {
     try {
@@ -264,20 +264,20 @@ class CartController {
       const result = await CartService.getCartSummary(userId);
       
       if (result.success) {
-        return successResponse(res, '获取购物车统计信息成功', result.data);
+        return successResponse(res, 'huo quCartStatisticsInfoSucceeded', result.data);
       } else {
         return errorResponse(res, result.message, 'CART_022');
       }
     } catch (error) {
-      console.error('获取购物车统计信息失败:', error);
-      return errorResponse(res, '获取购物车统计信息失败', 'SYS_001', error.message);
+      console.error('huo quCartStatisticsInfoFailed:', error);
+      return errorResponse(res, 'huo quCartStatisticsInfoFailed', 'SYS_001', error.message);
     }
   }
 
   /**
-   * 获取选中的购物车商品（用于下单）
-   * @param {Object} req - 请求对象
-   * @param {Object} res - 响应对象
+   * huo qu xuan zhong deCartProduct（yong yu xia dan）
+   * @param {Object} req - qing qiu dui xiang
+   * @param {Object} res - xiang ying dui xiang
    */
   static async getSelectedItems(req, res) {
     try {
@@ -286,13 +286,13 @@ class CartController {
       const result = await CartService.getSelectedItems(userId);
       
       if (result.success) {
-        return successResponse(res, '获取选中商品成功', result.data);
+        return successResponse(res, 'huo qu xuan zhongProductSucceeded', result.data);
       } else {
         return errorResponse(res, result.message, 'CART_023');
       }
     } catch (error) {
-      console.error('获取选中的购物车商品失败:', error);
-      return errorResponse(res, '获取选中的购物车商品失败', 'SYS_001', error.message);
+      console.error('huo qu xuan zhong deCartProductFailed:', error);
+      return errorResponse(res, 'huo qu xuan zhong deCartProductFailed', 'SYS_001', error.message);
     }
   }
 }

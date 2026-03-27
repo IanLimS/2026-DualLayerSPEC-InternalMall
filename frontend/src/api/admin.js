@@ -1,117 +1,117 @@
 import api from './index'
 
-// 管理员相关API接口
+// Adminxiang guanAPIjie kou
 export const apiAdmin = {
-  // 管理员登录
+  // AdminLogin
   login: (username, password) => api.post('/admin/login', {
     username,
     password
   }),
   
-  // 获取系统状态
+  // huo quSystemStatus
   getSystemStatus: () => api.get('/admin/system-status'),
   
-  // 商品管理相关
+  // Product Managementxiang guan
   products: {
-    // 获取商品列表
+    // huo quProductList
     getList: (params) => api.get('/admin/products', { params }),
     
-    // 获取商品详情
+    // huo quProduct Detail
     getDetail: (id) => api.get(`/admin/products/${id}`),
     
-    // 创建商品
+    // CreateProduct
     create: (data) => api.post('/admin/products', data),
     
-    // 更新商品
+    // UpdateProduct
     update: (id, data) => api.put(`/admin/products/${id}`, data),
     
-    // 删除商品
+    // DeleteProduct
     delete: (id) => api.delete(`/admin/products/${id}`),
     
-    // 更新商品状态
+    // UpdateProductStatus
     updateStatus: (id, status) => api.put(`/admin/products/${id}/status`, { status }),
     
-    // 更新商品库存
+    // UpdateProductStock
     updateStock: (id, stock) => api.put(`/admin/products/${id}/stock`, { stock }),
     
-    // 批量导入商品
+    // BatchImportProduct
     import: (formData) => api.post('/admin/products/import', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }),
     
-    // 导出商品
+    // ExportProduct
     export: (params) => api.get('/admin/products/export', { 
       params,
       responseType: 'blob'
     })
   },
   
-  // 分类管理相关
+  // Categoryguan li xiang guan
   categories: {
-    // 获取分类列表
+    // huo quCategoryList
     getList: () => api.get('/admin/categories'),
     
-    // 创建分类
+    // CreateCategory
     create: (data) => api.post('/admin/categories', data),
     
-    // 更新分类
+    // UpdateCategory
     update: (id, data) => api.put(`/admin/categories/${id}`, data),
     
-    // 删除分类
+    // DeleteCategory
     delete: (id) => api.delete(`/admin/categories/${id}`)
   },
   
-  // 订单管理相关
+  // Order Managementxiang guan
   orders: {
-    // 获取订单列表
+    // huo quOrderList
     getList: (params) => api.get('/admin/orders', { params }),
     
-    // 获取订单详情
+    // huo quOrderDetails
     getDetail: (id) => api.get(`/admin/orders/${id}`),
     
-    // 更新订单状态
+    // UpdateOrderStatus
     updateStatus: (id, status, remark) => api.put(`/admin/orders/${id}/status`, { status, remark })
   },
   
-  // 用户管理相关
+  // User Managementxiang guan
   users: {
-    // 获取用户列表
+    // huo quUserList
     getList: (params) => api.get('/admin/users', { params }),
     
-    // 获取用户详情
+    // huo quUserDetails
     getDetail: (id) => api.get(`/admin/users/${id}`),
     
-    // 调整用户积分
+    // tiao zhengUserPoints
     updatePoints: (id, data) => api.put(`/admin/users/${id}/points`, data),
     
-    // 更新用户状态
+    // UpdateUserStatus
     updateStatus: (id, status) => api.put(`/admin/users/${id}/status`, { status })
   },
   
-  // 系统设置相关
+  // System Settingsxiang guan
   settings: {
-    // 获取系统设置
+    // huo quSystem Settings
     get: () => api.get('/admin/settings'),
     
-    // 更新系统设置
+    // UpdateSystem Settings
     update: (data) => api.put('/admin/settings', data)
   },
   
-  // 统计报表相关
+  // Statisticsbao biao xiang guan
   statistics: {
-    // 获取销售统计
+    // huo qu xiao shouStatistics
     getSales: (params) => api.get('/admin/statistics/sales', { params }),
     
-    // 获取用户统计
+    // huo quUserStatistics
     getUsers: (params) => api.get('/admin/statistics/users', { params }),
     
-    // 获取商品统计
+    // huo quProductStatistics
     getProducts: (params) => api.get('/admin/statistics/products', { params })
   },
   
-  // 文件上传
+  // wen jianUpload
   upload: (formData) => api.post('/admin/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'

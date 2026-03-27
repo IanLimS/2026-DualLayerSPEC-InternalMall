@@ -3,7 +3,7 @@ const router = express.Router();
 const { authenticateToken, requireUser } = require('../middleware/auth');
 const { query } = require('../config/database');
 
-// 获取用户信息
+// huo quUserInfo
 router.get('/profile', authenticateToken, requireUser, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -16,7 +16,7 @@ router.get('/profile', authenticateToken, requireUser, async (req, res) => {
     if (user.length === 0) {
       return res.status(404).json({
         success: false,
-        message: '用户不存在'
+        message: 'User not found'
       });
     }
     
@@ -27,38 +27,38 @@ router.get('/profile', authenticateToken, requireUser, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '获取用户信息失败',
+      message: 'huo quUserInfoFailed',
       error: error.message
     });
   }
 });
 
-// 测试接口 - 获取测试商品列表
+// Testjie kou - huo quTestProductList
 router.get('/test-products', authenticateToken, requireUser, async (req, res) => {
   try {
-    // 返回模拟商品数据用于测试
+    // fan hui mo niProductshu ju yong yuTest
     const mockProducts = [
       {
         id: 1,
-        name: '测试商品1',
-        description: '这是用于测试的商品1',
+        name: 'TestProduct1',
+        description: 'zhe shi yong yuTestdeProduct1',
         price: 10.00,
         pointsRequired: 50,
         stock: 100,
         image: '',
         status: 'active',
-        category: '电子产品'
+        category: 'Electronics'
       },
       {
         id: 2,
-        name: '测试商品2',
-        description: '这是用于测试的商品2',
+        name: 'TestProduct2',
+        description: 'zhe shi yong yuTestdeProduct2',
         price: 20.00,
         pointsRequired: 100,
         stock: 50,
         image: '',
         status: 'active',
-        category: '办公用品'
+        category: 'Office Supplies'
       }
     ];
     
@@ -76,7 +76,7 @@ router.get('/test-products', authenticateToken, requireUser, async (req, res) =>
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '获取测试商品列表失败',
+      message: 'huo quTestProductListFailed',
       error: error.message
     });
   }

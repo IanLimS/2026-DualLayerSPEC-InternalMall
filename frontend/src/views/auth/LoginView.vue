@@ -8,13 +8,13 @@
             :type="loginType === 'user' ? 'primary' : 'default'"
             @click="switchLoginType('user')"
           >
-            用户登录
+            UserLogin
           </el-button>
           <el-button 
             :type="loginType === 'admin' ? 'primary' : 'default'"
             @click="switchLoginType('admin')"
           >
-            管理员登录
+            AdminLogin
           </el-button>
         </div>
       </div>
@@ -26,19 +26,19 @@
         label-width="80px"
         class="login-form"
       >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="Username" prop="username">
           <el-input 
             v-model="loginForm.username" 
-            placeholder="请输入用户名"
+            placeholder="qing shu ruUsername"
             @keyup.enter="handleLogin"
           ></el-input>
         </el-form-item>
         
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="Password" prop="password">
           <el-input 
             v-model="loginForm.password" 
             type="password" 
-            placeholder="请输入密码"
+            placeholder="qing shu ruPassword"
             show-password
             @keyup.enter="handleLogin"
           ></el-input>
@@ -51,17 +51,17 @@
             @click="handleLogin"
             class="login-button"
           >
-            {{ loading ? '登录中...' : '登录' }}
+            {{ loading ? 'Loginzhong...' : 'Login' }}
           </el-button>
         </el-form-item>
       </el-form>
 
       <div class="test-account-tips" v-if="showTestAccounts">
-        <p>测试账号：</p>
+        <p>Testzhang hao：</p>
         <div v-if="loginType === 'user'">
-          <p>user1/password1 (100积分)</p>
-          <p>user2/password2 (200积分)</p>
-          <p>user3/password3 (150积分)</p>
+          <p>user1/password1 (100Points)</p>
+          <p>user2/password2 (200Points)</p>
+          <p>user3/password3 (150Points)</p>
         </div>
         <div v-else>
           <p>admin/admin123</p>
@@ -71,7 +71,7 @@
           type="text" 
           @click="fillTestAccount"
         >
-          快速填充测试账号
+          Quick FillTestzhang hao
         </el-button>
       </div>
     </div>
@@ -89,51 +89,51 @@ const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
 
-// 表单引用
+// biao dan yin yong
 const loginFormRef = ref(null);
-// 加载状态
+// jia zaiStatus
 const loading = ref(false);
-// 是否显示测试账号
+// shi fou xian shiTestzhang hao
 const showTestAccounts = ref(true);
 
-// 登录类型，默认从URL参数获取，否则默认为user
+// Loginlei xing，mo ren congURLcan shu huo qu，fou ze mo ren weiuser
 const loginType = ref(route.query.type || 'user');
 
-// 页面标题
+// ye mian biao ti
 const pageTitle = computed(() => {
-  return loginType.value === 'admin' ? '管理员登录' : '用户登录';
+  return loginType.value === 'admin' ? 'AdminLogin' : 'UserLogin';
 });
 
-// 登录表单
+// Loginbiao dan
 const loginForm = ref({
   username: '',
   password: ''
 });
 
-// 表单验证规则
+// biao dan yan zheng gui ze
 const loginRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' }
+    { required: true, message: 'qing shu ruUsername', trigger: 'blur' }
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+    { required: true, message: 'qing shu ruPassword', trigger: 'blur' },
+    { min: 6, message: 'Passwordchang du bu neng shao yu6wei', trigger: 'blur' }
   ]
 };
 
-// 切换登录类型
+// qie huanLoginlei xing
 const switchLoginType = (type) => {
   loginType.value = type;
   loginForm.value = { username: '', password: '' };
-  // 更新URL参数但不触发路由变化
+  // UpdateURLcan shu dan bu chu fa lu you bian hua
   router.replace({ query: { type } });
 };
 
-// 处理登录
+// chu liLogin
 const handleLogin = async () => {
   if (!loginFormRef.value) return;
   
-  // 表单验证
+  // biao dan yan zheng
   const valid = await loginFormRef.value.validate().catch(() => false);
   if (!valid) return;
   
@@ -147,7 +147,7 @@ const handleLogin = async () => {
     );
     
     if (response.success) {
-      // 保存认证信息
+      // bao cun ren zhengInfo
       authStore.setAuth({
         token: response.token,
         userId: response.userId,
@@ -155,9 +155,9 @@ const handleLogin = async () => {
         userType: response.userType
       });
       
-      ElMessage.success(response.message || '登录成功');
+      ElMessage.success(response.message || 'LoginSucceeded');
       
-      // 根据用户类型跳转到不同页面
+      // gen juUserlei xing tiao zhuan dao bu tong ye mian
       if (response.userType === 'admin') {
         router.push('/admin/dashboard');
       } else {
@@ -165,19 +165,19 @@ const handleLogin = async () => {
       }
     }
   } catch (error) {
-    // 错误已在API拦截器中处理，这里可以添加额外的错误处理
-    console.error('登录失败:', error);
+    // Erroryi zaiAPIlan jie qi zhong chu li，zhe li ke yi tian jia e wai deErrorchu li
+    console.error('LoginFailed:', error);
     
-    // 如果是网络错误或拦截器未处理的错误，显示通用错误提示
+    // ru guo shi wang luoErrorhuo lan jie qi wei chu li deError，xian shi tong yongErrorti shi
     if (!error.response) {
-      ElMessage.error('登录失败，请检查网络连接');
+      ElMessage.error('LoginFailed，qing jian cha wang luo lian jie');
     }
   } finally {
     loading.value = false;
   }
 };
 
-// 填充测试账号
+// tian chongTestzhang hao
 const fillTestAccount = () => {
   if (loginType.value === 'user') {
     loginForm.value.username = 'user1';
@@ -188,9 +188,9 @@ const fillTestAccount = () => {
   }
 };
 
-// 组件挂载时处理
+// zu jian gua zai shi chu li
 onMounted(() => {
-  // 如果URL中没有type参数，设置为默认值
+  // ru guoURLzhong mei youtypecan shu，Settingswei mo ren zhi
   if (!route.query.type) {
     router.replace({ query: { type: loginType.value } });
   }

@@ -3,7 +3,7 @@ const { successResponse, errorResponse } = require('../utils/response');
 
 class ProductController {
   /**
-   * 获取商品列表
+   * huo quProductList
    */
   static async getProducts(req, res) {
     try {
@@ -25,10 +25,10 @@ class ProductController {
 
       const result = await ProductService.getProducts(options);
 
-      // 获取分类列表用于筛选
+      // huo quCategoryListyong yuFilter
       const categories = await ProductService.getCategories({ status: 'active' });
       
-      // 计算每个分类的商品数量
+      // ji suan mei geCategorydeProductshu liang
       const categoriesWithCount = await ProductService.getCategoriesWithProductCount();
 
       return successResponse(res, {
@@ -42,13 +42,13 @@ class ProductController {
         }
       });
     } catch (error) {
-      console.error('获取商品列表失败:', error);
-      return errorResponse(res, 'SYS_001', '获取商品列表失败', error.message);
+      console.error('huo quProductListFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quProductListFailed', error.message);
     }
   }
 
   /**
-   * 搜索商品
+   * SearchProduct
    */
   static async searchProducts(req, res) {
     try {
@@ -76,10 +76,10 @@ class ProductController {
 
       const result = await ProductService.searchProducts(searchOptions);
 
-      // 获取分类列表用于筛选
+      // huo quCategoryListyong yuFilter
       const categories = await ProductService.getCategories({ status: 'active' });
       
-      // 计算每个分类的商品数量
+      // ji suan mei geCategorydeProductshu liang
       const categoriesWithCount = await ProductService.getCategoriesWithProductCount();
 
       return successResponse(res, {
@@ -93,13 +93,13 @@ class ProductController {
         }
       });
     } catch (error) {
-      console.error('搜索商品失败:', error);
-      return errorResponse(res, 'SYS_001', '搜索商品失败', error.message);
+      console.error('SearchProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'SearchProductFailed', error.message);
     }
   }
 
   /**
-   * 获取商品详情
+   * huo quProduct Detail
    */
   static async getProductById(req, res) {
     try {
@@ -109,18 +109,18 @@ class ProductController {
       const product = await ProductService.getProductById(id, userId);
       
       if (!product) {
-        return errorResponse(res, 'PROD_001', '商品不存在');
+        return errorResponse(res, 'PROD_001', 'Product not found');
       }
 
       return successResponse(res, product);
     } catch (error) {
-      console.error('获取商品详情失败:', error);
-      return errorResponse(res, 'SYS_001', '获取商品详情失败', error.message);
+      console.error('huo quProduct DetailFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quProduct DetailFailed', error.message);
     }
   }
 
   /**
-   * 获取商品分类
+   * huo quProductCategory
    */
   static async getCategories(req, res) {
     try {
@@ -129,39 +129,39 @@ class ProductController {
       
       return successResponse(res, categories);
     } catch (error) {
-      console.error('获取商品分类失败:', error);
-      return errorResponse(res, 'SYS_001', '获取商品分类失败', error.message);
+      console.error('huo quProductCategoryFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quProductCategoryFailed', error.message);
     }
   }
 
   /**
-   * 添加/取消商品收藏
+   * tian jia/qu xiaoProductFavorites
    */
   static async toggleFavorite(req, res) {
     try {
       const { id } = req.params;
       const userId = req.user.id;
       
-      // TODO: 实现收藏逻辑
-      // 这里需要创建一个Favorite模型来处理收藏功能
+      // TODO: shi xianFavoritesluo ji
+      // zhe li xu yaoCreateyi geFavoritemo xing lai chu liFavoritesgong neng
       
-      return successResponse(res, null, '操作成功');
+      return successResponse(res, null, 'cao zuoSucceeded');
     } catch (error) {
-      console.error('商品收藏操作失败:', error);
-      return errorResponse(res, 'SYS_001', '商品收藏操作失败', error.message);
+      console.error('ProductFavoritescao zuoFailed:', error);
+      return errorResponse(res, 'SYS_001', 'ProductFavoritescao zuoFailed', error.message);
     }
   }
 
   /**
-   * 获取用户收藏商品
+   * huo quUserFavoritesProduct
    */
   static async getFavorites(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
       const userId = req.user.id;
       
-      // TODO: 实现获取收藏商品逻辑
-      // 这里需要创建一个Favorite模型来处理收藏功能
+      // TODO: shi xian huo quFavoritesProductluo ji
+      // zhe li xu yaoCreateyi geFavoritemo xing lai chu liFavoritesgong neng
       
       return successResponse(res, {
         products: [],
@@ -173,8 +173,8 @@ class ProductController {
         }
       });
     } catch (error) {
-      console.error('获取收藏商品失败:', error);
-      return errorResponse(res, 'SYS_001', '获取收藏商品失败', error.message);
+      console.error('huo quFavoritesProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quFavoritesProductFailed', error.message);
     }
   }
 }

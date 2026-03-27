@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 
-// 创建axios实例
+// Createaxiosshi li
 const api = axios.create({
   baseURL: '/api',
   timeout: 10000,
@@ -11,7 +11,7 @@ const api = axios.create({
   }
 })
 
-// 请求拦截器
+// qing qiu lan jie qi
 api.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
@@ -25,7 +25,7 @@ api.interceptors.request.use(
   }
 )
 
-// 响应拦截器
+// xiang ying lan jie qi
 api.interceptors.response.use(
   (response) => {
     return response.data
@@ -38,75 +38,75 @@ api.interceptors.response.use(
       
       switch (status) {
         case 401:
-          // 如果是在登录页面收到401错误，显示具体的错误消息
+          // ru guo shi zaiLoginye mian shou dao401Error，xian shi ju ti deErrorxiao xi
           if (window.location.pathname === '/login') {
-            ElMessage.error(data.message || '用户名或密码错误')
+            ElMessage.error(data.message || 'UsernamehuoPasswordError')
           } else {
-            ElMessage.error('未授权，请重新登录')
+            ElMessage.error('Unauthorized，qing chong xinLogin')
             authStore.clearAuth()
-            // 重定向到登录页
+            // zhong ding xiang daoLoginye
             window.location.href = '/login'
           }
           break
         case 403:
-          ElMessage.error('权限不足')
+          ElMessage.error('Insufficient permissions')
           break
         case 404:
-          ElMessage.error('请求的资源不存在')
+          ElMessage.error('qing qiu de zi yuanDoes not exist')
           break
         case 500:
-          ElMessage.error('服务器错误')
+          ElMessage.error('Server error')
           break
         default:
-          ElMessage.error(data.message || '请求失败')
+          ElMessage.error(data.message || 'qing qiuFailed')
       }
     } else if (error.request) {
-      ElMessage.error('网络连接失败，请检查网络')
+      ElMessage.error('wang luo lian jieFailed，qing jian cha wang luo')
     } else {
-      ElMessage.error('请求配置错误')
+      ElMessage.error('qing qiu pei zhiError')
     }
     
     return Promise.reject(error)
   }
 )
 
-// API方法
+// APIfang fa
 export const apiHealth = {
-  // 健康检查
+  // Health Check
   check: () => api.get('/health'),
   
-  // 数据库状态检查
+  // DatabaseStatusjian cha
   checkDatabase: () => api.get('/health/database')
 }
 
 export const apiAuth = {
-  // 用户登录
+  // UserLogin
   login: (username, password, type) => api.post('/auth/login', {
     username,
     password,
     type
   }),
   
-  // 用户登出
+  // UserLogout
   logout: () => api.post('/auth/logout')
 }
 
 export const apiUser = {
-  // 获取用户信息
+  // huo quUserInfo
   getProfile: () => api.get('/user/profile'),
   
-  // 更新用户信息
+  // UpdateUserInfo
   updateProfile: (data) => api.put('/user/profile', data),
   
-  // 获取测试商品列表
+  // huo quTestProductList
   getTestProducts: () => api.get('/user/test-products')
 }
 
 export const apiAdmin = {
-  // 管理员连通性测试
+  // AdminConnectivityTest
   test: () => api.get('/admin/test'),
   
-  // 获取系统状态
+  // huo quSystemStatus
   getSystemStatus: () => api.get('/admin/system-status')
 }
 

@@ -10,20 +10,20 @@
             <el-card class="dashboard-card">
               <template #header>
                 <div class="card-header">
-                  <span>系统信息</span>
+                  <span>SystemInfo</span>
                 </div>
               </template>
               <div class="card-content">
                 <div class="info-item">
-                  <span class="info-label">状态:</span>
+                  <span class="info-label">Status:</span>
                   <el-tag type="success">{{ systemInfo.status }}</el-tag>
                 </div>
                 <div class="info-item">
-                  <span class="info-label">版本:</span>
+                  <span class="info-label">ban ben:</span>
                   <span>{{ systemInfo.version }}</span>
                 </div>
                 <div class="info-item">
-                  <span class="info-label">更新时间:</span>
+                  <span class="info-label">Updateshi jian:</span>
                   <span>{{ formatDate(systemInfo.timestamp) }}</span>
                 </div>
               </div>
@@ -34,12 +34,12 @@
             <el-card class="dashboard-card">
               <template #header>
                 <div class="card-header">
-                  <span>管理员信息</span>
+                  <span>AdminInfo</span>
                 </div>
               </template>
               <div class="card-content">
                 <div class="info-item">
-                  <span class="info-label">用户名:</span>
+                  <span class="info-label">Username:</span>
                   <span>{{ userInfo.username }}</span>
                 </div>
                 <div class="info-item">
@@ -47,8 +47,8 @@
                   <span>{{ userInfo.id }}</span>
                 </div>
                 <div class="info-item">
-                  <span class="info-label">角色:</span>
-                  <el-tag type="warning">管理员</el-tag>
+                  <span class="info-label">Role:</span>
+                  <el-tag type="warning">Admin</el-tag>
                 </div>
               </div>
             </el-card>
@@ -58,19 +58,19 @@
             <el-card class="dashboard-card">
               <template #header>
                 <div class="card-header">
-                  <span>快速操作</span>
+                  <span>kuai su cao zuo</span>
                 </div>
               </template>
               <div class="card-content">
                 <div class="quick-actions">
                   <el-button type="primary" @click="testConnection">
-                    连通性测试
+                    ConnectivityTest
                   </el-button>
                   <el-button type="success" @click="checkSystemStatus">
-                    检查系统状态
+                    jian chaSystemStatus
                   </el-button>
                   <el-button @click="$router.push('/')">
-                    返回首页
+                    fan huiHome
                   </el-button>
                 </div>
               </div>
@@ -83,18 +83,18 @@
             <el-card class="dashboard-card">
               <template #header>
                 <div class="card-header">
-                  <span>系统消息</span>
+                  <span>Systemxiao xi</span>
                 </div>
               </template>
               <div class="card-content">
                 <el-alert 
-                  title="欢迎使用管理员系统" 
+                  title="huan ying shi yongAdminSystem" 
                   type="success" 
                   :closable="false"
                   show-icon
                 >
                   <template #default>
-                    <p>您已成功登录管理员系统，可以管理商品、订单和用户。</p>
+                    <p>nin yiSucceededLoginAdminSystem，ke yi guan liProduct、OrderheUser。</p>
                   </template>
                 </el-alert>
               </div>
@@ -116,26 +116,26 @@ import AdminLayout from '@/components/layout/AdminLayout.vue';
 const router = useRouter();
 const authStore = useAuthStore();
 
-// 加载状态
+// jia zaiStatus
 const loading = ref(true);
 
-// 系统信息
+// SystemInfo
 const systemInfo = ref({
   status: 'running',
   version: '1.0.0',
   timestamp: null
 });
 
-// 用户信息
+// UserInfo
 const userInfo = ref({});
 
-// 获取管理员信息
+// huo quAdminInfo
 const getAdminInfo = async () => {
   try {
-    // 从authStore获取用户信息
+    // congauthStorehuo quUserInfo
     userInfo.value = authStore.user || {};
     
-    // 获取系统状态
+    // huo quSystemStatus
     const systemStatus = await apiAdmin.getSystemStatus();
     if (systemStatus.success) {
       systemInfo.value = {
@@ -144,7 +144,7 @@ const getAdminInfo = async () => {
       };
     }
   } catch (error) {
-    console.error('获取管理员信息失败:', error);
+    console.error('huo quAdminInfoFailed:', error);
   } finally {
     loading.value = false;
   }
@@ -152,34 +152,34 @@ const getAdminInfo = async () => {
 
 
 
-// 连通性测试
+// ConnectivityTest
 const testConnection = () => {
   router.push('/connectivity-test');
 };
 
-// 检查系统状态
+// jian chaSystemStatus
 const checkSystemStatus = async () => {
   try {
     const response = await apiHealth.check();
     if (response.success) {
-      ElMessage.success('系统状态正常');
+      ElMessage.success('SystemStatuszheng chang');
     } else {
-      ElMessage.warning('系统状态异常');
+      ElMessage.warning('SystemStatusException');
     }
   } catch (error) {
-    console.error('检查系统状态失败:', error);
-    ElMessage.error('无法获取系统状态');
+    console.error('jian chaSystemStatusFailed:', error);
+    ElMessage.error('wu fa huo quSystemStatus');
   }
 };
 
-// 格式化日期
+// ge shi hua ri qi
 const formatDate = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleString();
 };
 
-// 组件挂载时获取信息
+// zu jian gua zai shi huo quInfo
 onMounted(() => {
   getAdminInfo();
 });

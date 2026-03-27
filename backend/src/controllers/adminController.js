@@ -4,14 +4,14 @@ const { processUploadImages, deleteImage } = require('../utils/fileUpload');
 
 class AdminController {
   /**
-   * 管理员登录
+   * AdminLogin
    */
   static async login(req, res) {
     try {
       const { username, password } = req.body;
       
-      // TODO: 实现管理员登录逻辑
-      // 这里应该使用authService中的验证方法
+      // TODO: shi xianAdminLoginluo ji
+      // zhe li ying gai shi yongauthServicezhong de yan zheng fang fa
       
       return successResponse(res, {
         token: 'mock_admin_token',
@@ -21,20 +21,20 @@ class AdminController {
           role: 'admin'
         },
         expiresIn: 3600
-      }, '管理员登录成功');
+      }, 'AdminLoginSucceeded');
     } catch (error) {
-      console.error('管理员登录失败:', error);
-      return errorResponse(res, 'USER_001', '用户名或密码错误', error.message);
+      console.error('AdminLoginFailed:', error);
+      return errorResponse(res, 'USER_001', 'UsernamehuoPasswordError', error.message);
     }
   }
 
   /**
-   * 获取系统状态
+   * huo quSystemStatus
    */
   static async getSystemStatus(req, res) {
     try {
-      // TODO: 实现获取系统状态逻辑
-      // 从各个表中获取统计数据
+      // TODO: shi xian huo quSystemStatusluo ji
+      // cong ge ge biao zhong huo quStatisticsshu ju
       
       return successResponse(res, {
         status: 'healthy',
@@ -64,15 +64,15 @@ class AdminController {
           }
         },
         timestamp: new Date().toISOString()
-      }, '系统状态正常');
+      }, 'SystemStatuszheng chang');
     } catch (error) {
-      console.error('获取系统状态失败:', error);
-      return errorResponse(res, 'SYS_001', '获取系统状态失败', error.message);
+      console.error('huo quSystemStatusFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quSystemStatusFailed', error.message);
     }
   }
 
   /**
-   * 获取管理员商品列表
+   * huo quAdminProductList
    */
   static async getProducts(req, res) {
     try {
@@ -93,13 +93,13 @@ class AdminController {
       const result = await ProductService.getProducts(options);
       return successResponse(res, result);
     } catch (error) {
-      console.error('获取管理员商品列表失败:', error);
-      return errorResponse(res, 'SYS_001', '获取商品列表失败', error.message);
+      console.error('huo quAdminProductListFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quProductListFailed', error.message);
     }
   }
 
   /**
-   * 创建商品
+   * CreateProduct
    */
   static async createProduct(req, res) {
     try {
@@ -118,15 +118,15 @@ class AdminController {
       };
 
       const product = await ProductService.createProduct(productData);
-      return successResponse(res, product, '商品创建成功');
+      return successResponse(res, product, 'ProductCreateSucceeded');
     } catch (error) {
-      console.error('创建商品失败:', error);
-      return errorResponse(res, 'SYS_001', '创建商品失败', error.message);
+      console.error('CreateProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'CreateProductFailed', error.message);
     }
   }
 
   /**
-   * 更新商品
+   * UpdateProduct
    */
   static async updateProduct(req, res) {
     try {
@@ -134,7 +134,7 @@ class AdminController {
       
       const productData = {};
       
-      // 只更新提供的字段
+      // zhiUpdateti gong de zi duan
       if (req.body.name !== undefined) productData.name = req.body.name;
       if (req.body.description !== undefined) productData.description = req.body.description;
       if (req.body.price !== undefined) productData.price = req.body.price;
@@ -150,18 +150,18 @@ class AdminController {
 
       const product = await ProductService.updateProduct(id, productData);
       if (!product) {
-        return errorResponse(res, 'PROD_001', '商品不存在');
+        return errorResponse(res, 'PROD_001', 'Product not found');
       }
 
-      return successResponse(res, product, '商品更新成功');
+      return successResponse(res, product, 'ProductUpdateSucceeded');
     } catch (error) {
-      console.error('更新商品失败:', error);
-      return errorResponse(res, 'SYS_001', '更新商品失败', error.message);
+      console.error('UpdateProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'UpdateProductFailed', error.message);
     }
   }
 
   /**
-   * 删除商品
+   * DeleteProduct
    */
   static async deleteProduct(req, res) {
     try {
@@ -169,69 +169,69 @@ class AdminController {
       
       const success = await ProductService.deleteProduct(id);
       if (!success) {
-        return errorResponse(res, 'PROD_001', '商品不存在');
+        return errorResponse(res, 'PROD_001', 'Product not found');
       }
 
-      return successResponse(res, null, '商品删除成功');
+      return successResponse(res, null, 'ProductDeleteSucceeded');
     } catch (error) {
-      console.error('删除商品失败:', error);
-      return errorResponse(res, 'SYS_001', '删除商品失败', error.message);
+      console.error('DeleteProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'DeleteProductFailed', error.message);
     }
   }
 
   /**
-   * 批量更新商品状态
+   * BatchUpdateProductStatus
    */
   static async batchUpdateProductStatus(req, res) {
     try {
       const { productIds, status } = req.body;
       
       if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
-        return errorResponse(res, 'SYS_001', '请选择要操作的商品');
+        return errorResponse(res, 'SYS_001', 'qing xuan ze yao cao zuo deProduct');
       }
 
       const updatedCount = await ProductService.batchUpdateStatus(productIds, status);
-      return successResponse(res, { updatedCount }, `成功更新${updatedCount}个商品的状态`);
+      return successResponse(res, { updatedCount }, `SucceededUpdate${updatedCount}geProductdeStatus`);
     } catch (error) {
-      console.error('批量更新商品状态失败:', error);
-      return errorResponse(res, 'SYS_001', '批量更新商品状态失败', error.message);
+      console.error('BatchUpdateProductStatusFailed:', error);
+      return errorResponse(res, 'SYS_001', 'BatchUpdateProductStatusFailed', error.message);
     }
   }
 
   /**
-   * 批量删除商品
+   * BatchDeleteProduct
    */
   static async batchDeleteProducts(req, res) {
     try {
       const { productIds } = req.body;
       
       if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
-        return errorResponse(res, 'SYS_001', '请选择要删除的商品');
+        return errorResponse(res, 'SYS_001', 'qing xuan ze yaoDeletedeProduct');
       }
 
       const deletedCount = await ProductService.batchDeleteProducts(productIds);
-      return successResponse(res, { deletedCount }, `成功删除${deletedCount}个商品`);
+      return successResponse(res, { deletedCount }, `SucceededDelete${deletedCount}geProduct`);
     } catch (error) {
-      console.error('批量删除商品失败:', error);
-      return errorResponse(res, 'SYS_001', '批量删除商品失败', error.message);
+      console.error('BatchDeleteProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'BatchDeleteProductFailed', error.message);
     }
   }
 
   /**
-   * 获取商品分类
+   * huo quProductCategory
    */
   static async getCategories(req, res) {
     try {
       const categories = await ProductService.getCategoriesWithProductCount();
       return successResponse(res, categories);
     } catch (error) {
-      console.error('获取商品分类失败:', error);
-      return errorResponse(res, 'SYS_001', '获取商品分类失败', error.message);
+      console.error('huo quProductCategoryFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quProductCategoryFailed', error.message);
     }
   }
 
   /**
-   * 创建商品分类
+   * CreateProductCategory
    */
   static async createCategory(req, res) {
     try {
@@ -243,15 +243,15 @@ class AdminController {
       };
 
       const category = await ProductService.createCategory(categoryData);
-      return successResponse(res, category, '分类创建成功');
+      return successResponse(res, category, 'CategoryCreateSucceeded');
     } catch (error) {
-      console.error('创建分类失败:', error);
-      return errorResponse(res, 'SYS_001', '创建分类失败', error.message);
+      console.error('CreateCategoryFailed:', error);
+      return errorResponse(res, 'SYS_001', 'CreateCategoryFailed', error.message);
     }
   }
 
   /**
-   * 更新商品分类
+   * UpdateProductCategory
    */
   static async updateCategory(req, res) {
     try {
@@ -259,7 +259,7 @@ class AdminController {
       
       const categoryData = {};
       
-      // 只更新提供的字段
+      // zhiUpdateti gong de zi duan
       if (req.body.name !== undefined) categoryData.name = req.body.name;
       if (req.body.description !== undefined) categoryData.description = req.body.description;
       if (req.body.icon !== undefined) categoryData.icon = req.body.icon;
@@ -268,18 +268,18 @@ class AdminController {
 
       const category = await ProductService.updateCategory(id, categoryData);
       if (!category) {
-        return errorResponse(res, 'SYS_001', '分类不存在');
+        return errorResponse(res, 'SYS_001', 'CategoryDoes not exist');
       }
 
-      return successResponse(res, category, '分类更新成功');
+      return successResponse(res, category, 'CategoryUpdateSucceeded');
     } catch (error) {
-      console.error('更新分类失败:', error);
-      return errorResponse(res, 'SYS_001', '更新分类失败', error.message);
+      console.error('UpdateCategoryFailed:', error);
+      return errorResponse(res, 'SYS_001', 'UpdateCategoryFailed', error.message);
     }
   }
 
   /**
-   * 删除商品分类
+   * DeleteProductCategory
    */
   static async deleteCategory(req, res) {
     try {
@@ -287,31 +287,31 @@ class AdminController {
       
       const success = await ProductService.deleteCategory(id);
       if (!success) {
-        return errorResponse(res, 'SYS_001', '分类不存在或无法删除');
+        return errorResponse(res, 'SYS_001', 'CategoryDoes not existhuo wu faDelete');
       }
 
-      return successResponse(res, null, '分类删除成功');
+      return successResponse(res, null, 'CategoryDeleteSucceeded');
     } catch (error) {
-      console.error('删除分类失败:', error);
-      return errorResponse(res, 'SYS_001', '删除分类失败', error.message);
+      console.error('DeleteCategoryFailed:', error);
+      return errorResponse(res, 'SYS_001', 'DeleteCategoryFailed', error.message);
     }
   }
 
   /**
-   * 获取库存预警商品
+   * huo quLow stock warningProduct
    */
   static async getLowStockProducts(req, res) {
     try {
       const products = await ProductService.getLowStockProducts();
       return successResponse(res, products);
     } catch (error) {
-      console.error('获取库存预警商品失败:', error);
-      return errorResponse(res, 'SYS_001', '获取库存预警商品失败', error.message);
+      console.error('huo quLow stock warningProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quLow stock warningProductFailed', error.message);
     }
   }
 
   /**
-   * 获取热销商品
+   * huo quTop sellingProduct
    */
   static async getTopSellingProducts(req, res) {
     try {
@@ -319,25 +319,25 @@ class AdminController {
       const products = await ProductService.getTopSellingProducts(parseInt(limit));
       return successResponse(res, products);
     } catch (error) {
-      console.error('获取热销商品失败:', error);
-      return errorResponse(res, 'SYS_001', '获取热销商品失败', error.message);
+      console.error('huo quTop sellingProductFailed:', error);
+      return errorResponse(res, 'SYS_001', 'huo quTop sellingProductFailed', error.message);
     }
   }
 
   /**
-   * 上传单个商品图片
+   * Uploaddan geProducttu pian
    */
   static async uploadProductImage(req, res) {
     try {
       if (!req.file) {
-        return errorResponse(res, 'SYS_001', '请选择要上传的图片');
+        return errorResponse(res, 'SYS_001', 'qing xuan ze yaoUploadde tu pian');
       }
 
-      // 处理上传的图片
+      // chu liUploadde tu pian
       const processedImages = await processUploadImages([req.file]);
       
       if (processedImages.length === 0) {
-        return errorResponse(res, 'SYS_001', '图片上传失败');
+        return errorResponse(res, 'SYS_001', 'tu pianUploadFailed');
       }
 
       const uploadedImage = processedImages[0];
@@ -346,32 +346,32 @@ class AdminController {
         filename: uploadedImage.filename,
         url: uploadedImage.url,
         size: uploadedImage.size
-      }, '图片上传成功');
+      }, 'tu pianUploadSucceeded');
     } catch (error) {
-      console.error('图片上传失败:', error);
-      return errorResponse(res, 'SYS_001', '图片上传失败', error.message);
+      console.error('tu pianUploadFailed:', error);
+      return errorResponse(res, 'SYS_001', 'tu pianUploadFailed', error.message);
     }
   }
 
   /**
-   * 上传多个商品图片
+   * Uploadduo geProducttu pian
    */
   static async uploadProductImages(req, res) {
     try {
       if (!req.files || req.files.length === 0) {
-        return errorResponse(res, 'SYS_001', '请选择要上传的图片');
+        return errorResponse(res, 'SYS_001', 'qing xuan ze yaoUploadde tu pian');
       }
 
-      // 处理上传的图片
+      // chu liUploadde tu pian
       const processedImages = await processUploadImages(req.files);
       
-      // 检查是否有上传失败的图片
+      // jian cha shi fou youUploadFailedde tu pian
       const failedImages = processedImages.filter(img => img.error);
       if (failedImages.length > 0) {
-        console.error('部分图片上传失败:', failedImages);
+        console.error('bu fen tu pianUploadFailed:', failedImages);
       }
       
-      // 返回上传成功的图片
+      // fan huiUploadSucceededde tu pian
       const successImages = processedImages.filter(img => !img.error);
       
       return successResponse(res, {
@@ -382,64 +382,64 @@ class AdminController {
         })),
         uploaded: successImages.length,
         failed: failedImages.length
-      }, `成功上传${successImages.length}张图片${failedImages.length > 0 ? `，${failedImages.length}张失败` : ''}`);
+      }, `SucceededUpload${successImages.length}zhang tu pian${failedImages.length > 0 ? `，${failedImages.length}zhangFailed` : ''}`);
     } catch (error) {
-      console.error('图片上传失败:', error);
-      return errorResponse(res, 'SYS_001', '图片上传失败', error.message);
+      console.error('tu pianUploadFailed:', error);
+      return errorResponse(res, 'SYS_001', 'tu pianUploadFailed', error.message);
     }
   }
 
   /**
-   * 更新商品状态（上架/下架）
+   * UpdateProductStatus（Publish/Unpublish）
    */
   static async updateProductStatus(req, res) {
     try {
       const { id } = req.params;
       const { status } = req.body;
       
-      // 验证状态值
+      // yan zhengStatuszhi
       if (!status || (status !== 'active' && status !== 'inactive')) {
-        return errorResponse(res, 'SYS_001', '无效的状态值');
+        return errorResponse(res, 'SYS_001', 'InvaliddeStatuszhi');
       }
       
       const productData = { status };
       const product = await ProductService.updateProduct(id, productData);
       
       if (!product) {
-        return errorResponse(res, 'PROD_001', '商品不存在');
+        return errorResponse(res, 'PROD_001', 'Product not found');
       }
       
-      return successResponse(res, product, `商品${status === 'active' ? '上架' : '下架'}成功`);
+      return successResponse(res, product, `Product${status === 'active' ? 'Publish' : 'Unpublish'}Succeeded`);
     } catch (error) {
-      console.error('更新商品状态失败:', error);
-      return errorResponse(res, 'SYS_001', '更新商品状态失败', error.message);
+      console.error('UpdateProductStatusFailed:', error);
+      return errorResponse(res, 'SYS_001', 'UpdateProductStatusFailed', error.message);
     }
   }
 
   /**
-   * 更新商品库存
+   * UpdateProductStock
    */
   static async updateProductStock(req, res) {
     try {
       const { id } = req.params;
       const { stock } = req.body;
       
-      // 验证库存值
+      // yan zhengStockzhi
       if (stock < 0 || !Number.isInteger(stock)) {
-        return errorResponse(res, 'SYS_001', '库存值必须是非负整数');
+        return errorResponse(res, 'SYS_001', 'Stockzhi bi xu shi fei fu zheng shu');
       }
       
       const productData = { stock };
       const product = await ProductService.updateProduct(id, productData);
       
       if (!product) {
-        return errorResponse(res, 'PROD_001', '商品不存在');
+        return errorResponse(res, 'PROD_001', 'Product not found');
       }
       
-      return successResponse(res, product, '库存更新成功');
+      return successResponse(res, product, 'StockUpdateSucceeded');
     } catch (error) {
-      console.error('更新商品库存失败:', error);
-      return errorResponse(res, 'SYS_001', '更新商品库存失败', error.message);
+      console.error('UpdateProductStockFailed:', error);
+      return errorResponse(res, 'SYS_001', 'UpdateProductStockFailed', error.message);
     }
   }
 }

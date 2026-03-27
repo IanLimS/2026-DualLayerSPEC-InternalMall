@@ -1,28 +1,28 @@
 @echo off
 chcp 65001 >nul
-title 重置数据库
+title zhong zhiDatabase
 
-echo [重置数据库]
+echo [zhong zhiDatabase]
 echo.
 
 cd /d "%~dp0backend"
 
 node --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo 错误: 未检测到Node.js，请先安装
+    echo Error: wei jian ce daoNode.js，qing xian an zhuang
     pause
     exit /b 1
 )
 
-echo 正在重置...
+echo zheng zai zhong zhi...
 node init-db.js
 
 if %errorlevel% equ 0 (
     echo.
-    echo 数据库重置成功！
+    echo Databasezhong zhiSucceeded！
 ) else (
     echo.
-    echo 数据库重置失败！
+    echo Databasezhong zhiFailed！
 )
 
 pause

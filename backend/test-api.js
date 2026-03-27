@@ -1,8 +1,8 @@
-// 简单的API测试脚本
+// jian dan deAPITestjiao ben
 const http = require('http');
 const https = require('https');
 
-// 发送HTTP请求的辅助函数
+// fa songHTTPqing qiu de fu zhu han shu
 function makeRequest(options, data) {
   return new Promise((resolve, reject) => {
     const protocol = options.protocol === 'https:' ? https : http;
@@ -31,13 +31,13 @@ function makeRequest(options, data) {
   });
 }
 
-// 测试API函数
+// TestAPIhan shu
 async function testAPI() {
-  console.log('开始测试商品管理API...\n');
+  console.log('kai shiTestProduct ManagementAPI...\n');
   
-  // 测试健康检查
+  // TestHealth Check
   try {
-    console.log('1. 测试健康检查API...');
+    console.log('1. TestHealth CheckAPI...');
     const healthOptions = {
       hostname: 'localhost',
       port: 3001,
@@ -46,16 +46,16 @@ async function testAPI() {
     };
     
     const healthRes = await makeRequest(healthOptions);
-    console.log(`状态码: ${healthRes.statusCode}`);
-    console.log(`响应: ${healthRes.body}\n`);
+    console.log(`Statusma: ${healthRes.statusCode}`);
+    console.log(`xiang ying: ${healthRes.body}\n`);
   } catch (error) {
-    console.error('健康检查测试失败:', error.message);
+    console.error('Health CheckTestFailed:', error.message);
   }
 
-  // 测试管理员登录
+  // TestAdminLogin
   let adminToken = null;
   try {
-    console.log('2. 测试管理员登录API...');
+    console.log('2. TestAdminLoginAPI...');
     const loginOptions = {
       hostname: 'localhost',
       port: 3001,
@@ -72,22 +72,22 @@ async function testAPI() {
     });
     
     const loginRes = await makeRequest(loginOptions, loginData);
-    console.log(`状态码: ${loginRes.statusCode}`);
-    console.log(`响应: ${loginRes.body}\n`);
+    console.log(`Statusma: ${loginRes.statusCode}`);
+    console.log(`xiang ying: ${loginRes.body}\n`);
     
-    // 解析响应获取token
+    // jie xi xiang ying huo qutoken
     const loginResult = JSON.parse(loginRes.body);
     if (loginResult.success) {
       adminToken = loginResult.data.token;
-      console.log('管理员登录成功，获取到token\n');
+      console.log('AdminLoginSucceeded，huo qu daotoken\n');
     }
   } catch (error) {
-    console.error('管理员登录测试失败:', error.message);
+    console.error('AdminLoginTestFailed:', error.message);
   }
 
-  // 测试获取商品列表（公开API）
+  // Testhuo quProductList（gong kaiAPI）
   try {
-    console.log('3. 测试获取商品列表（公开API）...');
+    console.log('3. Testhuo quProductList（gong kaiAPI）...');
     const productListOptions = {
       hostname: 'localhost',
       port: 3001,
@@ -96,15 +96,15 @@ async function testAPI() {
     };
     
     const productListRes = await makeRequest(productListOptions);
-    console.log(`状态码: ${productListRes.statusCode}`);
-    console.log(`响应: ${productListRes.body}\n`);
+    console.log(`Statusma: ${productListRes.statusCode}`);
+    console.log(`xiang ying: ${productListRes.body}\n`);
   } catch (error) {
-    console.error('获取商品列表测试失败:', error.message);
+    console.error('huo quProductListTestFailed:', error.message);
   }
 
-  // 测试获取商品分类（公开API）
+  // Testhuo quProductCategory（gong kaiAPI）
   try {
-    console.log('4. 测试获取商品分类（公开API）...');
+    console.log('4. Testhuo quProductCategory（gong kaiAPI）...');
     const categoryListOptions = {
       hostname: 'localhost',
       port: 3001,
@@ -113,16 +113,16 @@ async function testAPI() {
     };
     
     const categoryListRes = await makeRequest(categoryListOptions);
-    console.log(`状态码: ${categoryListRes.statusCode}`);
-    console.log(`响应: ${categoryListRes.body}\n`);
+    console.log(`Statusma: ${categoryListRes.statusCode}`);
+    console.log(`xiang ying: ${categoryListRes.body}\n`);
   } catch (error) {
-    console.error('获取商品分类测试失败:', error.message);
+    console.error('huo quProductCategoryTestFailed:', error.message);
   }
 
-  // 测试获取管理员商品列表（需要认证）
+  // Testhuo quAdminProductList（xu yao ren zheng）
   if (adminToken) {
     try {
-      console.log('5. 测试获取管理员商品列表（需要认证）...');
+      console.log('5. Testhuo quAdminProductList（xu yao ren zheng）...');
       const adminProductListOptions = {
         hostname: 'localhost',
         port: 3001,
@@ -134,15 +134,15 @@ async function testAPI() {
       };
       
       const adminProductListRes = await makeRequest(adminProductListOptions);
-      console.log(`状态码: ${adminProductListRes.statusCode}`);
-      console.log(`响应: ${adminProductListRes.body}\n`);
+      console.log(`Statusma: ${adminProductListRes.statusCode}`);
+      console.log(`xiang ying: ${adminProductListRes.body}\n`);
     } catch (error) {
-      console.error('获取管理员商品列表测试失败:', error.message);
+      console.error('huo quAdminProductListTestFailed:', error.message);
     }
 
-    // 测试获取管理员分类列表（需要认证）
+    // Testhuo quAdminCategoryList（xu yao ren zheng）
     try {
-      console.log('6. 测试获取管理员分类列表（需要认证）...');
+      console.log('6. Testhuo quAdminCategoryList（xu yao ren zheng）...');
       const adminCategoryListOptions = {
         hostname: 'localhost',
         port: 3001,
@@ -154,15 +154,15 @@ async function testAPI() {
       };
       
       const adminCategoryListRes = await makeRequest(adminCategoryListOptions);
-      console.log(`状态码: ${adminCategoryListRes.statusCode}`);
-      console.log(`响应: ${adminCategoryListRes.body}\n`);
+      console.log(`Statusma: ${adminCategoryListRes.statusCode}`);
+      console.log(`xiang ying: ${adminCategoryListRes.body}\n`);
     } catch (error) {
-      console.error('获取管理员分类列表测试失败:', error.message);
+      console.error('huo quAdminCategoryListTestFailed:', error.message);
     }
 
-    // 测试创建商品（需要认证）
+    // TestCreateProduct（xu yao ren zheng）
     try {
-      console.log('7. 测试创建商品（需要认证）...');
+      console.log('7. TestCreateProduct（xu yao ren zheng）...');
       const createProductOptions = {
         hostname: 'localhost',
         port: 3001,
@@ -175,31 +175,31 @@ async function testAPI() {
       };
       
       const createProductData = JSON.stringify({
-        name: 'API测试商品',
-        description: '这是一个通过API创建的测试商品',
+        name: 'APITestProduct',
+        description: 'zhe shi yi ge tong guoAPICreatedeTestProduct',
         price: 99.99,
         pointsRequired: 20,
         stock: 50,
         categoryId: 1,
         specifications: {
-          color: '蓝色',
+          color: 'lan se',
           size: 'L'
         },
-        exchangeRules: '每人限兑1个'
+        exchangeRules: 'mei ren xian dui1ge'
       });
       
       const createProductRes = await makeRequest(createProductOptions, createProductData);
-      console.log(`状态码: ${createProductRes.statusCode}`);
-      console.log(`响应: ${createProductRes.body}\n`);
+      console.log(`Statusma: ${createProductRes.statusCode}`);
+      console.log(`xiang ying: ${createProductRes.body}\n`);
     } catch (error) {
-      console.error('创建商品测试失败:', error.message);
+      console.error('CreateProductTestFailed:', error.message);
     }
   }
 
-  console.log('API测试完成！');
+  console.log('APITestwan cheng！');
 }
 
-// 执行测试
+// zhi xingTest
 testAPI().catch(error => {
-  console.error('测试过程中发生错误:', error);
+  console.error('Testguo cheng zhong fa shengError:', error);
 });

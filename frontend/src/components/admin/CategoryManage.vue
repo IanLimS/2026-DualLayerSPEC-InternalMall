@@ -1,14 +1,14 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    title="商品分类管理"
+    title="ProductCategoryguan li"
     width="600px"
   >
-    <!-- 分类列表 -->
+    <!-- CategoryList -->
     <div class="category-list">
       <el-button type="primary" @click="handleAddCategory">
         <el-icon><Plus /></el-icon>
-        新增分类
+        CreateCategory
       </el-button>
       
       <el-table
@@ -18,17 +18,17 @@
         row-key="id"
       >
         <el-table-column prop="id" label="ID" width="60" />
-        <el-table-column prop="name" label="分类名称" />
-        <el-table-column prop="description" label="描述" />
-        <el-table-column prop="sort" label="排序" width="80" />
-        <el-table-column label="状态" width="80">
+        <el-table-column prop="name" label="Categoryming cheng" />
+        <el-table-column prop="description" label="miao shu" />
+        <el-table-column prop="sort" label="Sort" width="80" />
+        <el-table-column label="Status" width="80">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
-              {{ scope.row.status === 'active' ? '启用' : '禁用' }}
+              {{ scope.row.status === 'active' ? 'Enable' : 'Disable' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="cao zuo" width="150">
           <template #default="scope">
             <el-button
               link
@@ -36,7 +36,7 @@
               size="small"
               @click="handleEditCategory(scope.row)"
             >
-              编辑
+              Edit
             </el-button>
             <el-button
               link
@@ -44,7 +44,7 @@
               size="small"
               @click="handleToggleStatus(scope.row)"
             >
-              {{ scope.row.status === 'active' ? '禁用' : '启用' }}
+              {{ scope.row.status === 'active' ? 'Disable' : 'Enable' }}
             </el-button>
             <el-button
               link
@@ -52,17 +52,17 @@
               size="small"
               @click="handleDeleteCategory(scope.row)"
             >
-              删除
+              Delete
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     
-    <!-- 分类表单对话框 -->
+    <!-- Categorybiao dan dui hua kuang -->
     <el-dialog
       v-model="categoryFormVisible"
-      :title="isEditCategory ? '编辑分类' : '新增分类'"
+      :title="isEditCategory ? 'EditCategory' : 'CreateCategory'"
       width="400px"
       append-to-body
     >
@@ -72,18 +72,18 @@
         :rules="categoryRules"
         label-width="80px"
       >
-        <el-form-item label="分类名称" prop="name">
-          <el-input v-model="categoryForm.name" placeholder="请输入分类名称" />
+        <el-form-item label="Categoryming cheng" prop="name">
+          <el-input v-model="categoryForm.name" placeholder="qing shu ruCategoryming cheng" />
         </el-form-item>
-        <el-form-item label="分类描述" prop="description">
+        <el-form-item label="Categorymiao shu" prop="description">
           <el-input
             v-model="categoryForm.description"
             type="textarea"
             rows="3"
-            placeholder="请输入分类描述"
+            placeholder="qing shu ruCategorymiao shu"
           />
         </el-form-item>
-        <el-form-item label="排序权重" prop="sort">
+        <el-form-item label="Sortquan zhong" prop="sort">
           <el-input-number
             v-model="categoryForm.sort"
             :min="0"
@@ -93,9 +93,9 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="categoryFormVisible = false">取消</el-button>
+        <el-button @click="categoryFormVisible = false">qu xiao</el-button>
         <el-button type="primary" @click="handleSubmitCategory" :loading="loading">
-          {{ isEditCategory ? '更新' : '创建' }}
+          {{ isEditCategory ? 'Update' : 'Create' }}
         </el-button>
       </template>
     </el-dialog>
@@ -147,7 +147,7 @@ const categoryForm = reactive({
 
 const categoryRules = {
   name: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' }
+    { required: true, message: 'qing shu ruCategoryming cheng', trigger: 'blur' }
   ]
 }
 
@@ -173,7 +173,7 @@ const handleEditCategory = (row) => {
   isEditCategory.value = true
   currentCategoryId.value = row.id
   
-  // 填充表单数据
+  // tian chong biao dan shu ju
   Object.keys(categoryForm).forEach(key => {
     if (row[key] !== undefined) {
       categoryForm[key] = row[key]
@@ -197,20 +197,20 @@ const handleSubmitCategory = async () => {
     }
     
     if (result.success) {
-      ElMessage.success(result.message || (isEditCategory.value ? '更新成功' : '创建成功'))
+      ElMessage.success(result.message || (isEditCategory.value ? 'UpdateSucceeded' : 'CreateSucceeded'))
       categoryFormVisible.value = false
     }
   } catch (error) {
-    console.error('提交分类失败:', error)
+    console.error('ti jiaoCategoryFailed:', error)
   }
 }
 
 const handleToggleStatus = async (row) => {
-  const action = row.status === 'active' ? '禁用' : '启用'
+  const action = row.status === 'active' ? 'Disable' : 'Enable'
   try {
-    await ElMessageBox.confirm(`确定要${action}分类"${row.name}"吗？`, '确认操作', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    await ElMessageBox.confirm(`que ding yao${action}Category"${row.name}"ma？`, 'que ren cao zuo', {
+      confirmButtonText: 'que ding',
+      cancelButtonText: 'qu xiao',
       type: 'warning'
     })
     
@@ -218,21 +218,21 @@ const handleToggleStatus = async (row) => {
     const result = await productStore.updateCategory(row.id, { ...row, status: newStatus })
     
     if (result.success) {
-      ElMessage.success(`${action}成功`)
+      ElMessage.success(`${action}Succeeded`)
     }
   } catch (error) {
-    // 用户取消操作
+    // Userqu xiao cao zuo
   }
 }
 
 const handleDeleteCategory = async (row) => {
   try {
     await ElMessageBox.confirm(
-      `确定要删除分类"${row.name}"吗？删除后不可恢复！`,
-      '确认删除',
+      `que ding yaoDeleteCategory"${row.name}"ma？Deletehou bu ke hui fu！`,
+      'que renDelete',
       {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmButtonText: 'que ding',
+        cancelButtonText: 'qu xiao',
         type: 'warning'
       }
     )
@@ -240,10 +240,10 @@ const handleDeleteCategory = async (row) => {
     const result = await productStore.deleteCategory(row.id)
     
     if (result.success) {
-      ElMessage.success('删除成功')
+      ElMessage.success('DeleteSucceeded')
     }
   } catch (error) {
-    // 用户取消操作
+    // Userqu xiao cao zuo
   }
 }
 </script>

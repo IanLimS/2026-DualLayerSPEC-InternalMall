@@ -1,147 +1,147 @@
-# 企业内部福利商城
+# Internal welfare mall
 
-基于Vue 3和Express.js的企业内部福利商城系统。
+Based on Vue 3 and Express.js enterprise internal welfare mall system。
 
-## 项目结构
+## Project structure
 
 ```
 InternalEnterpriseMall/
-├── backend/                # 后端服务
-│   ├── src/               # 源代码
-│   ├── package.json       # 依赖配置
-│   ├── server.js          # 入口文件
-│   └── .env               # 环境变量
-├── frontend/              # 前端应用
-│   ├── src/               # 源代码
-│   ├── package.json       # 依赖配置
-│   ├── vite.config.js     # Vite配置
-│   └── index.html         # HTML模板
-├── spec/                  # 项目规范文档
-│   ├── Me2AI/             # 用户需求文档
-│   └── AI2AI/             # AI维护的架构文档
-├── start-services.bat      # 快速启动服务脚本
-├── preview-frontend.bat    # 前端预览脚本
-├── stop-services.bat       # 停止服务脚本
-└── README.md              # 项目说明
+├── backend/                # Backend services
+│   ├── src/               # source code
+│   ├── package.json       # Depend on configuration
+│   ├── server.js          # Entry file
+│   └── .env               # environment variables
+├── frontend/              # Front-end application
+│   ├── src/               # source code
+│   ├── package.json       # Depend on configuration
+│   ├── vite.config.js     # Vite configuration
+│   └── index.html         # HTML template
+├── spec/                  # Project Specification Document
+│   ├── Me2AI/             # User requirements document
+│   └── AI2AI/             # Architecture documentation maintained by AI
+├── start-services.bat      # Quick start service script
+├── preview-frontend.bat    # Front-end preview script
+├── stop-services.bat       # Stop service script
+└── README.md              # Project Description
 ```
 
-## 快速启动
+## quick start
 
-### 方法1：使用批处理脚本（推荐）
+### Method 1：Use batch script（recommend）
 
-#### 启动所有服务
-双击运行 `start-services.bat` 文件，该脚本会：
-1. 检查并停止可能占用端口的进程
-2. 启动后端服务（端口3001）
-3. 启动前端服务（端口5173）
-4. 自动打开浏览器访问前端应用
+#### Start all services
+Double click to run `start-services.bat` document，The script will：
+1. Check and stop processes that may be occupying ports
+2. Start backend service（port 3001）
+3. Start front-end service（Port 5173）
+4. Automatically open the browser to access the front-end application
 
-#### 仅预览前端
-双击运行 `preview-frontend.bat` 文件，该脚本会：
-1. 检查服务状态
-2. 如果需要，启动后端服务
-3. 启动前端服务
-4. 打开浏览器访问前端应用
+#### Preview frontend only
+Double click to run `preview-frontend.bat` document，The script will：
+1. Check service status
+2. if needed，Start backend service
+3. Start front-end service
+4. Open the browser to access the front-end application
 
-#### 停止所有服务
-双击运行 `stop-services.bat` 文件，该脚本会：
-1. 停止后端服务进程
-2. 停止前端服务进程
+#### Stop all services
+Double click to run `stop-services.bat` document，The script will：
+1. Stop the backend service process
+2. Stop the front-end service process
 
-### 方法2：手动启动
+### Method 2：Manual start
 
-#### 后端启动
+#### Backend startup
 ```bash
-# 进入后端目录
+# Enter the backend directory
 cd backend
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动开发服务器
+# Start the development server
 npm run dev
 ```
 
-后端服务将在 `http://localhost:3001` 启动。
+The backend service will be in `http://localhost:3001` start up。
 
-#### 前端启动
+#### Front end startup
 ```bash
-# 进入前端目录
+# Enter the front-end directory
 cd frontend
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动开发服务器
+# Start the development server
 npm run dev
 ```
 
-前端应用将在 `http://localhost:5173` 启动。
+The front-end application will be `http://localhost:5173` start up。
 
-## 连通性测试
+## Connectivity test
 
-1. 打开浏览器访问 `http://localhost:5173`
-2. 点击"服务连通性测试"按钮
-3. 在连通性测试页面中，可以进行以下测试：
-   - 基础连通性测试
-   - 数据库连通性测试
-   - 用户登录测试
-   - 用户接口测试
-   - 管理员接口测试
+1. Open browser to visit `http://localhost:5173`
+2. Click"Service connectivity testing"button
+3. In the connectivity test page，The following tests can be performed：
+   - Basic connectivity test
+   - Database connectivity test
+   - User login test
+   - User interface testing
+   - Administrator interface test
 
-## 测试账号
+## Test account
 
-系统已预置以下测试账号：
+The system has preset the following test accounts：
 
-### 普通用户账号
-- 用户名: `user1`，密码: `password1`，积分: 100
-- 用户名: `user2`，密码: `password2`，积分: 200
-- 用户名: `user3`，密码: `password3`，积分: 150
+### Ordinary user account
+- username: `user1`，password: `password1`，integral: 100
+- username: `user2`，password: `password2`，integral: 200
+- username: `user3`，password: `password3`，integral: 150
 
-### 管理员账号
-- 用户名: `admin`，密码: `admin123`，角色: 管理员
+### Administrator account
+- username: `admin`，password: `admin123`，Role: administrator
 
-## 当前功能状态
+## Current functional status
 
-- ✅ 后端基础框架搭建
-- ✅ 数据库初始化和表结构创建
-- ✅ 用户认证和JWT令牌
-- ✅ 基础API接口实现
-- ✅ 前端基础框架搭建
-- ✅ 连通性测试页面
-- ✅ 快速启动脚本
-- ⏳ 完整用户功能实现
-- ⏳ 完整管理员功能实现
-- ⏳ 商品管理功能
-- ⏳ 订单管理功能
-- ⏳ 购物车功能
+- ✅ Back-end basic framework construction
+- ✅ Database initialization and table structure creation
+- ✅ User authentication and JWT tokens
+- ✅ Basic API interface implementation
+- ✅ Front-end basic framework construction
+- ✅ Connectivity test page
+- ✅ quick start script
+- ⏳ Complete user function implementation
+- ⏳ Complete administrator function implementation
+- ⏳ Product management function
+- ⏳ Order management function
+- ⏳ Shopping cart function
 
-## 技术栈
+## technology stack
 
-### 后端
+### rear end
 - Node.js
 - Express.js
 - SQLite3
-- JWT认证
-- Bcrypt密码加密
+- JWT authentication
+- Bcrypt password encryption
 
-### 前端
+### front end
 - Vue 3
-- Element Plus UI组件库
+- Element Plus UI component library
 - Vue Router
-- Pinia状态管理
-- Axios HTTP客户端
-- Vite构建工具
+- Pinia state management
+- Axios HTTP client
+- Vite build tools
 
-## API文档
+## API documentation
 
-详细的API文档请参考 `spec/AI2AI/协议和数据.md`
+Please refer to the detailed API documentation `spec/AI2AI/Protocols and Data.md`
 
-## 项目规范
+## Project specifications
 
-项目采用双层Spec驱动的开发方式：
+The project adopts a two-layer Spec-driven development approach：
 
-1. **Me2AI**: 用户需求和技术约束文档，由人工维护
-2. **AI2AI**: 架构和实现状态文档，由AI维护
+1. **Me2AI**: User requirements and technical constraints documentation，Maintained by humans
+2. **AI2AI**: Architecture and implementation status documentation，Maintained by AI
 
-所有规范文档存放在 `./spec` 文件夹下。
+All specification documents are stored in `./spec` under folder。

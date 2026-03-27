@@ -3,16 +3,16 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../../database/mall.db');
 
-// 创建数据库连接
+// CreateDatabaselian jie
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
-    console.error('数据库连接失败:', err.message);
+    console.error('Databaselian jieFailed:', err.message);
   } else {
-    console.log('SQLite数据库连接成功');
+    console.log('SQLiteDatabaselian jieSucceeded');
   }
 });
 
-// 执行查询
+// zhi xingQuery
 const query = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
@@ -25,7 +25,7 @@ const query = (sql, params = []) => {
   });
 };
 
-// 执行单行查询
+// zhi xing dan xingQuery
 const get = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {
@@ -38,7 +38,7 @@ const get = (sql, params = []) => {
   });
 };
 
-// 执行更新/插入/删除
+// zhi xingUpdate/cha ru/Delete
 const run = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function(err) {
@@ -51,14 +51,14 @@ const run = (sql, params = []) => {
   });
 };
 
-// 关闭数据库连接
+// guan biDatabaselian jie
 const close = () => {
   return new Promise((resolve, reject) => {
     db.close((err) => {
       if (err) {
         reject(err);
       } else {
-        console.log('数据库连接已关闭');
+        console.log('Databaselian jie yi guan bi');
         resolve();
       }
     });

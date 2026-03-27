@@ -7,21 +7,21 @@
     <div v-else-if="!product" class="error-container">
       <el-result
         icon="warning"
-        title="商品不存在"
-        sub-title="您访问的商品可能已下架或不存在"
+        title="Product not found"
+        sub-title="nin fang wen deProductke neng yiUnpublishhuoDoes not exist"
       >
         <template #extra>
-          <el-button type="primary" @click="goBack">返回商品列表</el-button>
+          <el-button type="primary" @click="goBack">fan huiProductList</el-button>
         </template>
       </el-result>
     </div>
     
     <div v-else class="product-detail">
-      <!-- 面包屑导航 -->
+      <!-- mian bao xie dao hang -->
       <div class="breadcrumb-container">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/products' }">商品浏览</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/products' }">Product Browse</el-breadcrumb-item>
           <el-breadcrumb-item v-if="product.category">
             {{ product.category.name }}
           </el-breadcrumb-item>
@@ -30,7 +30,7 @@
       </div>
       
       <div class="detail-content">
-        <!-- 左侧图片展示 -->
+        <!-- zuo ce tu pian zhan shi -->
         <div class="product-images">
           <el-carousel
             :autoplay="false"
@@ -41,7 +41,7 @@
             <el-carousel-item v-for="(image, index) in product.images" :key="index">
               <el-image
                 :src="image"
-                :alt="`${product.name} - 图片${index + 1}`"
+                :alt="`${product.name} - tu pian${index + 1}`"
                 fit="contain"
                 class="carousel-image"
                 :preview-src-list="product.images"
@@ -52,11 +52,11 @@
           
           <div v-else class="no-image">
             <el-icon><Picture /></el-icon>
-            <span>暂无商品图片</span>
+            <span>zan wuProducttu pian</span>
           </div>
         </div>
         
-        <!-- 右侧商品信息 -->
+        <!-- you ceProductInfo -->
         <div class="product-info">
           <div class="product-name">{{ product.name }}</div>
           <div class="product-category" v-if="product.category">
@@ -65,7 +65,7 @@
           
           <div class="product-points-info">
             <div class="points-main">
-              <span class="points-label">兑换所需积分</span>
+              <span class="points-label">dui huan suo xuPoints</span>
               <span class="points-value">{{ product.pointsRequired }}</span>
             </div>
             <div class="stock-info" :class="stockStatus.class">
@@ -77,21 +77,21 @@
           <div class="product-stats">
             <div class="stat-item">
               <el-icon><View /></el-icon>
-              <span>浏览量: {{ product.views || 0 }}</span>
+              <span>liu lan liang: {{ product.views || 0 }}</span>
             </div>
             <div class="stat-item">
               <el-icon><ShoppingCart /></el-icon>
-              <span>已兑换: {{ product.sales || 0 }}</span>
+              <span>yi dui huan: {{ product.sales || 0 }}</span>
             </div>
             <div class="stat-item">
               <el-icon><Star /></el-icon>
-              <span>收藏: {{ product.favorites || 0 }}</span>
+              <span>Favorites: {{ product.favorites || 0 }}</span>
             </div>
           </div>
           
-          <!-- 数量选择 -->
+          <!-- shu liang xuan ze -->
           <div class="product-quantity">
-            <span class="quantity-label">数量：</span>
+            <span class="quantity-label">shu liang：</span>
             <el-input-number
               v-model="quantity"
               :min="1"
@@ -108,14 +108,14 @@
               :disabled="product.stock <= 0"
               @click="handleExchange"
             >
-              立即兑换
+              li ji dui huan
             </el-button>
             <el-button
               size="large"
               @click="handleAddToCart"
               :disabled="product.stock <= 0"
             >
-              加入购物车
+              jia ruCart
             </el-button>
             <el-button
               size="large"
@@ -125,13 +125,13 @@
                 <StarFilled v-if="product.isFavorite" />
                 <Star v-else />
               </el-icon>
-              {{ product.isFavorite ? '已收藏' : '收藏' }}
+              {{ product.isFavorite ? 'yiFavorites' : 'Favorites' }}
             </el-button>
           </div>
           
-          <!-- 商品规格参数 -->
+          <!-- Productgui ge can shu -->
           <div v-if="productSpecs.length > 0" class="product-specs">
-            <div class="specs-title">规格参数</div>
+            <div class="specs-title">gui ge can shu</div>
             <div class="specs-list">
               <div
                 v-for="spec in productSpecs"
@@ -146,20 +146,20 @@
         </div>
       </div>
       
-      <!-- 商品详情描述 -->
+      <!-- Product Detailmiao shu -->
       <div class="product-description">
         <el-tabs v-model="activeTab">
-          <el-tab-pane label="商品详情" name="description">
+          <el-tab-pane label="Product Detail" name="description">
             <div class="description-content">
               <div v-if="product.description" class="description-text">
                 {{ product.description }}
               </div>
               <div v-else class="no-description">
-                暂无详细描述
+                zan wu xiang xi miao shu
               </div>
               
               <div v-if="product.exchangeRules" class="exchange-rules">
-                <h4>兑换规则</h4>
+                <h4>dui huan gui ze</h4>
                 <div class="rules-content">{{ product.exchangeRules }}</div>
               </div>
             </div>
@@ -183,11 +183,11 @@ const route = useRoute()
 const router = useRouter()
 const productStore = useUserProductStore()
 
-// 状态
+// Status
 const activeTab = ref('description')
 const quantity = ref(1)
 
-// 计算属性
+// ji suan shu xing
 const loading = computed(() => productStore.loading)
 const product = computed(() => productStore.currentProduct)
 
@@ -205,7 +205,7 @@ const productSpecs = computed(() => {
       ? JSON.parse(product.value.specifications)
       : product.value.specifications
   } catch (error) {
-    console.error('解析商品规格失败:', error)
+    console.error('jie xiProductgui geFailed:', error)
     return []
   }
 })
@@ -215,26 +215,26 @@ const stockStatus = computed(() => {
   
   if (stock === 0) {
     return {
-      text: '已售罄',
+      text: 'yi shou qing',
       class: 'out-of-stock',
       icon: 'CircleCloseFilled'
     }
   } else if (stock <= 10) {
     return {
-      text: `仅剩${stock}件`,
+      text: `jin sheng${stock}jian`,
       class: 'low-stock',
       icon: 'WarningFilled'
     }
   } else {
     return {
-      text: '有货',
+      text: 'you huo',
       class: 'in-stock',
       icon: 'CircleCheckFilled'
     }
   }
 })
 
-// 方法
+// fang fa
 const fetchProductDetail = async () => {
   const productId = route.params.id
   if (!productId) {
@@ -245,7 +245,7 @@ const fetchProductDetail = async () => {
   await productStore.fetchProductDetail(productId)
   
   if (!productStore.currentProduct) {
-    ElMessage.error('获取商品详情失败')
+    ElMessage.error('huo quProduct DetailFailed')
     router.push('/products')
   }
 }
@@ -259,37 +259,37 @@ const toggleFavorite = async () => {
   
   const result = await productStore.toggleFavorite(product.value)
   if (result.success) {
-    ElMessage.success(product.value.isFavorite ? '收藏成功' : '已取消收藏')
+    ElMessage.success(product.value.isFavorite ? 'FavoritesSucceeded' : 'CancelledFavorites')
   } else {
-    ElMessage.error(result.message || '操作失败')
+    ElMessage.error(result.message || 'cao zuoFailed')
   }
 }
 
 const handleExchange = () => {
-  // TODO: 实现商品兑换功能
-  ElMessage.info('商品兑换功能开发中...')
+  // TODO: shi xianProductdui huan gong neng
+  ElMessage.info('Productdui huan gong nengIn Development...')
 }
 
-// 添加到购物车
+// tian jia daoCart
 const handleAddToCart = () => {
   if (!product.value) return
   
-  // 检查用户是否已登录
+  // jian chaUsershi fou yiLogin
   const authStore = useAuthStore()
   if (!authStore.isAuthenticated) {
-    ElMessage.warning('请先登录后再添加商品到购物车')
+    ElMessage.warning('Please log in firsthou zai tian jiaProductdaoCart')
     router.push('/login')
     return
   }
   
   addProductToCart(product.value.id, quantity.value).then(success => {
     if (success) {
-      ElMessage.success('商品已加入购物车')
+      ElMessage.success('Productyi jia ruCart')
     }
   })
 }
 
-// 生命周期
+// sheng ming zhou qi
 onMounted(() => {
   fetchProductDetail()
 })

@@ -1,7 +1,7 @@
 import request from './index';
 
 /**
- * 获取用户购物车列表
+ * huo quUserCartList
  */
 export function getCart() {
   return request({
@@ -11,7 +11,7 @@ export function getCart() {
 }
 
 /**
- * 添加商品到购物车
+ * tian jiaProductdaoCart
  * @param {Object} data - { productId, quantity }
  */
 export function addToCart(data) {
@@ -23,8 +23,8 @@ export function addToCart(data) {
 }
 
 /**
- * 更新购物车商品数量
- * @param {Number} cartId - 购物车项ID
+ * UpdateCartProductshu liang
+ * @param {Number} cartId - CartxiangID
  * @param {Object} data - { quantity }
  */
 export function updateCartQuantity(cartId, data) {
@@ -36,8 +36,8 @@ export function updateCartQuantity(cartId, data) {
 }
 
 /**
- * 更新购物车商品选中状态
- * @param {Number} cartId - 购物车项ID
+ * UpdateCartProductxuan zhongStatus
+ * @param {Number} cartId - CartxiangID
  * @param {Object} data - { isSelected }
  */
 export function updateCartSelection(cartId, data) {
@@ -49,7 +49,7 @@ export function updateCartSelection(cartId, data) {
 }
 
 /**
- * 批量更新购物车商品选中状态
+ * BatchUpdateCartProductxuan zhongStatus
  * @param {Object} data - { cartIds, isSelected }
  */
 export function batchUpdateCartSelection(data) {
@@ -61,8 +61,8 @@ export function batchUpdateCartSelection(data) {
 }
 
 /**
- * 删除购物车商品
- * @param {Number} cartId - 购物车项ID
+ * DeleteCartProduct
+ * @param {Number} cartId - CartxiangID
  */
 export function removeFromCart(cartId) {
   return request({
@@ -72,7 +72,7 @@ export function removeFromCart(cartId) {
 }
 
 /**
- * 批量删除购物车商品
+ * BatchDeleteCartProduct
  * @param {Object} data - { cartIds }
  */
 export function batchRemoveFromCart(data) {
@@ -84,7 +84,7 @@ export function batchRemoveFromCart(data) {
 }
 
 /**
- * 清空购物车
+ * qing kongCart
  */
 export function clearCart() {
   return request({
@@ -94,7 +94,7 @@ export function clearCart() {
 }
 
 /**
- * 获取购物车统计信息
+ * huo quCartStatisticsInfo
  */
 export function getCartSummary() {
   return request({
@@ -104,7 +104,7 @@ export function getCartSummary() {
 }
 
 /**
- * 获取选中的购物车商品（用于下单）
+ * huo qu xuan zhong deCartProduct（yong yu xia dan）
  */
 export function getSelectedItems() {
   return request({

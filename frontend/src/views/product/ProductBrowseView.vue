@@ -4,7 +4,7 @@
       <div class="search-section">
         <el-input
           v-model="searchQuery"
-          placeholder="搜索商品..."
+          placeholder="SearchProduct..."
           class="search-input"
           clearable
           @keyup.enter="handleSearch"
@@ -16,37 +16,37 @@
       </div>
       <div class="header-actions">
         <div class="sort-section">
-          <el-select v-model="currentSort" placeholder="排序方式" @change="handleSortChange">
-            <el-option label="最新上架" value="created_desc" />
-            <el-option label="最早上架" value="created_asc" />
-            <el-option label="积分从低到高" value="points_asc" />
-            <el-option label="积分从高到低" value="points_desc" />
-            <el-option label="销量从高到低" value="sales_desc" />
-            <el-option label="销量从低到高" value="sales_asc" />
+          <el-select v-model="currentSort" placeholder="Sortfang shi" @change="handleSortChange">
+            <el-option label="zui xinPublish" value="created_desc" />
+            <el-option label="zui zaoPublish" value="created_asc" />
+            <el-option label="Pointscong di dao gao" value="points_asc" />
+            <el-option label="Pointscong gao dao di" value="points_desc" />
+            <el-option label="xiao liang cong gao dao di" value="sales_desc" />
+            <el-option label="xiao liang cong di dao gao" value="sales_asc" />
           </el-select>
         </div>
         <el-button type="primary" plain @click="goToCart">
           <el-icon><ShoppingCart /></el-icon>
-          我的购物车
+          wo deCart
         </el-button>
         <el-button type="primary" plain @click="goToFavorites">
           <el-icon><Star /></el-icon>
-          我的收藏
+          wo deFavorites
         </el-button>
       </div>
     </div>
 
     <div class="browse-content">
-      <!-- 左侧分类导航 -->
+      <!-- zuo ceCategorydao hang -->
       <div class="category-sidebar">
-        <div class="category-title">商品分类</div>
+        <div class="category-title">ProductCategory</div>
         <div class="category-list">
           <div 
             class="category-item"
             :class="{ active: selectedCategoryId === null }"
             @click="selectCategory(null)"
           >
-            <span>全部商品</span>
+            <span>quan buProduct</span>
             <span class="count">{{ productCount }}</span>
           </div>
           <div
@@ -62,12 +62,12 @@
         </div>
       </div>
 
-      <!-- 右侧商品列表 -->
+      <!-- you ceProductList -->
       <div class="product-main">
         <div class="product-breadcrumb">
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>商品浏览</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+            <el-breadcrumb-item>Product Browse</el-breadcrumb-item>
             <el-breadcrumb-item v-if="selectedCategory">
               {{ selectedCategory.name }}
             </el-breadcrumb-item>
@@ -79,7 +79,7 @@
         </div>
         
         <div v-else-if="products.length === 0" class="empty-container">
-          <el-empty description="暂无商品" />
+          <el-empty description="zan wuProduct" />
         </div>
         
         <div v-else class="product-grid">
@@ -93,7 +93,7 @@
           />
         </div>
 
-        <!-- 分页 -->
+        <!-- Pagination -->
         <div v-if="products.length > 0" class="pagination-container">
           <el-pagination
             v-model:current-page="pagination.page"
@@ -123,12 +123,12 @@ import ProductCard from '@/components/product/ProductCard.vue'
 const router = useRouter()
 const productStore = useUserProductStore()
 
-// 状态
+// Status
 const searchQuery = ref('')
 const selectedCategoryId = ref(null)
 const currentSort = ref('created_desc')
 
-// 计算属性
+// ji suan shu xing
 const loading = computed(() => productStore.loading)
 const products = computed(() => productStore.productsWithFavoriteStatus)
 const categories = computed(() => productStore.categories)
@@ -142,7 +142,7 @@ const productCount = computed(() => {
   return pagination.value.total
 })
 
-// 方法
+// fang fa
 const fetchProducts = async () => {
   const params = {
     sort: currentSort.value
@@ -197,24 +197,24 @@ const goToProductDetail = (productId) => {
 const toggleFavorite = async (product) => {
   const result = await productStore.toggleFavorite(product)
   if (result.success) {
-    ElMessage.success(product.isFavorite ? '收藏成功' : '已取消收藏')
+    ElMessage.success(product.isFavorite ? 'FavoritesSucceeded' : 'CancelledFavorites')
   } else {
-    ElMessage.error(result.message || '操作失败')
+    ElMessage.error(result.message || 'cao zuoFailed')
   }
 }
 
 const addToCartFromBrowse = (product) => {
-  // 检查用户是否已登录
+  // jian chaUsershi fou yiLogin
   const authStore = useAuthStore()
   if (!authStore.isAuthenticated) {
-    ElMessage.warning('请先登录后再添加商品到购物车')
+    ElMessage.warning('Please log in firsthou zai tian jiaProductdaoCart')
     router.push('/login')
     return
   }
   
   addProductToCart(product.id, 1).then(success => {
     if (success) {
-      ElMessage.success('商品已加入购物车')
+      ElMessage.success('Productyi jia ruCart')
     }
   })
 }
@@ -227,13 +227,13 @@ const goToCart = () => {
   router.push('/user/cart')
 }
 
-// 监听器
+// jian ting qi
 watch(selectedCategoryId, () => {
   productStore.pagination.page = 1
   fetchProducts()
 })
 
-// 生命周期
+// sheng ming zhou qi
 onMounted(async () => {
   await fetchCategories()
   await fetchProducts()

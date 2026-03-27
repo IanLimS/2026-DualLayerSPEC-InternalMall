@@ -1,10 +1,10 @@
 <template>
   <AdminLayout>
     <div class="user-manage">
-      <h2>用户管理</h2>
+      <h2>User Management</h2>
       <el-card>
         <div class="placeholder">
-          <p>用户管理功能正在开发中...</p>
+          <p>User Managementgong neng zheng zaiIn Development...</p>
         </div>
       </el-card>
     </div>

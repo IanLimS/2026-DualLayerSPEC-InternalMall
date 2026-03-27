@@ -1,13 +1,13 @@
 const { initDatabase } = require('./src/database/init');
 
-console.log('正在初始化数据库...');
+console.log('Initializing database...');
 
 initDatabase()
   .then(() => {
-    console.log('数据库初始化完成！');
+    console.log('Database initialization completed！');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('数据库初始化失败:', error);
+    console.error('Database initialization failed:', error);
     process.exit(1);
   });

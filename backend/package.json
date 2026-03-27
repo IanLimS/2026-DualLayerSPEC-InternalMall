@@ -1,7 +1,7 @@
 {
   "name": "enterprise-mall-backend",
   "version": "1.0.0",
-  "description": "企业内部福利商城后端服务",
+  "description": "Internal Employee Benefits MallBackendfu wu",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

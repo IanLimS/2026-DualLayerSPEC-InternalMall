@@ -1,15 +1,15 @@
 /**
- * 统一响应格式工具
+ * Unified Response Formatgong ju
  */
 
 /**
- * 成功响应
- * @param {Object} res Express响应对象
- * @param {*} data 响应数据
- * @param {string} message 响应消息
- * @returns {Object} Express响应
+ * Succeededxiang ying
+ * @param {Object} res Expressxiang ying dui xiang
+ * @param {*} data xiang ying shu ju
+ * @param {string} message xiang ying xiao xi
+ * @returns {Object} Expressxiang ying
  */
-function successResponse(res, data = null, message = '操作成功') {
+function successResponse(res, data = null, message = 'cao zuoSucceeded') {
   return res.status(200).json({
     success: true,
     message,
@@ -19,16 +19,16 @@ function successResponse(res, data = null, message = '操作成功') {
 }
 
 /**
- * 错误响应
- * @param {Object} res Express响应对象
- * @param {string} code 错误码
- * @param {string} message 错误消息
- * @param {string} details 错误详情
- * @param {number} status HTTP状态码
- * @returns {Object} Express响应
+ * Errorxiang ying
+ * @param {Object} res Expressxiang ying dui xiang
+ * @param {string} code Error Codes
+ * @param {string} message Errorxiao xi
+ * @param {string} details ErrorDetails
+ * @param {number} status HTTPStatusma
+ * @returns {Object} Expressxiang ying
  */
 function errorResponse(res, code, message, details = null, status = 400) {
-  // 根据错误码设置HTTP状态码
+  // gen juError CodesSettingsHTTPStatusma
   const statusCode = getStatusCodeByErrorCode(code) || status;
   
   return res.status(statusCode).json({
@@ -44,9 +44,9 @@ function errorResponse(res, code, message, details = null, status = 400) {
 }
 
 /**
- * 根据错误码获取HTTP状态码
- * @param {string} code 错误码
- * @returns {number} HTTP状态码
+ * gen juError Codeshuo quHTTPStatusma
+ * @param {string} code Error Codes
+ * @returns {number} HTTPStatusma
  */
 function getStatusCodeByErrorCode(code) {
   const statusCodeMap = {
@@ -70,14 +70,14 @@ function getStatusCodeByErrorCode(code) {
 }
 
 /**
- * 分页响应
- * @param {Object} res Express响应对象
- * @param {Array} items 数据列表
- * @param {Object} pagination 分页信息
- * @param {string} message 响应消息
- * @returns {Object} Express响应
+ * Paginationxiang ying
+ * @param {Object} res Expressxiang ying dui xiang
+ * @param {Array} items shu juList
+ * @param {Object} pagination PaginationInfo
+ * @param {string} message xiang ying xiao xi
+ * @returns {Object} Expressxiang ying
  */
-function paginatedResponse(res, items, pagination, message = '获取数据成功') {
+function paginatedResponse(res, items, pagination, message = 'huo qu shu juSucceeded') {
   return res.status(200).json({
     success: true,
     message,

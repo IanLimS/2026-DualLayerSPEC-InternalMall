@@ -1,14 +1,14 @@
 /**
- * AI2AI 文档校验脚本
+ * AI2AI wen dang jiao yan jiao ben
  * 
- * 用途：检测 AI2AI 文档与实际代码之间的结构性不一致
- * 运行：node spec/verify-ai2ai.js
+ * yong tu：jian ce AI2AI wen dang yu shi ji dai ma zhi jian de jie gou xing bu yi zhi
+ * yun xing：node spec/verify-ai2ai.js
  * 
- * 校验内容：
- * 1. 前端架构信息.md 中的目录结构 vs 实际文件
- * 2. 后端架构信息.md 中的目录结构 vs 实际文件
- * 3. 协议和数据.md 中的表定义 vs init.js 中的表定义
- * 4. 协议和数据.md 中的API端点 vs 路由文件中的端点
+ * jiao yan nei rong：
+ * 1. Frontend Architecture Info.md zhong deDirectory Structure vs shi ji wen jian
+ * 2. Backend Architecture Info.md zhong deDirectory Structure vs shi ji wen jian
+ * 3. Protocols and Data.md zhong de biao ding yi vs init.js zhong de biao ding yi
+ * 4. Protocols and Data.md zhong deAPIduan dian vs lu you wen jian zhong de duan dian
  */
 
 const fs = require('fs');
@@ -27,9 +27,9 @@ function printHeader(title) {
 
 function printIssue(type, msg) {
   totalIssues++;
-  const prefix = type === 'missing' ? '[文档有/实际无]' :
-                 type === 'undoc'   ? '[实际有/文档无]' :
-                 type === 'mismatch' ? '[不一致]' : '[信息]';
+  const prefix = type === 'missing' ? '[wen dang you/shi ji wu]' :
+                 type === 'undoc'   ? '[shi ji you/wen dang wu]' :
+                 type === 'mismatch' ? '[bu yi zhi]' : '[Info]';
   console.log(`  ${prefix} ${msg}`);
 }
 
@@ -38,7 +38,7 @@ function printOk(msg) {
 }
 
 // ============================================================
-// 1. 从 markdown 的目录结构代码块中提取文件路径
+// 1. cong markdown deDirectory Structuredai ma kuai zhong ti qu wen jian lu jing
 // ============================================================
 function extractPathsFromTree(markdown, rootPrefix) {
   const treeBlockMatch = markdown.match(/```[\s\S]*?```/);
@@ -49,20 +49,20 @@ function extractPathsFromTree(markdown, rootPrefix) {
   const paths = [];
 
   for (const line of lines) {
-    // 匹配类似 "│   ├── somefile.js" 或 "├── dir/" 的行
+    // pi pei lei si "│   ├── somefile.js" huo "├── dir/" de xing
     const match = line.match(/[├└│─\s]*\s*([^\s#]+)/);
     if (!match) continue;
     
     let name = match[1].trim();
     if (name === '```' || name === rootPrefix + '/') continue;
     
-    // 跳过目录行（以 / 结尾）
+    // tiao guo mu lu xing（yi / jie wei）
     if (name.endsWith('/')) continue;
     
-    // 只处理有扩展名的文件
+    // zhi chu li you kuo zhan ming de wen jian
     if (!name.includes('.')) continue;
     
-    // 从缩进推断路径层级
+    // cong suo jin tui duan lu jing ceng ji
     const indent = line.replace(/[^\s│]/g, '').length;
     paths.push({ name, indent, line: line.trim() });
   }
@@ -70,7 +70,7 @@ function extractPathsFromTree(markdown, rootPrefix) {
   return paths;
 }
 
-// 不需要在文档中记录的自动生成文件
+// bu xu yao zai wen dang zhong ji lu de zi dong sheng cheng wen jian
 const IGNORE_FILES = new Set([
   'package-lock.json',
   'yarn.lock',
@@ -79,7 +79,7 @@ const IGNORE_FILES = new Set([
   'thumbs.db'
 ]);
 
-// 递归扫描目录获取实际文件
+// di gui sao miao mu lu huo qu shi ji wen jian
 function scanDir(dir, baseDir, extensions) {
   const results = [];
   if (!fs.existsSync(dir)) return results;
@@ -102,16 +102,16 @@ function scanDir(dir, baseDir, extensions) {
 }
 
 // ============================================================
-// 2. 从 markdown 提取文件名集合
+// 2. cong markdown ti qu wen jian ming ji he
 // ============================================================
 function extractFileNames(markdown) {
   const files = new Set();
-  // 匹配 "├── filename" 或 "└── filename" 格式（支持 .env 等无扩展名文件）
+  // pi pei "├── filename" huo "└── filename" ge shi（zhi chi .env deng wu kuo zhan ming wen jian）
   const regex = /[├└]\s*──\s*(\.?[A-Za-z0-9_\-]+(?:\.[A-Za-z0-9]+)*)/g;
   let match;
   while ((match = regex.exec(markdown)) !== null) {
     const name = match[1];
-    // 跳过纯目录名（无点号且不以.开头的）
+    // tiao guo chun mu lu ming（wu dian hao qie bu yi.kai tou de）
     if (!name.includes('.')) continue;
     files.add(name);
   }
@@ -119,7 +119,7 @@ function extractFileNames(markdown) {
 }
 
 // ============================================================
-// 3. 从 init.js 提取表名
+// 3. cong init.js ti qu biao ming
 // ============================================================
 function extractTablesFromInitJs(filePath) {
   if (!fs.existsSync(filePath)) return new Set();
@@ -133,10 +133,10 @@ function extractTablesFromInitJs(filePath) {
   return tables;
 }
 
-// 从协议文档提取表名
+// cong xie yi wen dang ti qu biao ming
 function extractTablesFromProtocol(markdown) {
   const tables = new Set();
-  // 匹配 "#### tablename" 或 "### tablename" 在数据库设计章节下的表名
+  // pi pei "#### tablename" huo "### tablename" zaiDatabase Designzhang jie xia de biao ming
   const regex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(\w+)/gi;
   let match;
   while ((match = regex.exec(markdown)) !== null) {
@@ -146,7 +146,7 @@ function extractTablesFromProtocol(markdown) {
 }
 
 // ============================================================
-// 4. 从路由文件提取API端点
+// 4. cong lu you wen jian ti quAPIduan dian
 // ============================================================
 function extractRoutesFromCode(routesDir) {
   const endpoints = [];
@@ -167,7 +167,7 @@ function extractRoutesFromCode(routesDir) {
     const prefix = prefixMap[file] || `/api/${file.replace('.js', '')}`;
     const content = fs.readFileSync(path.join(routesDir, file), 'utf-8');
     
-    // 匹配 router.get('/path', ...) 等
+    // pi pei router.get('/path', ...) deng
     const regex = /router\.(get|post|put|delete|patch)\s*\(\s*['"`]([^'"`]+)['"`]/gi;
     let match;
     while ((match = regex.exec(content)) !== null) {
@@ -180,10 +180,10 @@ function extractRoutesFromCode(routesDir) {
   return endpoints;
 }
 
-// 从协议文档提取API端点
+// cong xie yi wen dang ti quAPIduan dian
 function extractRoutesFromProtocol(markdown) {
   const endpoints = [];
-  // 匹配表格中的 "| GET | `/api/xxx` |" 格式
+  // pi pei biao ge zhong de "| GET | `/api/xxx` |" ge shi
   const regex = /\|\s*(GET|POST|PUT|DELETE|PATCH)\s*\|\s*`([^`]+)`/gi;
   let match;
   while ((match = regex.exec(markdown)) !== null) {
@@ -193,26 +193,26 @@ function extractRoutesFromProtocol(markdown) {
 }
 
 // ============================================================
-// 主校验流程
+// zhu jiao yan liu cheng
 // ============================================================
 function verify() {
-  console.log('AI2AI 文档校验报告');
-  console.log(`生成时间: ${new Date().toISOString()}`);
+  console.log('AI2AI wen dang jiao yan bao gao');
+  console.log(`sheng cheng shi jian: ${new Date().toISOString()}`);
 
-  // 读取文档
-  const frontendDoc = fs.readFileSync(path.join(SPEC_DIR, '前端架构信息.md'), 'utf-8');
-  const backendDoc = fs.readFileSync(path.join(SPEC_DIR, '后端架构信息.md'), 'utf-8');
-  const protocolDoc = fs.readFileSync(path.join(SPEC_DIR, '协议和数据.md'), 'utf-8');
+  // du qu wen dang
+  const frontendDoc = fs.readFileSync(path.join(SPEC_DIR, 'Frontend Architecture Info.md'), 'utf-8');
+  const backendDoc = fs.readFileSync(path.join(SPEC_DIR, 'Backend Architecture Info.md'), 'utf-8');
+  const protocolDoc = fs.readFileSync(path.join(SPEC_DIR, 'Protocols and Data.md'), 'utf-8');
 
-  // --- 前端文件校验 ---
-  printHeader('前端目录结构校验');
+  // --- Frontendwen jian jiao yan ---
+  printHeader('FrontendDirectory Structurejiao yan');
   const frontendDocFiles = extractFileNames(frontendDoc);
   const frontendSrcFiles = scanDir(
     path.join(ROOT, 'frontend', 'src'),
     path.join(ROOT, 'frontend'),
     ['.vue', '.js']
   ).map(f => path.basename(f));
-  // 也扫描frontend根目录下的文件（非递归）
+  // ye sao miaofrontendgen mu lu xia de wen jian（fei di gui）
   const frontendRootFiles = fs.readdirSync(path.join(ROOT, 'frontend'))
     .filter(f => !fs.statSync(path.join(ROOT, 'frontend', f)).isDirectory())
     .filter(f => ['.js', '.html', '.json'].some(ext => f.endsWith(ext)))
@@ -232,17 +232,17 @@ function verify() {
       feOk = false;
     }
   }
-  if (feOk) printOk('前端目录结构与文档一致');
+  if (feOk) printOk('FrontendDirectory Structureyu wen dang yi zhi');
 
-  // --- 后端文件校验 ---
-  printHeader('后端目录结构校验');
+  // --- Backendwen jian jiao yan ---
+  printHeader('BackendDirectory Structurejiao yan');
   const backendDocFiles = extractFileNames(backendDoc);
   const backendSrcFiles = scanDir(
     path.join(ROOT, 'backend', 'src'),
     path.join(ROOT, 'backend'),
     ['.js']
   ).map(f => path.basename(f));
-  // 扫描backend根目录文件、test/目录、database/目录
+  // sao miaobackendgen mu lu wen jian、test/mu lu、database/mu lu
   const backendExtraDirs = ['test', 'database'];
   const backendExtraFiles = [];
   for (const dir of backendExtraDirs) {
@@ -273,39 +273,39 @@ function verify() {
       beOk = false;
     }
   }
-  if (beOk) printOk('后端目录结构与文档一致');
+  if (beOk) printOk('BackendDirectory Structureyu wen dang yi zhi');
 
-  // --- 数据库表校验 ---
-  printHeader('数据库表定义校验');
+  // --- Databasebiao jiao yan ---
+  printHeader('Databasebiao ding yi jiao yan');
   const initJsTables = extractTablesFromInitJs(path.join(ROOT, 'backend', 'src', 'database', 'init.js'));
   const protocolTables = extractTablesFromProtocol(protocolDoc);
 
   let dbOk = true;
   for (const t of initJsTables) {
     if (!protocolTables.has(t)) {
-      printIssue('undoc', `表 ${t} 在 init.js 中存在但协议文档无DDL`);
+      printIssue('undoc', `biao ${t} zai init.js zhong cun zai dan xie yi wen dang wuDDL`);
       dbOk = false;
     }
   }
   for (const t of protocolTables) {
     if (!initJsTables.has(t)) {
-      printIssue('missing', `表 ${t} 在协议文档中有DDL但 init.js 中不存在`);
+      printIssue('missing', `biao ${t} zai xie yi wen dang zhong youDDLdan init.js zhongDoes not exist`);
       dbOk = false;
     }
   }
-  if (dbOk) printOk('数据库表定义与文档一致');
+  if (dbOk) printOk('Databasebiao ding yi yu wen dang yi zhi');
 
-  // --- API端点校验 ---
-  printHeader('API端点校验');
+  // --- APIduan dian jiao yan ---
+  printHeader('APIduan dian jiao yan');
   const codeRoutes = extractRoutesFromCode(path.join(ROOT, 'backend', 'src', 'routes'));
   const docRoutes = extractRoutesFromProtocol(protocolDoc);
 
-  // 标准化路径用于比较 (将 :param 统一)
+  // biao zhun hua lu jing yong yu bi jiao (jiang :param tong yi)
   const normalize = (p) => p.replace(/:\w+/g, ':param');
   
   const codeSet = new Set(codeRoutes.map(r => `${r.method} ${normalize(r.path)}`));
   const docSet = new Set(docRoutes.map(r => `${r.method} ${normalize(r.path)}`));
-  // 文档中标记为未实现的不算差异，只检查已实现标记的
+  // wen dang zhong biao ji weiNot implementedde bu suan cha yi，zhi jian cha yi shi xian biao ji de
   const docImplemented = new Set();
   const implRegex = /\|\s*(GET|POST|PUT|DELETE|PATCH)\s*\|\s*`([^`]+)`\s*\|[^|]*\|\s*✅/gi;
   let implMatch;
@@ -314,28 +314,28 @@ function verify() {
   }
 
   let apiOk = true;
-  // 文档标记✅但代码中没有
+  // wen dang biao ji✅dan dai ma zhong mei you
   for (const r of docImplemented) {
     if (!codeSet.has(r)) {
-      printIssue('missing', `${r} 文档标记已实现但代码中未找到`);
+      printIssue('missing', `${r} wen dang biao ji yi shi xian dan dai ma zhong wei zhao dao`);
       apiOk = false;
     }
   }
-  // 代码中有但文档完全没提到
+  // dai ma zhong you dan wen dang wan quan mei ti dao
   for (const r of codeSet) {
     if (!docSet.has(r)) {
-      printIssue('undoc', `${r} 代码中存在但文档未记录`);
+      printIssue('undoc', `${r} dai ma zhong cun zai dan wen dang wei ji lu`);
       apiOk = false;
     }
   }
-  if (apiOk) printOk('API端点与文档一致');
+  if (apiOk) printOk('APIduan dian yu wen dang yi zhi');
 
-  // --- 总结 ---
-  printHeader('校验总结');
+  // --- zong jie ---
+  printHeader('jiao yan zong jie');
   if (totalIssues === 0) {
-    console.log('  ✅ 全部通过，AI2AI文档与代码一致');
+    console.log('  ✅ quan bu tong guo，AI2AIwen dang yu dai ma yi zhi');
   } else {
-    console.log(`  ⚠️  发现 ${totalIssues} 个不一致项，请更新AI2AI文档`);
+    console.log(`  ⚠️  fa xian ${totalIssues} ge bu yi zhi xiang，qingUpdateAI2AIwen dang`);
   }
   console.log('');
 }

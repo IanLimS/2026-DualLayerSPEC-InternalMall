@@ -9,7 +9,7 @@ import router from './router'
 const app = createApp(App)
 const pinia = createPinia()
 
-// 注册Element Plus图标
+// zhu ceElement Plustu biao
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

@@ -3,15 +3,15 @@ const Category = require('./Category');
 
 class Product {
   /**
-   * 获取所有商品
-   * @param {Object} options 查询选项
-   * @param {number} options.page 页码
-   * @param {number} options.limit 每页数量
-   * @param {number} options.category 分类ID
-   * @param {string} options.sort 排序方式
-   * @param {string} options.keyword 搜索关键词
-   * @param {string} options.status 商品状态
-   * @returns {Promise<Object>} 商品列表和分页信息
+   * huo qu suo youProduct
+   * @param {Object} options Queryxuan xiang
+   * @param {number} options.page ye ma
+   * @param {number} options.limit mei ye shu liang
+   * @param {number} options.category CategoryID
+   * @param {string} options.sort Sortfang shi
+   * @param {string} options.keyword Searchguan jian ci
+   * @param {string} options.status ProductStatus
+   * @returns {Promise<Object>} ProductListhePaginationInfo
    */
   static async getAll(options = {}) {
     const {
@@ -27,7 +27,7 @@ class Product {
     let whereConditions = [];
     let params = [];
 
-    // 构建WHERE条件
+    // gou jianWHEREtiao jian
     whereConditions.push('p.deleted_at IS NULL');
     
     if (status) {
@@ -49,7 +49,7 @@ class Product {
       ? 'WHERE ' + whereConditions.join(' AND ') 
       : '';
 
-    // 构建ORDER BY子句
+    // gou jianORDER BYzi ju
     let orderClause = 'ORDER BY ';
     switch (sort) {
       case 'points_asc':
@@ -67,7 +67,7 @@ class Product {
         break;
     }
 
-    // 查询商品列表
+    // QueryProductList
     const productsQuery = `
       SELECT 
         p.id,
@@ -99,18 +99,18 @@ class Product {
     params.push(limit, offset);
     const products = await dbQuery(productsQuery, params);
 
-    // 查询总数
+    // Queryzong shu
     const countQuery = `
       SELECT COUNT(*) as total
       FROM products p
       ${whereClause}
     `;
 
-    const countParams = params.slice(0, -2); // 移除limit和offset参数
+    const countParams = params.slice(0, -2); // yi chulimitheoffsetcan shu
     const countResult = await get(countQuery, countParams);
     const total = countResult.total;
 
-    // 处理图片和规格JSON字段
+    // chu li tu pian he gui geJSONzi duan
     products.forEach(product => {
       try {
         product.images = product.images ? JSON.parse(product.images) : [];
@@ -133,9 +133,9 @@ class Product {
   }
 
   /**
-   * 根据ID获取商品
-   * @param {number} id 商品ID
-   * @returns {Promise<Object|null>} 商品信息
+   * gen juIDhuo quProduct
+   * @param {number} id ProductID
+   * @returns {Promise<Object|null>} ProductInfo
    */
   static async getById(id) {
     const query = `
@@ -167,7 +167,7 @@ class Product {
     const product = await get(query, [id]);
     if (!product) return null;
 
-    // 处理图片和规格JSON字段
+    // chu li tu pian he gui geJSONzi duan
     try {
       product.images = product.images ? JSON.parse(product.images) : [];
       product.specifications = product.specifications ? JSON.parse(product.specifications) : {};
@@ -180,9 +180,9 @@ class Product {
   }
 
   /**
-   * 创建商品
-   * @param {Object} productData 商品数据
-   * @returns {Promise<Object>} 创建的商品信息
+   * CreateProduct
+   * @param {Object} productData Productshu ju
+   * @returns {Promise<Object>} CreatedeProductInfo
    */
   static async create(productData) {
     const {
@@ -218,10 +218,10 @@ class Product {
   }
 
   /**
-   * 更新商品
-   * @param {number} id 商品ID
-   * @param {Object} productData 商品数据
-   * @returns {Promise<Object|null>} 更新后的商品信息
+   * UpdateProduct
+   * @param {number} id ProductID
+   * @param {Object} productData Productshu ju
+   * @returns {Promise<Object|null>} Updatehou deProductInfo
    */
   static async update(id, productData) {
     const {
@@ -245,7 +245,7 @@ class Product {
     const updates = [];
     const params = [];
 
-    // 构建更新字段
+    // gou jianUpdatezi duan
     if (name !== undefined) {
       updates.push('name = ?');
       params.push(name);
@@ -307,9 +307,9 @@ class Product {
   }
 
   /**
-   * 删除商品（软删除）
-   * @param {number} id 商品ID
-   * @returns {Promise<boolean>} 是否删除成功
+   * DeleteProduct（ruanDelete）
+   * @param {number} id ProductID
+   * @returns {Promise<boolean>} shi fouDeleteSucceeded
    */
   static async delete(id) {
     const deleteQuery = 'UPDATE products SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?';
@@ -318,17 +318,17 @@ class Product {
   }
 
   /**
-   * 更新商品库存
-   * @param {number} id 商品ID
-   * @param {number} quantity 变化数量（正数增加，负数减少）
-   * @returns {Promise<Object|null>} 更新后的商品信息
+   * UpdateProductStock
+   * @param {number} id ProductID
+   * @param {number} quantity bian hua shu liang（zheng shu zeng jia，fu shu jian shao）
+   * @returns {Promise<Object|null>} Updatehou deProductInfo
    */
   static async updateStock(id, quantity) {
     const product = await this.getById(id);
     if (!product) return null;
 
     const newStock = product.stock + quantity;
-    if (newStock < 0) throw new Error('库存不足');
+    if (newStock < 0) throw new Error('Insufficient stock');
 
     const updateStockQuery = `
       UPDATE products 
@@ -341,10 +341,10 @@ class Product {
   }
 
   /**
-   * 增加商品销量
-   * @param {number} id 商品ID
-   * @param {number} quantity 销量数量
-   * @returns {Promise<boolean>} 是否更新成功
+   * zeng jiaProductxiao liang
+   * @param {number} id ProductID
+   * @param {number} quantity xiao liang shu liang
+   * @returns {Promise<boolean>} shi fouUpdateSucceeded
    */
   static async increaseSales(id, quantity) {
     const salesQuery = `
@@ -358,8 +358,8 @@ class Product {
   }
 
   /**
-   * 获取库存预警商品
-   * @returns {Promise<Array>} 库存不足的商品列表
+   * huo quLow stock warningProduct
+   * @returns {Promise<Array>} Insufficient stockdeProductList
    */
   static async getLowStockProducts() {
     const query = `
@@ -379,9 +379,9 @@ class Product {
   }
 
   /**
-   * 获取热销商品
-   * @param {number} limit 返回数量限制
-   * @returns {Promise<Array>} 热销商品列表
+   * huo quTop sellingProduct
+   * @param {number} limit fan hui shu liang xian zhi
+   * @returns {Promise<Array>} Top sellingProductList
    */
   static async getTopSellingProducts(limit = 10) {
     const topSellingQuery = `
@@ -401,11 +401,11 @@ class Product {
 
     const products = await query(topSellingQuery, [limit]);
     
-    // 处理图片JSON字段
+    // chu li tu pianJSONzi duan
     products.forEach(product => {
       try {
         product.images = product.images ? JSON.parse(product.images) : [];
-        // 向后兼容：如果没有图片数组但有单个图片，则创建包含单个图片的数组
+        // xiang hou jian rong：ru guo mei you tu pian shu zu dan you dan ge tu pian，zeCreatebao han dan ge tu pian de shu zu
         if (product.images.length === 0 && product.image) {
           product.images = [product.image];
         }

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { db } = require('../config/database');
 
-// 确保数据库目录存在
+// que baoDatabasemu lu cun zai
 const ensureDatabaseDir = () => {
   const dbDir = path.join(__dirname, '../../database');
   if (!fs.existsSync(dbDir)) {
@@ -10,10 +10,10 @@ const ensureDatabaseDir = () => {
   }
 };
 
-// 创建数据库表
+// CreateDatabasebiao
 const createTables = async () => {
   return new Promise((resolve, reject) => {
-    // 用户表
+    // Userbiao
     db.run(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,11 +34,11 @@ const createTables = async () => {
       )
     `, (err) => {
       if (err) {
-        console.error('创建用户表失败:', err);
+        console.error('CreateUserbiaoFailed:', err);
         return reject(err);
       }
       
-      // 商品分类表
+      // ProductCategorybiao
       db.run(`
         CREATE TABLE IF NOT EXISTS categories (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,11 +53,11 @@ const createTables = async () => {
         )
       `, (err) => {
         if (err) {
-          console.error('创建商品分类表失败:', err);
+          console.error('CreateProductCategorybiaoFailed:', err);
           return reject(err);
         }
         
-        // 商品表
+        // Productbiao
         db.run(`
           CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,11 +83,11 @@ const createTables = async () => {
           )
         `, (err) => {
           if (err) {
-            console.error('创建商品表失败:', err);
+            console.error('CreateProductbiaoFailed:', err);
             return reject(err);
           }
           
-          // 收货地址表
+          // Shipping Addressbiao
           db.run(`
             CREATE TABLE IF NOT EXISTS addresses (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -106,11 +106,11 @@ const createTables = async () => {
             )
           `, (err) => {
             if (err) {
-              console.error('创建收货地址表失败:', err);
+              console.error('CreateShipping AddressbiaoFailed:', err);
               return reject(err);
             }
             
-            // 购物车表
+            // Cartbiao
             db.run(`
               CREATE TABLE IF NOT EXISTS cart (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -126,11 +126,11 @@ const createTables = async () => {
               )
             `, (err) => {
               if (err) {
-                console.error('创建购物车表失败:', err);
+                console.error('CreateCartbiaoFailed:', err);
                 return reject(err);
               }
               
-              // 订单表
+              // Orderbiao
               db.run(`
                 CREATE TABLE IF NOT EXISTS orders (
                   id TEXT PRIMARY KEY,
@@ -148,11 +148,11 @@ const createTables = async () => {
                 )
               `, (err) => {
                 if (err) {
-                  console.error('创建订单表失败:', err);
+                  console.error('CreateOrderbiaoFailed:', err);
                   return reject(err);
                 }
                 
-                // 订单明细表
+                // Orderming xi biao
                 db.run(`
                   CREATE TABLE IF NOT EXISTS order_items (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -169,11 +169,11 @@ const createTables = async () => {
                   )
                 `, (err) => {
                   if (err) {
-                    console.error('创建订单明细表失败:', err);
+                    console.error('CreateOrderming xi biaoFailed:', err);
                     return reject(err);
                   }
                   
-                  // 积分记录表
+                  // Pointsji lu biao
                   db.run(`
                     CREATE TABLE IF NOT EXISTS points_history (
                       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -188,11 +188,11 @@ const createTables = async () => {
                     )
                   `, (err) => {
                     if (err) {
-                      console.error('创建积分记录表失败:', err);
+                      console.error('CreatePointsji lu biaoFailed:', err);
                       return reject(err);
                     }
                     
-                    // 商品收藏表
+                    // ProductFavoritesbiao
                     db.run(`
                       CREATE TABLE IF NOT EXISTS favorites (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -205,11 +205,11 @@ const createTables = async () => {
                       )
                     `, (err) => {
                       if (err) {
-                        console.error('创建商品收藏表失败:', err);
+                        console.error('CreateProductFavoritesbiaoFailed:', err);
                         return reject(err);
                       }
                       
-                      // 系统配置表
+                      // Systempei zhi biao
                       db.run(`
                         CREATE TABLE IF NOT EXISTS system_configs (
                           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -222,11 +222,11 @@ const createTables = async () => {
                         )
                       `, (err) => {
                         if (err) {
-                          console.error('创建系统配置表失败:', err);
+                          console.error('CreateSystempei zhi biaoFailed:', err);
                           return reject(err);
                         }
                         
-                        // 用户签到表
+                        // Userqian dao biao
                         db.run(`
                           CREATE TABLE IF NOT EXISTS checkins (
                             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -239,11 +239,11 @@ const createTables = async () => {
                           )
                         `, (err) => {
                           if (err) {
-                            console.error('创建用户签到表失败:', err);
+                            console.error('CreateUserqian dao biaoFailed:', err);
                             return reject(err);
                           }
                           
-                          console.log('数据库表创建成功');
+                          console.log('DatabasebiaoCreateSucceeded');
                           resolve();
                         });
                       });
@@ -259,17 +259,17 @@ const createTables = async () => {
   });
 };
 
-// 插入初始数据
+// cha ru chu shi shu ju
 const insertInitialData = async () => {
   return new Promise((resolve, reject) => {
     const bcrypt = require('bcryptjs');
     
-    // 插入测试用户
+    // cha ruTestUser
     const users = [
-      { username: 'user1', password: 'password1', role: 'user', points: 100, email: 'user1@example.com', department: '技术部', position: '软件工程师' },
-      { username: 'user2', password: 'password2', role: 'user', points: 200, email: 'user2@example.com', department: '市场部', position: '市场专员' },
-      { username: 'user3', password: 'password3', role: 'user', points: 150, email: 'user3@example.com', department: '人事部', position: '人事专员' },
-      { username: 'admin', password: 'admin123', role: 'admin', points: 0, email: 'admin@example.com', department: 'IT部', position: '系统管理员' }
+      { username: 'user1', password: 'password1', role: 'user', points: 100, email: 'user1@example.com', department: 'ji shu bu', position: 'ruan jian gong cheng shi' },
+      { username: 'user2', password: 'password2', role: 'user', points: 200, email: 'user2@example.com', department: 'shi chang bu', position: 'shi chang zhuan yuan' },
+      { username: 'user3', password: 'password3', role: 'user', points: 150, email: 'user3@example.com', department: 'ren shi bu', position: 'ren shi zhuan yuan' },
+      { username: 'admin', password: 'admin123', role: 'admin', points: 0, email: 'admin@example.com', department: 'ITbu', position: 'SystemAdmin' }
     ];
     
     let userInsertCount = 0;
@@ -277,7 +277,7 @@ const insertInitialData = async () => {
     users.forEach((user, index) => {
       bcrypt.hash(user.password, 10, (err, hash) => {
         if (err) {
-          console.error('密码加密失败:', err);
+          console.error('Passwordjia miFailed:', err);
           return reject(err);
         }
         
@@ -286,21 +286,21 @@ const insertInitialData = async () => {
           VALUES (?, ?, ?, ?, ?, ?, ?)
         `, [user.username, hash, user.role, user.points, user.email, user.department, user.position], (err) => {
           if (err) {
-            console.error('插入用户失败:', err);
+            console.error('cha ruUserFailed:', err);
             return reject(err);
           }
           
           userInsertCount++;
           if (userInsertCount === users.length) {
-            console.log('初始用户数据插入成功');
+            console.log('chu shiUsershu ju cha ruSucceeded');
             
-            // 插入商品分类
+            // cha ruProductCategory
             const categories = [
-              { name: '电子产品', description: '各类电子设备', sort: 1 },
-              { name: '生活用品', description: '日常生活用品', sort: 2 },
-              { name: '办公用品', description: '办公相关用品', sort: 3 },
-              { name: '运动健康', description: '运动健康相关产品', sort: 4 },
-              { name: '图书音像', description: '图书和音像制品', sort: 5 }
+              { name: 'Electronics', description: 'ge lei dian zi she bei', sort: 1 },
+              { name: 'Daily Essentials', description: 'ri changDaily Essentials', sort: 2 },
+              { name: 'Office Supplies', description: 'ban gong xiang guan yong pin', sort: 3 },
+              { name: 'Sports & Health', description: 'Sports & Healthxiang guan chan pin', sort: 4 },
+              { name: 'Books & Media', description: 'tu shu he yin xiang zhi pin', sort: 5 }
             ];
             
             let categoryInsertCount = 0;
@@ -311,75 +311,75 @@ const insertInitialData = async () => {
                 VALUES (?, ?, ?)
               `, [category.name, category.description, category.sort], (err) => {
                 if (err) {
-                  console.error('插入分类失败:', err);
+                  console.error('cha ruCategoryFailed:', err);
                   return reject(err);
                 }
                 
                 categoryInsertCount++;
                 if (categoryInsertCount === categories.length) {
-                  console.log('初始分类数据插入成功');
+                  console.log('chu shiCategoryshu ju cha ruSucceeded');
                   
-                  // 插入商品数据
+                  // cha ruProductshu ju
                   const products = [
                     {
-                      name: '智能手机',
-                      description: '高性能智能手机，拥有优秀的拍照功能和长续航',
+                      name: 'Smartphone',
+                      description: 'High-performance Smartphone，yong you you xiu de pai zhao gong neng he zhang xu hang',
                       price: 1999.00,
                       pointsRequired: 100,
                       stock: 50,
                       categoryId: 1,
-                      specifications: '{"screen": "6.5英寸", "cpu": "八核处理器", "ram": "8GB", "storage": "128GB", "camera": "4800万像素"}',
-                      exchangeRules: '每人限兑1台'
+                      specifications: '{"screen": "6.5ying cun", "cpu": "ba he chu li qi", "ram": "8GB", "storage": "128GB", "camera": "4800wan xiang su"}',
+                      exchangeRules: 'mei ren xian dui1tai'
                     },
                     {
-                      name: '蓝牙耳机',
-                      description: '无线蓝牙耳机，音质清晰，佩戴舒适',
+                      name: 'Bluetooth Earbuds',
+                      description: 'wu xianBluetooth Earbuds，yin zhi qing xi，pei dai shu shi',
                       price: 299.00,
                       pointsRequired: 30,
                       stock: 100,
                       categoryId: 1,
-                      specifications: '{"battery": "24小时续航", "connection": "蓝牙5.0", "waterproof": "IPX5防水"}',
-                      exchangeRules: '每人限兑2个'
+                      specifications: '{"battery": "24xiao shi xu hang", "connection": "lan ya5.0", "waterproof": "IPX5fang shui"}',
+                      exchangeRules: 'mei ren xian dui2ge'
                     },
                     {
-                      name: '保温杯',
-                      description: '304不锈钢保温杯，保冷保温效果佳',
+                      name: 'Insulated Bottle',
+                      description: '304bu xiu gangInsulated Bottle，bao leng bao wen xiao guo jia',
                       price: 99.00,
                       pointsRequired: 10,
                       stock: 200,
                       categoryId: 2,
-                      specifications: '{"capacity": "500ml", "material": "304不锈钢", "temperature": "保温12小时，保冷24小时"}',
-                      exchangeRules: '不限数量'
+                      specifications: '{"capacity": "500ml", "material": "304bu xiu gang", "temperature": "bao wen12xiao shi，bao leng24xiao shi"}',
+                      exchangeRules: 'bu xian shu liang'
                     },
                     {
-                      name: '笔记本',
-                      description: '高品质办公笔记本，书写流畅',
+                      name: 'Notebook',
+                      description: 'High-quality Office Notebook，shu xie liu chang',
                       price: 19.90,
                       pointsRequired: 5,
                       stock: 500,
                       categoryId: 3,
-                      specifications: '{"pages": 100, "size": "A5", "type": "线圈装订"}',
-                      exchangeRules: '不限数量'
+                      specifications: '{"pages": 100, "size": "A5", "type": "xian quan zhuang ding"}',
+                      exchangeRules: 'bu xian shu liang'
                     },
                     {
-                      name: '瑜伽垫',
-                      description: '防滑瑜伽垫，舒适环保',
+                      name: 'Yoga Mat',
+                      description: 'fang huaYoga Mat，shu shi huan bao',
                       price: 129.00,
                       pointsRequired: 25,
                       stock: 80,
                       categoryId: 4,
-                      specifications: '{"thickness": "6mm", "material": "TPE环保材料", "size": "183cm x 61cm"}',
-                      exchangeRules: '每人限兑1个'
+                      specifications: '{"thickness": "6mm", "material": "TPEhuan bao cai liao", "size": "183cm x 61cm"}',
+                      exchangeRules: 'mei ren xian dui1ge'
                     },
                     {
-                      name: '编程书籍',
-                      description: 'JavaScript高级程序设计，前端开发必读',
+                      name: 'Programming Book',
+                      description: 'JavaScriptgao ji cheng xu she ji，Frontendkai fa bi du',
                       price: 89.00,
                       pointsRequired: 15,
                       stock: 30,
                       categoryId: 5,
-                      specifications: '{"pages": 720, "author": "Nicholas C. Zakas", "publisher": "人民邮电出版社"}',
-                      exchangeRules: '每人限兑1本'
+                      specifications: '{"pages": 720, "author": "Nicholas C. Zakas", "publisher": "ren min you dian chu ban she"}',
+                      exchangeRules: 'mei ren xian dui1ben'
                     }
                   ];
                   
@@ -403,23 +403,23 @@ const insertInitialData = async () => {
                       '[]'
                     ], (err) => {
                       if (err) {
-                        console.error('插入商品失败:', err);
+                        console.error('cha ruProductFailed:', err);
                         return reject(err);
                       }
                       
                       productInsertCount++;
                       if (productInsertCount === products.length) {
-                        console.log('初始商品数据插入成功');
+                        console.log('chu shiProductshu ju cha ruSucceeded');
                         
-                        // 插入系统配置
+                        // cha ruSystempei zhi
                         const configs = [
-                          { key: 'system.name', value: '企业内部福利商城', description: '系统名称', type: 'string' },
-                          { key: 'system.logo', value: '', description: '系统Logo', type: 'string' },
-                          { key: 'points.daily_checkin', value: '10', description: '每日签到积分', type: 'number' },
-                          { key: 'points.new_user', value: '100', description: '新用户注册积分', type: 'number' },
-                          { key: 'announcement.enabled', value: 'false', description: '是否启用公告', type: 'boolean' },
-                          { key: 'announcement.title', value: '', description: '公告标题', type: 'string' },
-                          { key: 'announcement.content', value: '', description: '公告内容', type: 'string' }
+                          { key: 'system.name', value: 'Internal Employee Benefits Mall', description: 'Systemming cheng', type: 'string' },
+                          { key: 'system.logo', value: '', description: 'SystemLogo', type: 'string' },
+                          { key: 'points.daily_checkin', value: '10', description: 'mei ri qian daoPoints', type: 'number' },
+                          { key: 'points.new_user', value: '100', description: 'xinUserzhu cePoints', type: 'number' },
+                          { key: 'announcement.enabled', value: 'false', description: 'shi fouEnablegong gao', type: 'boolean' },
+                          { key: 'announcement.title', value: '', description: 'gong gao biao ti', type: 'string' },
+                          { key: 'announcement.content', value: '', description: 'gong gao nei rong', type: 'string' }
                         ];
                         
                         let configInsertCount = 0;
@@ -430,13 +430,13 @@ const insertInitialData = async () => {
                             VALUES (?, ?, ?, ?)
                           `, [config.key, config.value, config.description, config.type], (err) => {
                             if (err) {
-                              console.error('插入系统配置失败:', err);
+                              console.error('cha ruSystempei zhiFailed:', err);
                               return reject(err);
                             }
                             
                             configInsertCount++;
                             if (configInsertCount === configs.length) {
-                              console.log('初始系统配置数据插入成功');
+                              console.log('chu shiSystempei zhi shu ju cha ruSucceeded');
                               resolve();
                             }
                           });
@@ -454,21 +454,21 @@ const insertInitialData = async () => {
   });
 };
 
-// 初始化数据库
+// InitializeDatabase
 const initDatabase = async () => {
   try {
-    // 确保数据库目录存在
+    // que baoDatabasemu lu cun zai
     ensureDatabaseDir();
     
-    // 创建表
+    // Createbiao
     await createTables();
     
-    // 插入初始数据
+    // cha ru chu shi shu ju
     await insertInitialData();
     
-    console.log('数据库初始化完成');
+    console.log('DatabaseInitializewan cheng');
   } catch (error) {
-    console.error('数据库初始化失败:', error);
+    console.error('DatabaseInitializeFailed:', error);
     throw error;
   }
 };

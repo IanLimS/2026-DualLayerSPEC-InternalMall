@@ -2,22 +2,22 @@
   <AdminLayout>
     <div class="product-manage">
       <div class="header">
-        <h2>商品管理</h2>
+        <h2>Product Management</h2>
         <div class="header-actions">
           <el-button type="primary" @click="showCategoryDialog">
             <el-icon><Setting /></el-icon>
-            分类管理
+            Categoryguan li
           </el-button>
         </div>
       </div>
     
-    <!-- 商品列表 -->
+    <!-- ProductList -->
     <ProductList
       @add="handleAddProduct"
       @edit="handleEditProduct"
     />
     
-    <!-- 新增/编辑商品对话框 -->
+    <!-- Create/EditProductdui hua kuang -->
     <ProductForm
       v-model:visible="productFormVisible"
       :product="currentProduct"
@@ -25,7 +25,7 @@
       @success="handleProductSuccess"
     />
     
-      <!-- 分类管理对话框 -->
+      <!-- Categoryguan li dui hua kuang -->
       <CategoryManage v-model:visible="categoryDialogVisible" />
     </div>
   </AdminLayout>
@@ -63,7 +63,7 @@ const handleEditProduct = (product) => {
 }
 
 const handleProductSuccess = () => {
-  // 刷新商品列表
+  // shua xinProductList
   productStore.fetchProducts()
 }
 

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/app');
 
-// JWT 认证中间件
+// JWT ren zheng zhong jian jian
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
@@ -9,7 +9,7 @@ const authenticateToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: '访问令牌缺失'
+      message: 'fang wen ling pai que shi'
     });
   }
 
@@ -17,7 +17,7 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({
         success: false,
-        message: '令牌无效或已过期'
+        message: 'ling paiInvalidhuo yiExpired'
       });
     }
 
@@ -26,23 +26,23 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// 管理员权限中间件
+// Adminquan xian zhong jian jian
 const requireAdmin = (req, res, next) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: '需要管理员权限'
+      message: 'xu yaoAdminquan xian'
     });
   }
   next();
 };
 
-// 用户权限中间件
+// Userquan xian zhong jian jian
 const requireUser = (req, res, next) => {
   if (req.user.role !== 'user' && req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: '需要用户权限'
+      message: 'xu yaoUserquan xian'
     });
   }
   next();

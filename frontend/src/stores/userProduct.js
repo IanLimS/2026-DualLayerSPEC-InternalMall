@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { apiProduct } from '@/api/product'
 
 export const useUserProductStore = defineStore('userProduct', () => {
-  // 状态
+  // Status
   const products = ref([])
   const categories = ref([])
   const currentProduct = ref(null)
@@ -17,7 +17,7 @@ export const useUserProductStore = defineStore('userProduct', () => {
     totalPages: 0
   })
   
-  // 过滤条件
+  // guo lv tiao jian
   const filters = ref({
     category: '',
     keyword: '',
@@ -26,7 +26,7 @@ export const useUserProductStore = defineStore('userProduct', () => {
     sort: 'created_desc'
   })
   
-  // 计算属性
+  // ji suan shu xing
   const activeProducts = computed(() => 
     products.value.filter(product => product.status === 'active')
   )
@@ -42,8 +42,8 @@ export const useUserProductStore = defineStore('userProduct', () => {
     }))
   )
   
-  // 方法
-  // 获取商品列表
+  // fang fa
+  // huo quProductList
   const fetchProducts = async (params = {}) => {
     loading.value = true
     error.value = null
@@ -62,17 +62,17 @@ export const useUserProductStore = defineStore('userProduct', () => {
         products.value = response.data.products
         pagination.value = response.data.pagination
       } else {
-        error.value = response.message || '获取商品列表失败'
+        error.value = response.message || 'huo quProductListFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取商品列表失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quProductListFailed:', err)
     } finally {
       loading.value = false
     }
   }
   
-  // 获取商品详情
+  // huo quProduct Detail
   const fetchProductDetail = async (id) => {
     loading.value = true
     error.value = null
@@ -86,17 +86,17 @@ export const useUserProductStore = defineStore('userProduct', () => {
           isFavorite: favoriteProductIds.value.includes(response.data.id)
         }
       } else {
-        error.value = response.message || '获取商品详情失败'
+        error.value = response.message || 'huo quProduct DetailFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取商品详情失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quProduct DetailFailed:', err)
     } finally {
       loading.value = false
     }
   }
   
-  // 获取商品分类
+  // huo quProductCategory
   const fetchCategories = async () => {
     try {
       const response = await apiProduct.getCategories()
@@ -104,15 +104,15 @@ export const useUserProductStore = defineStore('userProduct', () => {
       if (response.success) {
         categories.value = response.data
       } else {
-        error.value = response.message || '获取分类列表失败'
+        error.value = response.message || 'huo quCategoryListFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取分类列表失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quCategoryListFailed:', err)
     }
   }
   
-  // 搜索商品
+  // SearchProduct
   const searchProducts = async (searchParams) => {
     loading.value = true
     error.value = null
@@ -130,28 +130,28 @@ export const useUserProductStore = defineStore('userProduct', () => {
         products.value = response.data.products
         pagination.value = response.data.pagination
       } else {
-        error.value = response.message || '搜索商品失败'
+        error.value = response.message || 'SearchProductFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('搜索商品失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('SearchProductFailed:', err)
     } finally {
       loading.value = false
     }
   }
   
-  // 添加商品收藏
+  // tian jiaProductFavorites
   const addFavorite = async (productId) => {
     try {
       const response = await apiProduct.addFavorite(productId)
       
       if (response.success) {
-        // 如果有当前商品且ID匹配，更新收藏状态
+        // ru guo you dang qianProductqieIDpi pei，UpdateFavoritesStatus
         if (currentProduct.value && currentProduct.value.id === productId) {
           currentProduct.value.isFavorite = true
         }
         
-        // 获取最新收藏列表
+        // huo qu zui xinFavoritesList
         await fetchFavorites()
         
         return { success: true }
@@ -159,23 +159,23 @@ export const useUserProductStore = defineStore('userProduct', () => {
         return { success: false, message: response.message }
       }
     } catch (err) {
-      console.error('添加收藏失败:', err)
+      console.error('tian jiaFavoritesFailed:', err)
       return { success: false, message: err.message }
     }
   }
   
-  // 取消商品收藏
+  // qu xiaoProductFavorites
   const removeFavorite = async (productId) => {
     try {
       const response = await apiProduct.removeFavorite(productId)
       
       if (response.success) {
-        // 如果有当前商品且ID匹配，更新收藏状态
+        // ru guo you dang qianProductqieIDpi pei，UpdateFavoritesStatus
         if (currentProduct.value && currentProduct.value.id === productId) {
           currentProduct.value.isFavorite = false
         }
         
-        // 获取最新收藏列表
+        // huo qu zui xinFavoritesList
         await fetchFavorites()
         
         return { success: true }
@@ -183,28 +183,28 @@ export const useUserProductStore = defineStore('userProduct', () => {
         return { success: false, message: response.message }
       }
     } catch (err) {
-      console.error('取消收藏失败:', err)
+      console.error('qu xiaoFavoritesFailed:', err)
       return { success: false, message: err.message }
     }
   }
   
-  // 获取收藏商品列表
+  // huo quFavoritesProductList
   const fetchFavorites = async () => {
     try {
       const response = await apiProduct.getFavorites({
         page: 1,
-        limit: 100  // 获取所有收藏，避免分页问题
+        limit: 100  // huo qu suo youFavorites，bi mianPaginationwen ti
       })
       
       if (response.success) {
         favorites.value = response.data.products
       }
     } catch (err) {
-      console.error('获取收藏列表失败:', err)
+      console.error('huo quFavoritesListFailed:', err)
     }
   }
   
-  // 切换收藏状态
+  // qie huanFavoritesStatus
   const toggleFavorite = async (product) => {
     if (product.isFavorite) {
       return await removeFavorite(product.id)
@@ -213,13 +213,13 @@ export const useUserProductStore = defineStore('userProduct', () => {
     }
   }
   
-  // 更新过滤条件
+  // Updateguo lv tiao jian
   const updateFilters = (newFilters) => {
     Object.assign(filters.value, newFilters)
-    pagination.value.page = 1  // 重置页码
+    pagination.value.page = 1  // zhong zhi ye ma
   }
   
-  // 重置过滤条件
+  // zhong zhi guo lv tiao jian
   const resetFilters = () => {
     filters.value = {
       category: '',
@@ -231,7 +231,7 @@ export const useUserProductStore = defineStore('userProduct', () => {
     pagination.value.page = 1
   }
   
-  // 重置状态
+  // zhong zhiStatus
   const resetState = () => {
     products.value = []
     categories.value = []
@@ -255,7 +255,7 @@ export const useUserProductStore = defineStore('userProduct', () => {
   }
   
   return {
-    // 状态
+    // Status
     products,
     categories,
     currentProduct,
@@ -265,12 +265,12 @@ export const useUserProductStore = defineStore('userProduct', () => {
     pagination,
     filters,
     
-    // 计算属性
+    // ji suan shu xing
     activeProducts,
     favoriteProductIds,
     productsWithFavoriteStatus,
     
-    // 方法
+    // fang fa
     fetchProducts,
     fetchProductDetail,
     fetchCategories,

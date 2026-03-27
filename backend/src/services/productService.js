@@ -4,25 +4,25 @@ const { run } = require('../config/database');
 
 class ProductService {
   /**
-   * 获取商品列表
-   * @param {Object} options 查询选项
-   * @returns {Promise<Object>} 商品列表和分页信息
+   * huo quProductList
+   * @param {Object} options Queryxuan xiang
+   * @returns {Promise<Object>} ProductListhePaginationInfo
    */
   static async getProducts(options = {}) {
     return await Product.getAll(options);
   }
 
   /**
-   * 获取商品详情
-   * @param {number} id 商品ID
-   * @param {number} userId 用户ID（可选，用于记录浏览量）
-   * @returns {Promise<Object|null>} 商品详情
+   * huo quProduct Detail
+   * @param {number} id ProductID
+   * @param {number} userId UserID（ke xuan，yong yu ji lu liu lan liang）
+   * @returns {Promise<Object|null>} Product Detail
    */
   static async getProductById(id, userId = null) {
     const product = await Product.getById(id);
     if (!product) return null;
 
-    // 如果提供了用户ID，增加浏览量
+    // ru guo ti gong leUserID，zeng jia liu lan liang
     if (userId) {
       await this.incrementViews(id);
     }
@@ -31,16 +31,16 @@ class ProductService {
   }
 
   /**
-   * 创建商品
-   * @param {Object} productData 商品数据
-   * @returns {Promise<Object>} 创建的商品信息
+   * CreateProduct
+   * @param {Object} productData Productshu ju
+   * @returns {Promise<Object>} CreatedeProductInfo
    */
   static async createProduct(productData) {
-    // 验证分类是否存在
+    // yan zhengCategoryshi fou cun zai
     if (productData.categoryId) {
       const category = await Category.getById(productData.categoryId);
       if (!category) {
-        throw new Error('商品分类不存在');
+        throw new Error('ProductCategoryDoes not exist');
       }
     }
 
@@ -48,23 +48,23 @@ class ProductService {
   }
 
   /**
-   * 更新商品
-   * @param {number} id 商品ID
-   * @param {Object} productData 商品数据
-   * @returns {Promise<Object|null>} 更新后的商品信息
+   * UpdateProduct
+   * @param {number} id ProductID
+   * @param {Object} productData Productshu ju
+   * @returns {Promise<Object|null>} Updatehou deProductInfo
    */
   static async updateProduct(id, productData) {
-    // 验证商品是否存在
+    // yan zhengProductshi fou cun zai
     const existingProduct = await Product.getById(id);
     if (!existingProduct) {
-      throw new Error('商品不存在');
+      throw new Error('Product not found');
     }
 
-    // 如果更新了分类，验证分类是否存在
+    // ru guoUpdateleCategory，yan zhengCategoryshi fou cun zai
     if (productData.categoryId && productData.categoryId !== existingProduct.category_id) {
       const category = await Category.getById(productData.categoryId);
       if (!category) {
-        throw new Error('商品分类不存在');
+        throw new Error('ProductCategoryDoes not exist');
       }
     }
 
@@ -72,42 +72,42 @@ class ProductService {
   }
 
   /**
-   * 删除商品
-   * @param {number} id 商品ID
-   * @returns {Promise<boolean>} 是否删除成功
+   * DeleteProduct
+   * @param {number} id ProductID
+   * @returns {Promise<boolean>} shi fouDeleteSucceeded
    */
   static async deleteProduct(id) {
-    // 验证商品是否存在
+    // yan zhengProductshi fou cun zai
     const product = await Product.getById(id);
     if (!product) {
-      throw new Error('商品不存在');
+      throw new Error('Product not found');
     }
 
     return await Product.delete(id);
   }
 
   /**
-   * 更新商品库存
-   * @param {number} id 商品ID
-   * @param {number} quantity 变化数量
-   * @returns {Promise<Object|null>} 更新后的商品信息
+   * UpdateProductStock
+   * @param {number} id ProductID
+   * @param {number} quantity bian hua shu liang
+   * @returns {Promise<Object|null>} Updatehou deProductInfo
    */
   static async updateProductStock(id, quantity) {
     const product = await Product.updateStock(id, quantity);
     if (!product) {
-      throw new Error('商品不存在');
+      throw new Error('Product not found');
     }
 
     return product;
   }
 
   /**
-   * 增加商品浏览量
-   * @param {number} id 商品ID
-   * @returns {Promise<boolean>} 是否更新成功
+   * zeng jiaProduct Browseliang
+   * @param {number} id ProductID
+   * @returns {Promise<boolean>} shi fouUpdateSucceeded
    */
   static async incrementViews(id) {
-    // 这里简单地更新浏览量，实际应用中可能需要考虑去重等逻辑
+    // zhe li jian dan diUpdateliu lan liang，shi ji ying yong zhong ke neng xu yao kao lv qu zhong deng luo ji
     const query = `
       UPDATE products 
       SET views = views + 1, updated_at = CURRENT_TIMESTAMP 
@@ -119,71 +119,71 @@ class ProductService {
   }
 
   /**
-   * 获取商品分类列表
-   * @param {Object} options 查询选项
-   * @returns {Promise<Array>} 分类列表
+   * huo quProductCategoryList
+   * @param {Object} options Queryxuan xiang
+   * @returns {Promise<Array>} CategoryList
    */
   static async getCategories(options = {}) {
     return await Category.getAll(options);
   }
 
   /**
-   * 获取分类及其商品数量
-   * @returns {Promise<Array>} 分类列表，包含每个分类的商品数量
+   * huo quCategoryji qiProductshu liang
+   * @returns {Promise<Array>} CategoryList，bao han mei geCategorydeProductshu liang
    */
   static async getCategoriesWithProductCount() {
     return await Category.getWithProductCount();
   }
 
   /**
-   * 创建商品分类
-   * @param {Object} categoryData 分类数据
-   * @returns {Promise<Object>} 创建的分类信息
+   * CreateProductCategory
+   * @param {Object} categoryData Categoryshu ju
+   * @returns {Promise<Object>} CreatedeCategoryInfo
    */
   static async createCategory(categoryData) {
     return await Category.create(categoryData);
   }
 
   /**
-   * 更新商品分类
-   * @param {number} id 分类ID
-   * @param {Object} categoryData 分类数据
-   * @returns {Promise<Object|null>} 更新后的分类信息
+   * UpdateProductCategory
+   * @param {number} id CategoryID
+   * @param {Object} categoryData Categoryshu ju
+   * @returns {Promise<Object|null>} Updatehou deCategoryInfo
    */
   static async updateCategory(id, categoryData) {
     return await Category.update(id, categoryData);
   }
 
   /**
-   * 删除商品分类
-   * @param {number} id 分类ID
-   * @returns {Promise<boolean>} 是否删除成功
+   * DeleteProductCategory
+   * @param {number} id CategoryID
+   * @returns {Promise<boolean>} shi fouDeleteSucceeded
    */
   static async deleteCategory(id) {
     return await Category.delete(id);
   }
 
   /**
-   * 获取库存预警商品
-   * @returns {Promise<Array>} 库存不足的商品列表
+   * huo quLow stock warningProduct
+   * @returns {Promise<Array>} Insufficient stockdeProductList
    */
   static async getLowStockProducts() {
     return await Product.getLowStockProducts();
   }
 
   /**
-   * 获取热销商品
-   * @param {number} limit 返回数量限制
-   * @returns {Promise<Array>} 热销商品列表
+   * huo quTop sellingProduct
+   * @param {number} limit fan hui shu liang xian zhi
+   * @returns {Promise<Array>} Top sellingProductList
    */
   static async getTopSellingProducts(limit = 10) {
     return await Product.getTopSellingProducts(limit);
   }
 
   /**
-   * 搜索商品
-   * @param {Object} searchOptions 搜索选项
-   * @returns {Promise<Object>} 搜索结果和分页信息
+   * SearchProduct
+   * @param {Object} searchOptions Searchxuan xiang
+   * @returns {Promise<Object>} Searchjie guo hePaginationInfo
    */
   static async searchProducts(searchOptions) {
     const { keyword, category, minPoints, maxPoints, sortBy, page = 1, limit = 10 } = searchOptions;
@@ -196,10 +196,10 @@ class ProductService {
       sort: sortBy || 'created_desc'
     };
 
-    // 获取商品列表
+    // huo quProductList
     const result = await Product.getAll(options);
 
-    // 如果有积分范围过滤，在结果中进一步过滤
+    // ru guo youPointsfan wei guo lv，zai jie guo zhong jin yi bu guo lv
     if (minPoints !== undefined || maxPoints !== undefined) {
       result.products = result.products.filter(product => {
         if (minPoints !== undefined && product.points_required < minPoints) return false;
@@ -212,10 +212,10 @@ class ProductService {
   }
 
   /**
-   * 批量更新商品状态
-   * @param {Array} productIds 商品ID数组
-   * @param {string} status 商品状态
-   * @returns {Promise<number>} 更新的商品数量
+   * BatchUpdateProductStatus
+   * @param {Array} productIds ProductIDshu zu
+   * @param {string} status ProductStatus
+   * @returns {Promise<number>} UpdatedeProductshu liang
    */
   static async batchUpdateStatus(productIds, status) {
     if (!productIds || productIds.length === 0) return 0;
@@ -232,9 +232,9 @@ class ProductService {
   }
 
   /**
-   * 批量删除商品
-   * @param {Array} productIds 商品ID数组
-   * @returns {Promise<number>} 删除的商品数量
+   * BatchDeleteProduct
+   * @param {Array} productIds ProductIDshu zu
+   * @returns {Promise<number>} DeletedeProductshu liang
    */
   static async batchDeleteProducts(productIds) {
     if (!productIds || productIds.length === 0) return 0;

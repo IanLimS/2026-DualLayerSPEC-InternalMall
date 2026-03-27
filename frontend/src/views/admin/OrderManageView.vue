@@ -1,10 +1,10 @@
 <template>
   <AdminLayout>
     <div class="order-manage">
-      <h2>订单管理</h2>
+      <h2>Order Management</h2>
       <el-card>
         <div class="placeholder">
-          <p>订单管理功能正在开发中...</p>
+          <p>Order Managementgong neng zheng zaiIn Development...</p>
         </div>
       </el-card>
     </div>

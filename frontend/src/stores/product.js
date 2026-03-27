@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { apiAdminProduct } from '@/api/product'
 
 export const useProductStore = defineStore('product', () => {
-  // 状态
+  // Status
   const products = ref([])
   const categories = ref([])
   const currentProduct = ref(null)
@@ -16,20 +16,20 @@ export const useProductStore = defineStore('product', () => {
     totalPages: 0
   })
   
-  // 过滤条件
+  // guo lv tiao jian
   const filters = ref({
     status: '',
     categoryId: '',
     keyword: ''
   })
   
-  // 排序条件
+  // Sorttiao jian
   const sort = ref({
     prop: '',
     order: ''
   })
   
-  // 计算属性
+  // ji suan shu xing
   const activeProducts = computed(() => 
     products.value.filter(product => product.status === 'active')
   )
@@ -52,11 +52,11 @@ export const useProductStore = defineStore('product', () => {
   
   const categoryName = computed(() => (categoryId) => {
     const category = categories.value.find(cat => cat.id === categoryId)
-    return category ? category.name : '未分类'
+    return category ? category.name : 'weiCategory'
   })
   
-  // 方法
-  // 获取商品列表
+  // fang fa
+  // huo quProductList
   const fetchProducts = async (params = {}) => {
     loading.value = true
     error.value = null
@@ -77,17 +77,17 @@ export const useProductStore = defineStore('product', () => {
         products.value = response.data.products
         pagination.value = response.data.pagination
       } else {
-        error.value = response.message || '获取商品列表失败'
+        error.value = response.message || 'huo quProductListFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取商品列表失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quProductListFailed:', err)
     } finally {
       loading.value = false
     }
   }
   
-  // 获取商品详情
+  // huo quProduct Detail
   const fetchProductDetail = async (id) => {
     loading.value = true
     error.value = null
@@ -98,17 +98,17 @@ export const useProductStore = defineStore('product', () => {
       if (response.success) {
         currentProduct.value = response.data
       } else {
-        error.value = response.message || '获取商品详情失败'
+        error.value = response.message || 'huo quProduct DetailFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取商品详情失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quProduct DetailFailed:', err)
     } finally {
       loading.value = false
     }
   }
   
-  // 创建商品
+  // CreateProduct
   const createProduct = async (productData) => {
     loading.value = true
     error.value = null
@@ -117,23 +117,23 @@ export const useProductStore = defineStore('product', () => {
       const response = await apiAdminProduct.createProduct(productData)
       
       if (response.success) {
-        // 刷新商品列表
+        // shua xinProductList
         await fetchProducts()
         return { success: true, data: response.data }
       } else {
-        error.value = response.message || '创建商品失败'
+        error.value = response.message || 'CreateProductFailed'
         return { success: false, message: response.message }
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('创建商品失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('CreateProductFailed:', err)
       return { success: false, message: err.message }
     } finally {
       loading.value = false
     }
   }
   
-  // 更新商品
+  // UpdateProduct
   const updateProduct = async (id, productData) => {
     loading.value = true
     error.value = null
@@ -142,32 +142,32 @@ export const useProductStore = defineStore('product', () => {
       const response = await apiAdminProduct.updateProduct(id, productData)
       
       if (response.success) {
-        // 更新列表中的商品
+        // UpdateListzhong deProduct
         const index = products.value.findIndex(p => p.id === id)
         if (index !== -1) {
           products.value[index] = { ...products.value[index], ...response.data }
         }
         
-        // 如果当前编辑的是这个商品，也更新
+        // ru guo dang qianEditde shi zhe geProduct，yeUpdate
         if (currentProduct.value && currentProduct.value.id === id) {
           currentProduct.value = { ...currentProduct.value, ...response.data }
         }
         
         return { success: true, data: response.data }
       } else {
-        error.value = response.message || '更新商品失败'
+        error.value = response.message || 'UpdateProductFailed'
         return { success: false, message: response.message }
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('更新商品失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('UpdateProductFailed:', err)
       return { success: false, message: err.message }
     } finally {
       loading.value = false
     }
   }
   
-  // 删除商品
+  // DeleteProduct
   const deleteProduct = async (id) => {
     loading.value = true
     error.value = null
@@ -176,29 +176,29 @@ export const useProductStore = defineStore('product', () => {
       const response = await apiAdminProduct.deleteProduct(id)
       
       if (response.success) {
-        // 重新获取商品列表，确保数据同步
+        // chong xin huo quProductList，que bao shu ju tong bu
         await fetchProducts()
         
-        // 如果当前编辑的是这个商品，清空
+        // ru guo dang qianEditde shi zhe geProduct，qing kong
         if (currentProduct.value && currentProduct.value.id === id) {
           currentProduct.value = null
         }
         
-        return { success: true, message: '商品删除成功' }
+        return { success: true, message: 'ProductDeleteSucceeded' }
       } else {
-        error.value = response.message || '删除商品失败'
+        error.value = response.message || 'DeleteProductFailed'
         return { success: false, message: response.message }
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('删除商品失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('DeleteProductFailed:', err)
       return { success: false, message: err.message }
     } finally {
       loading.value = false
     }
   }
   
-  // 更新商品状态
+  // UpdateProductStatus
   const updateProductStatus = async (id, status) => {
     loading.value = true
     error.value = null
@@ -207,32 +207,32 @@ export const useProductStore = defineStore('product', () => {
       const response = await apiAdminProduct.updateProductStatus(id, status)
       
       if (response.success) {
-        // 更新列表中的商品状态
+        // UpdateListzhong deProductStatus
         const index = products.value.findIndex(p => p.id === id)
         if (index !== -1) {
           products.value[index].status = status
         }
         
-        // 如果当前编辑的是这个商品，也更新
+        // ru guo dang qianEditde shi zhe geProduct，yeUpdate
         if (currentProduct.value && currentProduct.value.id === id) {
           currentProduct.value.status = status
         }
         
-        return { success: true, message: `商品${status === 'active' ? '上架' : '下架'}成功` }
+        return { success: true, message: `Product${status === 'active' ? 'Publish' : 'Unpublish'}Succeeded` }
       } else {
-        error.value = response.message || '更新商品状态失败'
+        error.value = response.message || 'UpdateProductStatusFailed'
         return { success: false, message: response.message }
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('更新商品状态失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('UpdateProductStatusFailed:', err)
       return { success: false, message: err.message }
     } finally {
       loading.value = false
     }
   }
   
-  // 更新商品库存
+  // UpdateProductStock
   const updateProductStock = async (id, stock) => {
     loading.value = true
     error.value = null
@@ -241,32 +241,32 @@ export const useProductStore = defineStore('product', () => {
       const response = await apiAdminProduct.updateProductStock(id, stock)
       
       if (response.success) {
-        // 更新列表中的商品库存
+        // UpdateListzhong deProductStock
         const index = products.value.findIndex(p => p.id === id)
         if (index !== -1) {
           products.value[index].stock = stock
         }
         
-        // 如果当前编辑的是这个商品，也更新
+        // ru guo dang qianEditde shi zhe geProduct，yeUpdate
         if (currentProduct.value && currentProduct.value.id === id) {
           currentProduct.value.stock = stock
         }
         
-        return { success: true, message: '库存更新成功' }
+        return { success: true, message: 'StockUpdateSucceeded' }
       } else {
-        error.value = response.message || '更新库存失败'
+        error.value = response.message || 'UpdateStockFailed'
         return { success: false, message: response.message }
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('更新库存失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('UpdateStockFailed:', err)
       return { success: false, message: err.message }
     } finally {
       loading.value = false
     }
   }
   
-  // 获取商品分类
+  // huo quProductCategory
   const fetchCategories = async () => {
     try {
       const response = await apiAdminProduct.getAdminCategories()
@@ -274,39 +274,39 @@ export const useProductStore = defineStore('product', () => {
       if (response.success) {
         categories.value = response.data
       } else {
-        error.value = response.message || '获取分类列表失败'
+        error.value = response.message || 'huo quCategoryListFailed'
       }
     } catch (err) {
-      error.value = err.message || '网络请求失败'
-      console.error('获取分类列表失败:', err)
+      error.value = err.message || 'wang luo qing qiuFailed'
+      console.error('huo quCategoryListFailed:', err)
     }
   }
   
-  // 创建分类
+  // CreateCategory
   const createCategory = async (categoryData) => {
     try {
       const response = await apiAdminProduct.createCategory(categoryData)
       
       if (response.success) {
-        // 刷新分类列表
+        // shua xinCategoryList
         await fetchCategories()
         return { success: true, data: response.data }
       } else {
         return { success: false, message: response.message }
       }
     } catch (err) {
-      console.error('创建分类失败:', err)
+      console.error('CreateCategoryFailed:', err)
       return { success: false, message: err.message }
     }
   }
   
-  // 更新分类
+  // UpdateCategory
   const updateCategory = async (id, categoryData) => {
     try {
       const response = await apiAdminProduct.updateCategory(id, categoryData)
       
       if (response.success) {
-        // 更新列表中的分类
+        // UpdateListzhong deCategory
         const index = categories.value.findIndex(c => c.id === id)
         if (index !== -1) {
           categories.value[index] = { ...categories.value[index], ...response.data }
@@ -317,30 +317,30 @@ export const useProductStore = defineStore('product', () => {
         return { success: false, message: response.message }
       }
     } catch (err) {
-      console.error('更新分类失败:', err)
+      console.error('UpdateCategoryFailed:', err)
       return { success: false, message: err.message }
     }
   }
   
-  // 删除分类
+  // DeleteCategory
   const deleteCategory = async (id) => {
     try {
       const response = await apiAdminProduct.deleteCategory(id)
       
       if (response.success) {
-        // 从列表中移除分类
+        // congListzhong yi chuCategory
         categories.value = categories.value.filter(c => c.id !== id)
-        return { success: true, message: '分类删除成功' }
+        return { success: true, message: 'CategoryDeleteSucceeded' }
       } else {
         return { success: false, message: response.message }
       }
     } catch (err) {
-      console.error('删除分类失败:', err)
+      console.error('DeleteCategoryFailed:', err)
       return { success: false, message: err.message }
     }
   }
   
-  // 重置状态
+  // zhong zhiStatus
   const resetState = () => {
     products.value = []
     categories.value = []
@@ -365,7 +365,7 @@ export const useProductStore = defineStore('product', () => {
   }
   
   return {
-    // 状态
+    // Status
     products,
     categories,
     currentProduct,
@@ -375,13 +375,13 @@ export const useProductStore = defineStore('product', () => {
     filters,
     sort,
     
-    // 计算属性
+    // ji suan shu xing
     activeProducts,
     inactiveProducts,
     productsByCategory,
     categoryName,
     
-    // 方法
+    // fang fa
     fetchProducts,
     fetchProductDetail,
     createProduct,

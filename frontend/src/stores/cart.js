@@ -19,12 +19,12 @@ const cartSummary = ref({
 });
 const loading = ref(false);
 
-// 计算属性
+// ji suan shu xing
 const totalCount = computed(() => cartItems.value.length);
 const selectedItems = computed(() => cartItems.value.filter(item => item.is_selected));
 const allSelected = computed(() => totalCount.value > 0 && selectedItems.value.length === totalCount.value);
 
-// 获取购物车数据
+// huo quCartshu ju
 const fetchCart = async () => {
   loading.value = true;
   try {
@@ -38,109 +38,109 @@ const fetchCart = async () => {
       };
     }
   } catch (error) {
-    console.error('获取购物车失败:', error);
+    console.error('huo quCartFailed:', error);
   } finally {
     loading.value = false;
   }
 };
 
-// 添加商品到购物车
+// tian jiaProductdaoCart
 const addProductToCart = async (productId, quantity = 1) => {
   loading.value = true;
   try {
     const response = await addToCart({ productId, quantity });
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('添加商品到购物车失败:', error);
+    console.error('tian jiaProductdaoCartFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 更新商品数量
+// UpdateProductshu liang
 const updateQuantity = async (cartId, quantity) => {
   loading.value = true;
   try {
     const response = await updateCartQuantity(cartId, { quantity });
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('更新购物车商品数量失败:', error);
+    console.error('UpdateCartProductshu liangFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 更新商品选中状态
+// UpdateProductxuan zhongStatus
 const updateSelection = async (cartId, isSelected) => {
   loading.value = true;
   try {
     const response = await updateCartSelection(cartId, { isSelected });
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('更新购物车商品选中状态失败:', error);
+    console.error('UpdateCartProductxuan zhongStatusFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 批量更新选中状态
+// BatchUpdatexuan zhongStatus
 const batchUpdateSelection = async (isSelected) => {
   loading.value = true;
   try {
     const cartIds = cartItems.value.map(item => item.id);
     const response = await batchUpdateCartSelection({ cartIds, isSelected });
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('批量更新购物车商品选中状态失败:', error);
+    console.error('BatchUpdateCartProductxuan zhongStatusFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 删除购物车商品
+// DeleteCartProduct
 const removeItem = async (cartId) => {
   loading.value = true;
   try {
     const response = await removeFromCart(cartId);
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('删除购物车商品失败:', error);
+    console.error('DeleteCartProductFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 批量删除选中的商品
+// BatchDeletexuan zhong deProduct
 const removeSelectedItems = async () => {
   loading.value = true;
   try {
@@ -149,39 +149,39 @@ const removeSelectedItems = async () => {
     
     const response = await batchRemoveFromCart({ cartIds: selectedCartIds });
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('批量删除购物车商品失败:', error);
+    console.error('BatchDeleteCartProductFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 清空购物车
+// qing kongCart
 const clearCartItems = async () => {
   loading.value = true;
   try {
     const response = await clearCart();
     if (response.success) {
-      // 更新购物车数据
+      // UpdateCartshu ju
       await fetchCart();
       return true;
     }
     return false;
   } catch (error) {
-    console.error('清空购物车失败:', error);
+    console.error('qing kongCartFailed:', error);
     return false;
   } finally {
     loading.value = false;
   }
 };
 
-// 初始化购物车
+// InitializeCart
 const initCart = () => {
   fetchCart();
 };

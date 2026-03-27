@@ -1,10 +1,10 @@
 <template>
   <AdminLayout>
     <div class="system-settings">
-      <h2>系统设置</h2>
+      <h2>System Settings</h2>
       <el-card>
         <div class="placeholder">
-          <p>系统设置功能正在开发中...</p>
+          <p>System Settingsgong neng zheng zaiIn Development...</p>
         </div>
       </el-card>
     </div>

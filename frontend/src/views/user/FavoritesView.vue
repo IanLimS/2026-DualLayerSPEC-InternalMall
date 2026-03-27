@@ -1,25 +1,25 @@
 <template>
   <div class="favorites-container">
-    <!-- 用户导航菜单 -->
+    <!-- Userdao hang cai dan -->
     <div class="user-nav">
       <div class="nav-card">
-        <div class="nav-title">功能导航</div>
+        <div class="nav-title">gong neng dao hang</div>
         <div class="nav-list">
           <router-link to="/products" class="nav-item">
             <el-icon><Shop /></el-icon>
-            <span>商品浏览</span>
+            <span>Product Browse</span>
           </router-link>
           <router-link to="/user/cart" class="nav-item">
             <el-icon><ShoppingCart /></el-icon>
-            <span>我的购物车</span>
+            <span>wo deCart</span>
           </router-link>
           <router-link to="/user/favorites" class="nav-item active">
             <el-icon><Star /></el-icon>
-            <span>我的收藏</span>
+            <span>wo deFavorites</span>
           </router-link>
           <router-link to="/user/profile" class="nav-item">
             <el-icon><User /></el-icon>
-            <span>个人资料</span>
+            <span>Profile</span>
           </router-link>
         </div>
       </div>
@@ -27,9 +27,9 @@
     
     <div class="favorites-content">
       <div class="favorites-header">
-        <h2>我的收藏</h2>
+        <h2>wo deFavorites</h2>
         <div class="header-actions">
-          <el-button @click="goToProducts">继续浏览商品</el-button>
+          <el-button @click="goToProducts">ji xu liu lanProduct</el-button>
         </div>
       </div>
 
@@ -38,8 +38,8 @@
     </div>
     
     <div v-else-if="favorites.length === 0" class="empty-container">
-      <el-empty description="暂无收藏商品">
-        <el-button type="primary" @click="goToProducts">去浏览商品</el-button>
+      <el-empty description="zan wuFavoritesProduct">
+        <el-button type="primary" @click="goToProducts">qu liu lanProduct</el-button>
       </el-empty>
     </div>
     
@@ -55,7 +55,7 @@
         />
       </div>
       
-      <!-- 分页 -->
+      <!-- Pagination -->
       <div v-if="pagination.total > pagination.limit" class="pagination-container">
         <el-pagination
           v-model:current-page="pagination.page"
@@ -83,12 +83,12 @@ import ProductCard from '@/components/product/ProductCard.vue'
 const router = useRouter()
 const productStore = useUserProductStore()
 
-// 计算属性
+// ji suan shu xing
 const loading = computed(() => productStore.loading)
 const favorites = computed(() => productStore.favorites)
 const pagination = computed(() => productStore.pagination)
 
-// 方法
+// fang fa
 const fetchFavorites = async () => {
   await productStore.fetchFavorites()
 }
@@ -104,36 +104,36 @@ const goToProductDetail = (productId) => {
 const toggleFavorite = async (product) => {
   const result = await productStore.toggleFavorite(product)
   if (result.success) {
-    ElMessage.success('已取消收藏')
-    // 重新获取收藏列表
+    ElMessage.success('CancelledFavorites')
+    // chong xin huo quFavoritesList
     await fetchFavorites()
   } else {
-    ElMessage.error(result.message || '操作失败')
+    ElMessage.error(result.message || 'cao zuoFailed')
   }
 }
 
 const addToCartFromFavorites = (product) => {
   addProductToCart(product.id, 1).then(success => {
     if (success) {
-      ElMessage.success('商品已加入购物车')
+      ElMessage.success('Productyi jia ruCart')
     }
   })
 }
 
 const handleSizeChange = (size) => {
-  // 由于收藏API可能不支持分页大小修改，这里重新获取数据
+  // you yuFavoritesAPIke neng bu zhi chiPaginationda xiao xiu gai，zhe li chong xin huo qu shu ju
   productStore.pagination.limit = size
   productStore.pagination.page = 1
   fetchFavorites()
 }
 
 const handleCurrentChange = (page) => {
-  // 由于收藏API可能不支持分页，这里重新获取数据
+  // you yuFavoritesAPIke neng bu zhi chiPagination，zhe li chong xin huo qu shu ju
   productStore.pagination.page = page
   fetchFavorites()
 }
 
-// 生命周期
+// sheng ming zhou qi
 onMounted(() => {
   fetchFavorites()
 })

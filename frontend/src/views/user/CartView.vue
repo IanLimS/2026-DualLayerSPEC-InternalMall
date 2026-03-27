@@ -1,20 +1,20 @@
 <template>
   <div class="cart-view">
-    <h2 class="page-title">我的购物车</h2>
+    <h2 class="page-title">wo deCart</h2>
     
-    <!-- 购物车为空 -->
+    <!-- Cart is empty -->
     <div v-if="totalCount === 0" class="empty-cart">
       <div class="empty-cart-content">
         <svg-icon name="shopping-cart" size="80px" />
-        <h3>购物车还是空的</h3>
-        <p>快去挑选心仪的商品吧！</p>
-        <el-button type="primary" @click="goToProductList">去逛逛</el-button>
+        <h3>Carthai shi kong de</h3>
+        <p>kuai qu tiao xuan xin yi deProductba！</p>
+        <el-button type="primary" @click="goToProductList">qu guang guang</el-button>
       </div>
     </div>
     
-    <!-- 购物车有商品 -->
+    <!-- CartyouProduct -->
     <div v-else class="cart-content">
-      <!-- 全选和批量操作 -->
+      <!-- quan xuan heBatchcao zuo -->
       <div class="cart-header">
         <div class="select-all">
           <el-checkbox 
@@ -22,9 +22,9 @@
             @change="handleSelectAllChange"
             :disabled="loading"
           >
-            全选
+            quan xuan
           </el-checkbox>
-          <span class="selected-count">已选择 {{ cartSummary.selectedCount }} 件</span>
+          <span class="selected-count">yi xuan ze {{ cartSummary.selectedCount }} jian</span>
         </div>
         
         <div class="batch-actions" v-if="selectedItems.length > 0">
@@ -34,19 +34,19 @@
             @click="handleBatchDelete"
             :disabled="loading"
           >
-            删除选中
+            Deletexuan zhong
           </el-button>
         </div>
       </div>
       
-      <!-- 购物车列表 -->
+      <!-- CartList -->
       <div class="cart-list" v-loading="loading">
         <div 
           v-for="item in cartItems" 
           :key="item.id"
           class="cart-item"
         >
-          <!-- 选择框 -->
+          <!-- xuan ze kuang -->
           <div class="item-select">
             <el-checkbox 
               v-model="item.is_selected"
@@ -55,7 +55,7 @@
             ></el-checkbox>
           </div>
           
-          <!-- 商品图片 -->
+          <!-- Producttu pian -->
           <div class="item-image">
             <el-image 
               :src="item.images && item.images.length > 0 ? item.images[0] : '/placeholder-product.jpg'"
@@ -71,14 +71,14 @@
             </el-image>
           </div>
           
-          <!-- 商品信息 -->
+          <!-- ProductInfo -->
           <div class="item-info">
             <div class="product-name">{{ item.product_name }}</div>
             <div class="product-category">{{ item.category_name }}</div>
-            <div class="product-points">所需积分: {{ item.points_required }}</div>
+            <div class="product-points">suo xuPoints: {{ item.points_required }}</div>
           </div>
           
-          <!-- 数量调整 -->
+          <!-- shu liang tiao zheng -->
           <div class="item-quantity">
             <el-input-number 
               v-model="item.quantity"
@@ -88,15 +88,15 @@
               :disabled="loading"
               size="small"
             ></el-input-number>
-            <div class="stock-info">库存: {{ item.stock }}</div>
+            <div class="stock-info">Stock: {{ item.stock }}</div>
           </div>
           
-          <!-- 小计 -->
+          <!-- xiao ji -->
           <div class="item-subtotal">
-            <div class="subtotal-points">{{ item.quantity * item.points_required }} 积分</div>
+            <div class="subtotal-points">{{ item.quantity * item.points_required }} Points</div>
           </div>
           
-          <!-- 操作 -->
+          <!-- cao zuo -->
           <div class="item-actions">
             <el-button 
               type="danger" 
@@ -110,7 +110,7 @@
         </div>
       </div>
       
-      <!-- 购物车底部 -->
+      <!-- Cartdi bu -->
       <div class="cart-footer">
         <div class="footer-left">
           <el-button 
@@ -118,14 +118,14 @@
             @click="handleClearCart"
             :disabled="loading"
           >
-            清空购物车
+            qing kongCart
           </el-button>
         </div>
         
         <div class="footer-right">
           <div class="total-info">
-            <div class="selected-count">已选 {{ cartSummary.selectedCount }} 件商品</div>
-            <div class="total-points">合计: {{ cartSummary.totalPoints }} 积分</div>
+            <div class="selected-count">yi xuan {{ cartSummary.selectedCount }} jianProduct</div>
+            <div class="total-points">he ji: {{ cartSummary.totalPoints }} Points</div>
           </div>
           
           <el-button 
@@ -134,7 +134,7 @@
             @click="goToCheckout"
             :disabled="cartSummary.selectedCount === 0 || loading"
           >
-            去结算
+            qu jie suan
           </el-button>
         </div>
       </div>
@@ -165,7 +165,7 @@ import {
 
 const router = useRouter();
 
-// 计算属性
+// ji suan shu xing
 const allSelectedComputed = {
   get() {
     return allSelected.value;
@@ -173,18 +173,18 @@ const allSelectedComputed = {
   set(value) {
     batchUpdateSelection(value).then(success => {
       if (success) {
-        ElMessage.success(value ? '已全选' : '已取消全选');
+        ElMessage.success(value ? 'yi quan xuan' : 'Cancelledquan xuan');
       }
     });
   }
 };
 
-// 初始化
+// Initialize
 onMounted(() => {
-  // 检查用户是否已登录
+  // jian chaUsershi fou yiLogin
   const authStore = useAuthStore()
   if (!authStore.isAuthenticated) {
-    ElMessage.warning('请先登录')
+    ElMessage.warning('Please log in first')
     router.push('/login')
     return
   }
@@ -192,96 +192,96 @@ onMounted(() => {
   fetchCart();
 });
 
-// 处理全选变化
+// chu li quan xuan bian hua
 const handleSelectAllChange = (value) => {
   batchUpdateSelection(value).then(success => {
     if (success) {
-      ElMessage.success(value ? '已全选' : '已取消全选');
+      ElMessage.success(value ? 'yi quan xuan' : 'Cancelledquan xuan');
     }
   });
 };
 
-// 处理单个商品选中变化
+// chu li dan geProductxuan zhong bian hua
 const handleItemSelectChange = (item) => {
   updateSelection(item.id, item.is_selected).then(success => {
     if (success) {
-      ElMessage.success(item.is_selected ? '已选中' : '已取消选中');
+      ElMessage.success(item.is_selected ? 'yi xuan zhong' : 'Cancelledxuan zhong');
     }
   });
 };
 
-// 处理数量变化
+// chu li shu liang bian hua
 const handleQuantityChange = (item) => {
   updateQuantity(item.id, item.quantity).then(success => {
     if (success) {
-      ElMessage.success('数量已更新');
+      ElMessage.success('shu liang yiUpdate');
     }
   });
 };
 
-// 删除单个商品
+// Deletedan geProduct
 const handleDeleteItem = (item) => {
   ElMessageBox.confirm(
-    `确定要删除 ${item.product_name} 吗？`,
-    '删除商品',
+    `que ding yaoDelete ${item.product_name} ma？`,
+    'DeleteProduct',
     {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+      confirmButtonText: 'que ding',
+      cancelButtonText: 'qu xiao',
       type: 'warning',
     }
   ).then(() => {
     removeItem(item.id).then(success => {
       if (success) {
-        ElMessage.success('商品已删除');
+        ElMessage.success('ProductyiDelete');
       }
     });
   });
 };
 
-// 批量删除选中的商品
+// BatchDeletexuan zhong deProduct
 const handleBatchDelete = () => {
   ElMessageBox.confirm(
-    `确定要删除选中的 ${selectedItems.value.length} 件商品吗？`,
-    '批量删除',
+    `que ding yaoDeletexuan zhong de ${selectedItems.value.length} jianProductma？`,
+    'BatchDelete',
     {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+      confirmButtonText: 'que ding',
+      cancelButtonText: 'qu xiao',
       type: 'warning',
     }
   ).then(() => {
     removeSelectedItems().then(success => {
       if (success) {
-        ElMessage.success('商品已删除');
+        ElMessage.success('ProductyiDelete');
       }
     });
   });
 };
 
-// 清空购物车
+// qing kongCart
 const handleClearCart = () => {
   ElMessageBox.confirm(
-    '确定要清空购物车吗？此操作不可恢复',
-    '清空购物车',
+    'que ding yao qing kongCartma？ci cao zuo bu ke hui fu',
+    'qing kongCart',
     {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+      confirmButtonText: 'que ding',
+      cancelButtonText: 'qu xiao',
       type: 'warning',
     }
   ).then(() => {
     clearCartItems().then(success => {
       if (success) {
-        ElMessage.success('购物车已清空');
+        ElMessage.success('Cartyi qing kong');
       }
     });
   });
 };
 
-// 跳转到商品列表
+// tiao zhuan daoProductList
 const goToProductList = () => {
   router.push('/products');
 };
 
-// 跳转到结算页面
+// tiao zhuan dao jie suan ye mian
 const goToCheckout = () => {
   router.push('/checkout');
 };
@@ -301,7 +301,7 @@ const goToCheckout = () => {
   color: #303133;
 }
 
-/* 空购物车样式 */
+/* kongCartyang shi */
 .empty-cart {
   display: flex;
   justify-content: center;
@@ -328,7 +328,7 @@ const goToCheckout = () => {
   color: #909399;
 }
 
-/* 购物车内容样式 */
+/* Cartnei rong yang shi */
 .cart-content {
   background-color: #fff;
   border-radius: 8px;
@@ -356,7 +356,7 @@ const goToCheckout = () => {
   font-size: 14px;
 }
 
-/* 购物车列表样式 */
+/* CartListyang shi */
 .cart-list {
   margin-bottom: 20px;
 }
@@ -454,7 +454,7 @@ const goToCheckout = () => {
   width: 40px;
 }
 
-/* 购物车底部样式 */
+/* Cartdi bu yang shi */
 .cart-footer {
   display: flex;
   justify-content: space-between;
@@ -485,7 +485,7 @@ const goToCheckout = () => {
   font-weight: 600;
 }
 
-/* 响应式调整 */
+/* xiang ying shi tiao zheng */
 @media (max-width: 768px) {
   .cart-item {
     flex-wrap: wrap;

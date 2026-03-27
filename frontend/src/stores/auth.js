@@ -2,16 +2,16 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  // 状态
+  // Status
   const token = ref(localStorage.getItem('token') || '')
   const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
   
-  // 计算属性
+  // ji suan shu xing
   const isAuthenticated = computed(() => !!token.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
   const isUser = computed(() => user.value?.role === 'user')
   
-  // 方法
+  // fang fa
   const setAuth = (authData) => {
     token.value = authData.token
     user.value = {
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
       role: authData.userType
     }
     
-    // 保存到本地存储
+    // bao cun dao ben di cun chu
     localStorage.setItem('token', authData.token)
     localStorage.setItem('user', JSON.stringify(user.value))
   }
@@ -29,22 +29,22 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = null
     
-    // 清除本地存储
+    // qing chu ben di cun chu
     localStorage.removeItem('token')
     localStorage.removeItem('user')
   }
   
   return {
-    // 状态
+    // Status
     token,
     user,
     
-    // 计算属性
+    // ji suan shu xing
     isAuthenticated,
     isAdmin,
     isUser,
     
-    // 方法
+    // fang fa
     setAuth,
     clearAuth
   }

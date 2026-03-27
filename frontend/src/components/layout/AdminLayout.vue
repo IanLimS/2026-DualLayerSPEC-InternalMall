@@ -1,11 +1,11 @@
 <template>
   <div class="admin-layout">
     <el-container class="admin-container">
-      <!-- 侧边栏 -->
+      <!-- Sidebar -->
       <el-aside width="250px" class="admin-aside">
         <div class="admin-logo">
-          <h2>企业商城</h2>
-          <p>管理后台</p>
+          <h2>Enterprise Mall</h2>
+          <p>Admin Panel</p>
         </div>
         
         <el-menu
@@ -15,33 +15,33 @@
         >
           <el-menu-item index="/admin/dashboard">
             <el-icon><HomeFilled /></el-icon>
-            <span>仪表板</span>
+            <span>Dashboard</span>
           </el-menu-item>
           
           <el-menu-item index="/admin/products">
             <el-icon><ShoppingBag /></el-icon>
-            <span>商品管理</span>
+            <span>Product Management</span>
           </el-menu-item>
           
           <el-menu-item index="/admin/orders">
             <el-icon><Document /></el-icon>
-            <span>订单管理</span>
+            <span>Order Management</span>
           </el-menu-item>
           
           <el-menu-item index="/admin/users">
             <el-icon><User /></el-icon>
-            <span>用户管理</span>
+            <span>User Management</span>
           </el-menu-item>
           
           <el-menu-item index="/admin/settings">
             <el-icon><Setting /></el-icon>
-            <span>系统设置</span>
+            <span>System Settings</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
       
       <el-container>
-        <!-- 顶部导航栏 -->
+        <!-- ding bu dao hang lan -->
         <el-header class="admin-header">
           <div class="header-left">
             <h3>{{ pageTitle }}</h3>
@@ -53,20 +53,20 @@
                 <el-avatar :size="30" :src="userAvatar || undefined">
                   <el-icon><UserFilled /></el-icon>
                 </el-avatar>
-                <span class="username">{{ authStore.user?.username || '管理员' }}</span>
+                <span class="username">{{ authStore.user?.username || 'Admin' }}</span>
                 <el-icon class="el-icon--right"><arrow-down /></el-icon>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                  <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+                  <el-dropdown-item command="profile">Profile</el-dropdown-item>
+                  <el-dropdown-item command="logout" divided>tui chuLogin</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
           </div>
         </el-header>
         
-        <!-- 主内容区域 -->
+        <!-- Main Content Area -->
         <el-main class="admin-main">
           <slot />
         </el-main>
@@ -103,17 +103,17 @@ const pageTitle = computed(() => {
   const path = route.path
   switch (path) {
     case '/admin/dashboard':
-      return '仪表板'
+      return 'Dashboard'
     case '/admin/products':
-      return '商品管理'
+      return 'Product Management'
     case '/admin/orders':
-      return '订单管理'
+      return 'Order Management'
     case '/admin/users':
-      return '用户管理'
+      return 'User Management'
     case '/admin/settings':
-      return '系统设置'
+      return 'System Settings'
     default:
-      return '管理后台'
+      return 'Admin Panel'
   }
 })
 
@@ -121,11 +121,11 @@ const pageTitle = computed(() => {
 const handleCommand = (command) => {
   switch (command) {
     case 'profile':
-      // 跳转到个人信息页面
+      // tiao zhuan daoProfileye mian
       router.push('/user/profile')
       break
     case 'logout':
-      // 执行登出操作
+      // zhi xingLogoutcao zuo
       handleLogout()
       break
   }
@@ -134,11 +134,11 @@ const handleCommand = (command) => {
 const handleLogout = async () => {
   try {
     await authStore.logout()
-    ElMessage.success('退出登录成功')
+    ElMessage.success('tui chuLoginSucceeded')
     router.push('/login')
   } catch (error) {
-    console.error('退出登录失败:', error)
-    ElMessage.error('退出登录失败')
+    console.error('tui chuLoginFailed:', error)
+    ElMessage.error('tui chuLoginFailed')
   }
 }
 </script>

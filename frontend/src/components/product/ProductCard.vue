@@ -15,7 +15,7 @@
         </template>
       </el-image>
       
-      <!-- 收藏按钮 -->
+      <!-- Favoritesan niu -->
       <div class="favorite-button" @click.stop="toggleFavorite">
         <el-icon :class="{ 'is-favorite': product.isFavorite }">
           <StarFilled v-if="product.isFavorite" />
@@ -23,7 +23,7 @@
         </el-icon>
       </div>
       
-      <!-- 库存状态标签 -->
+      <!-- StockStatusbiao qian -->
       <div class="stock-tag" :class="stockStatus.class">
         {{ stockStatus.text }}
       </div>
@@ -33,7 +33,7 @@
       <div class="product-name" :title="product.name">{{ product.name }}</div>
       <div class="product-category">{{ categoryName }}</div>
       <div class="product-points">
-        <span class="points-label">积分</span>
+        <span class="points-label">Points</span>
         <span class="points-value">{{ product.pointsRequired }}</span>
       </div>
       <div class="product-stats">
@@ -53,7 +53,7 @@
           @click.stop="addToCart"
           :disabled="product.stock <= 0"
         >
-          加入购物车
+          jia ruCart
         </el-button>
       </div>
     </div>
@@ -76,11 +76,11 @@ const emit = defineEmits(['click', 'favorite', 'addToCart'])
 
 const productStore = useProductStore()
 
-// 计算商品图片URL
+// ji suanProducttu pianURL
 const productImage = computed(() => {
   if (props.product.images && props.product.images.length > 0) {
     const image = props.product.images[0]
-    // 确保URL是完整的
+    // que baoURLshi wan zheng de
     if (image.startsWith('http') || image.startsWith('/')) {
       return image
     }
@@ -89,32 +89,32 @@ const productImage = computed(() => {
   return ''
 })
 
-// 计算分类名称
+// ji suanCategoryming cheng
 const categoryName = computed(() => {
   if (props.product.category) {
     return props.product.category.name
   }
-  return '未分类'
+  return 'weiCategory'
 })
 
-// 计算库存状态
+// ji suanStockStatus
 const stockStatus = computed(() => {
   const stock = props.product.stock || 0
   if (stock === 0) {
-    return { text: '已售罄', class: 'out-of-stock' }
+    return { text: 'yi shou qing', class: 'out-of-stock' }
   } else if (stock <= 10) {
-    return { text: '仅剩' + stock + '件', class: 'low-stock' }
+    return { text: 'jin sheng' + stock + 'jian', class: 'low-stock' }
   } else {
-    return { text: '有货', class: 'in-stock' }
+    return { text: 'you huo', class: 'in-stock' }
   }
 })
 
-// 切换收藏状态
+// qie huanFavoritesStatus
 const toggleFavorite = () => {
   emit('favorite', props.product)
 }
 
-// 加入购物车
+// jia ruCart
 const addToCart = () => {
   emit('addToCart', props.product)
 }

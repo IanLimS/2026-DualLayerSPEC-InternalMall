@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :model-value="visible"
-    :title="isEdit ? '编辑商品' : '新增商品'"
+    :title="isEdit ? 'EditProduct' : 'CreateProduct'"
     width="800px"
     @close="handleClose"
   >
@@ -14,15 +14,15 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="商品名称" prop="name">
-            <el-input v-model="form.name" placeholder="请输入商品名称" />
+          <el-form-item label="Productming cheng" prop="name">
+            <el-input v-model="form.name" placeholder="qing shu ruProductming cheng" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商品分类" prop="categoryId">
+          <el-form-item label="ProductCategory" prop="categoryId">
             <el-select
               v-model="form.categoryId"
-              placeholder="请选择商品分类"
+              placeholder="qing xuan zeProductCategory"
               style="width: 100%"
             >
               <el-option
@@ -36,18 +36,18 @@
         </el-col>
       </el-row>
       
-      <el-form-item label="商品描述" prop="description">
+      <el-form-item label="Productmiao shu" prop="description">
         <el-input
           v-model="form.description"
           type="textarea"
           rows="3"
-          placeholder="请输入商品描述"
+          placeholder="qing shu ruProductmiao shu"
         />
       </el-form-item>
       
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="商品价格" prop="price">
+          <el-form-item label="Productjia ge" prop="price">
             <el-input-number
               v-model="form.price"
               :min="0"
@@ -58,7 +58,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="所需积分" prop="pointsRequired">
+          <el-form-item label="suo xuPoints" prop="pointsRequired">
             <el-input-number
               v-model="form.pointsRequired"
               :min="0"
@@ -71,7 +71,7 @@
       
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="库存数量" prop="stock">
+          <el-form-item label="Stockshu liang" prop="stock">
             <el-input-number
               v-model="form.stock"
               :min="0"
@@ -81,7 +81,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="预警库存" prop="warningStock">
+          <el-form-item label="yu jingStock" prop="warningStock">
             <el-input-number
               v-model="form.warningStock"
               :min="0"
@@ -92,7 +92,7 @@
         </el-col>
       </el-row>
       
-      <el-form-item label="商品图片" prop="images">
+      <el-form-item label="Producttu pian" prop="images">
         <div class="image-upload-container">
           <div class="image-list">
             <div
@@ -101,7 +101,7 @@
               class="image-item"
             >
               <img :src="image.url" class="uploaded-image" />
-              <div v-if="index === primaryImageIndex" class="primary-image-mark">主图</div>
+              <div v-if="index === primaryImageIndex" class="primary-image-mark">Primary Image</div>
               <div class="image-actions">
                 <el-button
                   type="primary"
@@ -109,14 +109,14 @@
                   @click="setPrimaryImage(index)"
                   :disabled="index === primaryImageIndex"
                 >
-                  {{ index === primaryImageIndex ? '主图' : '设为主图' }}
+                  {{ index === primaryImageIndex ? 'Primary Image' : 'she weiPrimary Image' }}
                 </el-button>
                 <el-button
                   type="danger"
                   size="small"
                   @click="removeImage(index)"
                 >
-                  删除
+                  Delete
                 </el-button>
               </div>
             </div>
@@ -132,15 +132,15 @@
               >
                 <el-icon class="image-uploader-icon"><Plus /></el-icon>
               </el-upload>
-              <div class="upload-tip">支持jpg、png格式，大小不超过5MB，最多5张图片</div>
+              <div class="upload-tip">zhi chijpg、pngge shi，da xiao bu chao guo5MB，zui duo5zhang tu pian</div>
             </div>
           </div>
         </div>
       </el-form-item>
       
-      <el-divider content-position="left">商品规格</el-divider>
+      <el-divider content-position="left">Productgui ge</el-divider>
       
-      <el-form-item label="规格信息">
+      <el-form-item label="gui geInfo">
         <div class="specifications">
           <div
             v-for="(spec, index) in specifications"
@@ -149,12 +149,12 @@
           >
             <el-input
               v-model="spec.key"
-              placeholder="规格名称"
+              placeholder="gui ge ming cheng"
               style="width: 120px; margin-right: 10px"
             />
             <el-input
               v-model="spec.value"
-              placeholder="规格值"
+              placeholder="gui ge zhi"
               style="width: 180px; margin-right: 10px"
             />
             <el-button
@@ -162,7 +162,7 @@
               size="small"
               @click="removeSpecification(index)"
             >
-              删除
+              Delete
             </el-button>
           </div>
           <el-button
@@ -170,25 +170,25 @@
             size="small"
             @click="addSpecification"
           >
-            添加规格
+            tian jia gui ge
           </el-button>
         </div>
       </el-form-item>
       
-      <el-divider content-position="left">兑换规则</el-divider>
+      <el-divider content-position="left">dui huan gui ze</el-divider>
       
-      <el-form-item label="兑换规则" prop="exchangeRules">
+      <el-form-item label="dui huan gui ze" prop="exchangeRules">
         <el-input
           v-model="form.exchangeRules"
           type="textarea"
           rows="3"
-          placeholder="请输入兑换规则，如：每人限兑1个"
+          placeholder="qing shu ru dui huan gui ze，ru：mei ren xian dui1ge"
         />
       </el-form-item>
       
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="排序权重" prop="sort">
+          <el-form-item label="Sortquan zhong" prop="sort">
             <el-input-number
               v-model="form.sort"
               :min="0"
@@ -198,10 +198,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商品状态" prop="status">
+          <el-form-item label="ProductStatus" prop="status">
             <el-radio-group v-model="form.status">
-              <el-radio label="active">上架</el-radio>
-              <el-radio label="inactive">下架</el-radio>
+              <el-radio label="active">Publish</el-radio>
+              <el-radio label="inactive">Unpublish</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -209,13 +209,13 @@
     </el-form>
     
     <template #footer>
-      <el-button @click="handleClose">取消</el-button>
+      <el-button @click="handleClose">qu xiao</el-button>
       <el-button
         type="primary"
         :loading="loading"
         @click="handleSubmit"
       >
-        {{ isEdit ? '更新' : '创建' }}
+        {{ isEdit ? 'Update' : 'Create' }}
       </el-button>
     </template>
   </el-dialog>
@@ -286,33 +286,33 @@ const specifications = ref([
 
 const rules = {
   name: [
-    { required: true, message: '请输入商品名称', trigger: 'blur' }
+    { required: true, message: 'qing shu ruProductming cheng', trigger: 'blur' }
   ],
   categoryId: [
-    { required: true, message: '请选择商品分类', trigger: 'change' }
+    { required: true, message: 'qing xuan zeProductCategory', trigger: 'change' }
   ],
   price: [
-    { required: true, message: '请输入商品价格', trigger: 'blur' },
-    { type: 'number', min: 0, message: '价格不能小于0', trigger: 'blur' }
+    { required: true, message: 'qing shu ruProductjia ge', trigger: 'blur' },
+    { type: 'number', min: 0, message: 'jia ge bu neng xiao yu0', trigger: 'blur' }
   ],
   pointsRequired: [
-    { required: true, message: '请输入所需积分', trigger: 'blur' },
-    { type: 'number', min: 0, message: '积分不能小于0', trigger: 'blur' }
+    { required: true, message: 'qing shu ru suo xuPoints', trigger: 'blur' },
+    { type: 'number', min: 0, message: 'Pointsbu neng xiao yu0', trigger: 'blur' }
   ],
   stock: [
-    { required: true, message: '请输入库存数量', trigger: 'blur' },
-    { type: 'number', min: 0, message: '库存不能小于0', trigger: 'blur' }
+    { required: true, message: 'qing shu ruStockshu liang', trigger: 'blur' },
+    { type: 'number', min: 0, message: 'Stockbu neng xiao yu0', trigger: 'blur' }
   ]
 }
 
 // Methods
 const initForm = () => {
   if (props.isEdit && props.product) {
-    // 编辑模式，填充表单数据
+    // Editmo shi，tian chong biao dan shu ju
     Object.keys(form).forEach(key => {
       if (props.product[key] !== undefined) {
         if (key === 'images') {
-          // 处理图片数组
+          // chu li tu pian shu zu
           if (props.product[key] && Array.isArray(props.product[key])) {
             form[key] = props.product[key].map((img, index) => ({
               url: img,
@@ -329,7 +329,7 @@ const initForm = () => {
       }
     })
     
-    // 处理规格信息
+    // chu li gui geInfo
     if (props.product.specifications) {
       try {
         const specs = typeof props.product.specifications === 'string' 
@@ -340,12 +340,12 @@ const initForm = () => {
           ? Object.entries(specs).map(([key, value]) => ({ key, value }))
           : [{ key: '', value: '' }]
       } catch (e) {
-        console.error('解析规格信息失败:', e)
+        console.error('jie xi gui geInfoFailed:', e)
         specifications.value = [{ key: '', value: '' }]
       }
     }
   } else {
-    // 新增模式，重置表单
+    // Createmo shi，zhong zhi biao dan
     resetForm()
   }
 }
@@ -375,7 +375,7 @@ const removeSpecification = (index) => {
   if (specifications.value.length > 1) {
     specifications.value.splice(index, 1)
   } else {
-    ElMessage.warning('至少保留一条规格信息')
+    ElMessage.warning('zhi shao bao liu yi tiao gui geInfo')
   }
 }
 
@@ -385,17 +385,17 @@ const beforeImageUpload = (file) => {
   const maxImages = 5
 
   if (!isJpgOrPng) {
-    ElMessage.error('只支持jpg或png格式的图片!')
+    ElMessage.error('zhi zhi chijpghuopngge shi de tu pian!')
     return false
   }
   
   if (!isLt5M) {
-    ElMessage.error('图片大小不能超过5MB!')
+    ElMessage.error('tu pian da xiao bu neng chao guo5MB!')
     return false
   }
   
   if (form.images.length >= maxImages) {
-    ElMessage.error(`最多只能上传${maxImages}张图片!`)
+    ElMessage.error(`zui duo zhi nengUpload${maxImages}zhang tu pian!`)
     return false
   }
   
@@ -404,27 +404,27 @@ const beforeImageUpload = (file) => {
 
 const handleUploadSuccess = (response) => {
   if (response.success) {
-    // 添加到图片数组
+    // tian jia dao tu pian shu zu
     form.images.push({
       url: response.data.url,
-      isPrimary: form.images.length === 0 // 第一张图默认为主图
+      isPrimary: form.images.length === 0 // di yi zhang tu mo ren weiPrimary Image
     })
     
-    // 如果是第一张图片，设置为主图
+    // ru guo shi di yi zhang tu pian，SettingsweiPrimary Image
     if (form.images.length === 1) {
       primaryImageIndex.value = 0
     }
     
-    ElMessage.success('图片上传成功')
+    ElMessage.success('tu pianUploadSucceeded')
   } else {
-    ElMessage.error(response.message || '图片上传失败')
+    ElMessage.error(response.message || 'tu pianUploadFailed')
   }
 }
 
 const removeImage = (index) => {
   form.images.splice(index, 1)
   
-  // 如果删除的是主图，重新设置主图
+  // ru guoDeletede shiPrimary Image，chong xinSettingsPrimary Image
   if (index === primaryImageIndex.value && form.images.length > 0) {
     primaryImageIndex.value = 0
   } else if (index < primaryImageIndex.value) {
@@ -436,7 +436,7 @@ const removeImage = (index) => {
 
 const setPrimaryImage = (index) => {
   primaryImageIndex.value = index
-  ElMessage.success('主图设置成功')
+  ElMessage.success('Primary ImageSettingsSucceeded')
 }
 
 const handleSubmit = async () => {
@@ -445,7 +445,7 @@ const handleSubmit = async () => {
   try {
     await formRef.value.validate()
     
-    // 处理规格信息
+    // chu li gui geInfo
     const specs = {}
     specifications.value.forEach(spec => {
       if (spec.key && spec.value) {
@@ -453,10 +453,10 @@ const handleSubmit = async () => {
       }
     })
     
-    // 处理图片数组 - 只保留URL，并按照主图顺序排序
+    // chu li tu pian shu zu - zhi bao liuURL，bing an zhaoPrimary Imageshun xuSort
     const sortedImages = [...form.images]
     if (sortedImages.length > 0) {
-      // 将主图移到第一位
+      // jiangPrimary Imageyi dao di yi wei
       const primaryImage = sortedImages.splice(primaryImageIndex.value, 1)[0]
       sortedImages.unshift(primaryImage)
     }
@@ -477,12 +477,12 @@ const handleSubmit = async () => {
     }
     
     if (result.success) {
-      ElMessage.success(result.message || props.isEdit ? '更新成功' : '创建成功')
+      ElMessage.success(result.message || props.isEdit ? 'UpdateSucceeded' : 'CreateSucceeded')
       emit('success')
       handleClose()
     }
   } catch (error) {
-    console.error('提交失败:', error)
+    console.error('ti jiaoFailed:', error)
   }
 }
 

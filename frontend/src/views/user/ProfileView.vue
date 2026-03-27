@@ -1,25 +1,25 @@
 <template>
   <div class="page-container">
-    <!-- 用户导航菜单 -->
+    <!-- Userdao hang cai dan -->
     <div class="user-nav">
       <div class="nav-card">
-        <div class="nav-title">功能导航</div>
+        <div class="nav-title">gong neng dao hang</div>
         <div class="nav-list">
           <router-link to="/products" class="nav-item">
             <el-icon><Shop /></el-icon>
-            <span>商品浏览</span>
+            <span>Product Browse</span>
           </router-link>
           <router-link to="/user/cart" class="nav-item">
             <el-icon><ShoppingCart /></el-icon>
-            <span>我的购物车</span>
+            <span>wo deCart</span>
           </router-link>
           <router-link to="/user/favorites" class="nav-item">
             <el-icon><Star /></el-icon>
-            <span>我的收藏</span>
+            <span>wo deFavorites</span>
           </router-link>
           <router-link to="/user/profile" class="nav-item active">
             <el-icon><User /></el-icon>
-            <span>个人资料</span>
+            <span>Profile</span>
           </router-link>
         </div>
       </div>
@@ -27,9 +27,9 @@
     
     <div class="card-container">
       <div class="page-header">
-        <h1 class="page-title">用户个人资料</h1>
+        <h1 class="page-title">UserProfile</h1>
         <el-button type="danger" @click="handleLogout" :loading="logoutLoading">
-          退出登录
+          tui chuLogin
         </el-button>
       </div>
       
@@ -38,47 +38,47 @@
       </div>
       
       <div v-else class="profile-content">
-        <el-descriptions title="基本信息" :column="1" border>
-          <el-descriptions-item label="用户ID">{{ userInfo.id }}</el-descriptions-item>
-          <el-descriptions-item label="用户名">{{ userInfo.username }}</el-descriptions-item>
-          <el-descriptions-item label="邮箱">{{ userInfo.email || '未设置' }}</el-descriptions-item>
-          <el-descriptions-item label="手机">{{ userInfo.phone || '未设置' }}</el-descriptions-item>
-          <el-descriptions-item label="积分">{{ userInfo.points }}</el-descriptions-item>
-          <el-descriptions-item label="角色">{{ userInfo.role === 'user' ? '普通用户' : '管理员' }}</el-descriptions-item>
-          <el-descriptions-item label="注册时间">{{ formatDate(userInfo.created_at) }}</el-descriptions-item>
+        <el-descriptions title="ji benInfo" :column="1" border>
+          <el-descriptions-item label="UserID">{{ userInfo.id }}</el-descriptions-item>
+          <el-descriptions-item label="Username">{{ userInfo.username }}</el-descriptions-item>
+          <el-descriptions-item label="Email">{{ userInfo.email || 'weiSettings' }}</el-descriptions-item>
+          <el-descriptions-item label="shou ji">{{ userInfo.phone || 'weiSettings' }}</el-descriptions-item>
+          <el-descriptions-item label="Points">{{ userInfo.points }}</el-descriptions-item>
+          <el-descriptions-item label="Role">{{ userInfo.role === 'user' ? 'pu tongUser' : 'Admin' }}</el-descriptions-item>
+          <el-descriptions-item label="Registration Time">{{ formatDate(userInfo.created_at) }}</el-descriptions-item>
         </el-descriptions>
         
         <div class="action-buttons">
           <el-button type="primary" @click="showEditDialog = true">
-            编辑资料
+            Editzi liao
           </el-button>
           <el-button @click="$router.push('/')">
-            返回首页
+            fan huiHome
           </el-button>
         </div>
       </div>
       
-      <!-- 编辑资料对话框 -->
+      <!-- Editzi liao dui hua kuang -->
       <el-dialog 
         v-model="showEditDialog" 
-        title="编辑个人资料" 
+        title="EditProfile" 
         width="400px"
         :before-close="handleCloseEditDialog"
       >
         <el-form :model="editForm" :rules="editRules" ref="editFormRef" label-width="80px">
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="editForm.email" placeholder="请输入邮箱"></el-input>
+          <el-form-item label="Email" prop="email">
+            <el-input v-model="editForm.email" placeholder="qing shu ruEmail"></el-input>
           </el-form-item>
-          <el-form-item label="手机" prop="phone">
-            <el-input v-model="editForm.phone" placeholder="请输入手机号"></el-input>
+          <el-form-item label="shou ji" prop="phone">
+            <el-input v-model="editForm.phone" placeholder="qing shu ruPhone Number"></el-input>
           </el-form-item>
         </el-form>
         
         <template #footer>
           <div class="dialog-footer">
-            <el-button @click="handleCloseEditDialog">取消</el-button>
+            <el-button @click="handleCloseEditDialog">qu xiao</el-button>
             <el-button type="primary" @click="handleUpdateProfile" :loading="updateLoading">
-              保存
+              bao cun
             </el-button>
           </div>
         </template>
@@ -98,35 +98,35 @@ import { useAuthStore } from '@/stores/auth';
 const router = useRouter();
 const authStore = useAuthStore();
 
-// 加载状态
+// jia zaiStatus
 const loading = ref(true);
 const logoutLoading = ref(false);
 const updateLoading = ref(false);
 
-// 用户信息
+// UserInfo
 const userInfo = ref({});
 
-// 编辑对话框
+// Editdui hua kuang
 const showEditDialog = ref(false);
 const editFormRef = ref(null);
 
-// 编辑表单
+// Editbiao dan
 const editForm = ref({
   email: '',
   phone: ''
 });
 
-// 表单验证规则
+// biao dan yan zheng gui ze
 const editRules = {
   email: [
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+    { type: 'email', message: 'qing shu ru zheng que deEmaildi zhi', trigger: 'blur' }
   ],
   phone: [
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
+    { pattern: /^1[3-9]\d{9}$/, message: 'qing shu ru zheng que dePhone Number', trigger: 'blur' }
   ]
 };
 
-// 获取用户信息
+// huo quUserInfo
 const getUserInfo = async () => {
   try {
     const response = await apiUser.getProfile();
@@ -138,21 +138,21 @@ const getUserInfo = async () => {
       };
     }
   } catch (error) {
-    console.error('获取用户信息失败:', error);
+    console.error('huo quUserInfoFailed:', error);
   } finally {
     loading.value = false;
   }
 };
 
-// 处理登出
+// chu liLogout
 const handleLogout = async () => {
   logoutLoading.value = true;
   try {
     await apiAuth.logout();
-    ElMessage.success('已成功退出登录');
+    ElMessage.success('yiSucceededtui chuLogin');
   } catch (error) {
-    console.error('登出请求失败:', error);
-    ElMessage.warning('已清除本地登录信息');
+    console.error('Logoutqing qiuFailed:', error);
+    ElMessage.warning('yi qing chu ben diLoginInfo');
   } finally {
     logoutLoading.value = false;
     authStore.clearAuth();
@@ -160,17 +160,17 @@ const handleLogout = async () => {
   }
 };
 
-// 关闭编辑对话框
+// guan biEditdui hua kuang
 const handleCloseEditDialog = () => {
   showEditDialog.value = false;
-  // 重置表单数据
+  // zhong zhi biao dan shu ju
   editForm.value = {
     email: userInfo.value.email || '',
     phone: userInfo.value.phone || ''
   };
 };
 
-// 更新个人资料
+// UpdateProfile
 const handleUpdateProfile = async () => {
   if (!editFormRef.value) return;
   
@@ -182,25 +182,25 @@ const handleUpdateProfile = async () => {
   try {
     const response = await apiUser.updateProfile(editForm.value);
     if (response.success) {
-      ElMessage.success('个人资料更新成功');
+      ElMessage.success('ProfileUpdateSucceeded');
       userInfo.value = { ...userInfo.value, ...response.data };
       showEditDialog.value = false;
     }
   } catch (error) {
-    console.error('更新个人资料失败:', error);
+    console.error('UpdateProfileFailed:', error);
   } finally {
     updateLoading.value = false;
   }
 };
 
-// 格式化日期
+// ge shi hua ri qi
 const formatDate = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleString();
 };
 
-// 组件挂载时获取用户信息
+// zu jian gua zai shi huo quUserInfo
 onMounted(() => {
   getUserInfo();
 });

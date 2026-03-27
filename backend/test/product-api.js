@@ -1,16 +1,16 @@
 const axios = require('axios');
 const { expect } = require('chai');
 
-// API基础URL
+// APIji chuURL
 const BASE_URL = 'http://localhost:3001/api';
 
-// 测试数据
+// Testshu ju
 let adminToken = null;
 let testProductId = null;
 let testCategoryId = null;
 
-describe('管理员商品管理API测试', () => {
-  // 测试前获取管理员token
+describe('AdminProduct ManagementAPITest', () => {
+  // Testqian huo quAdmintoken
   before(async () => {
     try {
       const response = await axios.post(`${BASE_URL}/admin/login`, {
@@ -20,17 +20,17 @@ describe('管理员商品管理API测试', () => {
       
       if (response.data.success) {
         adminToken = response.data.data.token;
-        console.log('管理员登录成功，获取token成功');
+        console.log('AdminLoginSucceeded，huo qutokenSucceeded');
       } else {
-        console.error('管理员登录失败:', response.data.message);
+        console.error('AdminLoginFailed:', response.data.message);
       }
     } catch (error) {
-      console.error('登录请求失败:', error.message);
+      console.error('Loginqing qiuFailed:', error.message);
     }
   });
 
-  // 测试获取商品分类
-  it('应该能够获取商品分类列表', async () => {
+  // Testhuo quProductCategory
+  it('ying gai neng gou huo quProductCategoryList', async () => {
     try {
       const response = await axios.get(`${BASE_URL}/admin/categories`, {
         headers: { Authorization: `Bearer ${adminToken}` }
@@ -40,24 +40,24 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.success).to.be.true;
       expect(response.data.data).to.be.an('array');
       
-      console.log('获取分类列表成功，分类数量:', response.data.data.length);
+      console.log('huo quCategoryListSucceeded，Categoryshu liang:', response.data.data.length);
       
-      // 保存第一个分类ID用于后续测试
+      // bao cun di yi geCategoryIDyong yu hou xuTest
       if (response.data.data.length > 0) {
         testCategoryId = response.data.data[0].id;
       }
     } catch (error) {
-      console.error('获取分类列表失败:', error.response?.data || error.message);
+      console.error('huo quCategoryListFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试创建商品分类
-  it('应该能够创建商品分类', async () => {
+  // TestCreateProductCategory
+  it('ying gai neng gouCreateProductCategory', async () => {
     try {
       const newCategory = {
-        name: '测试分类',
-        description: '这是一个测试分类',
+        name: 'TestCategory',
+        description: 'zhe shi yi geTestCategory',
         sort: 99
       };
 
@@ -67,20 +67,20 @@ describe('管理员商品管理API测试', () => {
 
       expect(response.status).to.equal(200);
       expect(response.data.success).to.be.true;
-      expect(response.data.data).to.have.property('name', '测试分类');
+      expect(response.data.data).to.have.property('name', 'TestCategory');
       
-      console.log('创建分类成功:', response.data.data);
+      console.log('CreateCategorySucceeded:', response.data.data);
       
-      // 保存新创建的分类ID用于后续测试
+      // bao cun xinCreatedeCategoryIDyong yu hou xuTest
       testCategoryId = response.data.data.id;
     } catch (error) {
-      console.error('创建分类失败:', error.response?.data || error.message);
+      console.error('CreateCategoryFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试获取商品列表
-  it('应该能够获取商品列表', async () => {
+  // Testhuo quProductList
+  it('ying gai neng gou huo quProductList', async () => {
     try {
       const response = await axios.get(`${BASE_URL}/admin/products`, {
         headers: { Authorization: `Bearer ${adminToken}` }
@@ -91,33 +91,33 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.data).to.have.property('products');
       expect(response.data.data.products).to.be.an('array');
       
-      console.log('获取商品列表成功，商品数量:', response.data.data.products.length);
+      console.log('huo quProductListSucceeded，Productshu liang:', response.data.data.products.length);
       
-      // 保存第一个商品ID用于后续测试
+      // bao cun di yi geProductIDyong yu hou xuTest
       if (response.data.data.products.length > 0) {
         testProductId = response.data.data.products[0].id;
       }
     } catch (error) {
-      console.error('获取商品列表失败:', error.response?.data || error.message);
+      console.error('huo quProductListFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试创建商品
-  it('应该能够创建商品', async () => {
+  // TestCreateProduct
+  it('ying gai neng gouCreateProduct', async () => {
     try {
       const newProduct = {
-        name: '测试商品',
-        description: '这是一个测试商品',
+        name: 'TestProduct',
+        description: 'zhe shi yi geTestProduct',
         price: 199.99,
         pointsRequired: 50,
         stock: 100,
         categoryId: testCategoryId,
         specifications: {
-          color: '红色',
+          color: 'hong se',
           size: 'M'
         },
-        exchangeRules: '每人限兑1个'
+        exchangeRules: 'mei ren xian dui1ge'
       };
 
       const response = await axios.post(`${BASE_URL}/admin/products`, newProduct, {
@@ -126,28 +126,28 @@ describe('管理员商品管理API测试', () => {
 
       expect(response.status).to.equal(200);
       expect(response.data.success).to.be.true;
-      expect(response.data.data).to.have.property('name', '测试商品');
+      expect(response.data.data).to.have.property('name', 'TestProduct');
       
-      console.log('创建商品成功:', response.data.data);
+      console.log('CreateProductSucceeded:', response.data.data);
       
-      // 保存新创建的商品ID用于后续测试
+      // bao cun xinCreatedeProductIDyong yu hou xuTest
       testProductId = response.data.data.id;
     } catch (error) {
-      console.error('创建商品失败:', error.response?.data || error.message);
+      console.error('CreateProductFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试更新商品
-  it('应该能够更新商品', async () => {
+  // TestUpdateProduct
+  it('ying gai neng gouUpdateProduct', async () => {
     if (!testProductId) {
-      console.log('跳过更新商品测试，没有可用的商品ID');
+      console.log('tiao guoUpdateProductTest，mei you ke yong deProductID');
       return;
     }
 
     try {
       const updateData = {
-        name: '更新后的测试商品',
+        name: 'Updatehou deTestProduct',
         stock: 80,
         status: 'inactive'
       };
@@ -158,21 +158,21 @@ describe('管理员商品管理API测试', () => {
 
       expect(response.status).to.equal(200);
       expect(response.data.success).to.be.true;
-      expect(response.data.data).to.have.property('name', '更新后的测试商品');
+      expect(response.data.data).to.have.property('name', 'Updatehou deTestProduct');
       expect(response.data.data).to.have.property('stock', 80);
       expect(response.data.data).to.have.property('status', 'inactive');
       
-      console.log('更新商品成功:', response.data.data);
+      console.log('UpdateProductSucceeded:', response.data.data);
     } catch (error) {
-      console.error('更新商品失败:', error.response?.data || error.message);
+      console.error('UpdateProductFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试获取商品详情
-  it('应该能够获取商品详情', async () => {
+  // Testhuo quProduct Detail
+  it('ying gai neng gou huo quProduct Detail', async () => {
     if (!testProductId) {
-      console.log('跳过获取商品详情测试，没有可用的商品ID');
+      console.log('tiao guo huo quProduct DetailTest，mei you ke yong deProductID');
       return;
     }
 
@@ -185,15 +185,15 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.success).to.be.true;
       expect(response.data.data).to.have.property('id', testProductId);
       
-      console.log('获取商品详情成功:', response.data.data);
+      console.log('huo quProduct DetailSucceeded:', response.data.data);
     } catch (error) {
-      console.error('获取商品详情失败:', error.response?.data || error.message);
+      console.error('huo quProduct DetailFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试获取库存预警商品
-  it('应该能够获取库存预警商品', async () => {
+  // Testhuo quLow stock warningProduct
+  it('ying gai neng gou huo quLow stock warningProduct', async () => {
     try {
       const response = await axios.get(`${BASE_URL}/admin/products/low-stock`, {
         headers: { Authorization: `Bearer ${adminToken}` }
@@ -203,15 +203,15 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.success).to.be.true;
       expect(response.data.data).to.be.an('array');
       
-      console.log('获取库存预警商品成功，商品数量:', response.data.data.length);
+      console.log('huo quLow stock warningProductSucceeded，Productshu liang:', response.data.data.length);
     } catch (error) {
-      console.error('获取库存预警商品失败:', error.response?.data || error.message);
+      console.error('huo quLow stock warningProductFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试获取热销商品
-  it('应该能够获取热销商品', async () => {
+  // Testhuo quTop sellingProduct
+  it('ying gai neng gou huo quTop sellingProduct', async () => {
     try {
       const response = await axios.get(`${BASE_URL}/admin/products/top-selling?limit=5`, {
         headers: { Authorization: `Bearer ${adminToken}` }
@@ -221,17 +221,17 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.success).to.be.true;
       expect(response.data.data).to.be.an('array');
       
-      console.log('获取热销商品成功，商品数量:', response.data.data.length);
+      console.log('huo quTop sellingProductSucceeded，Productshu liang:', response.data.data.length);
     } catch (error) {
-      console.error('获取热销商品失败:', error.response?.data || error.message);
+      console.error('huo quTop sellingProductFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试批量更新商品状态
-  it('应该能够批量更新商品状态', async () => {
+  // TestBatchUpdateProductStatus
+  it('ying gai neng gouBatchUpdateProductStatus', async () => {
     if (!testProductId) {
-      console.log('跳过批量更新商品状态测试，没有可用的商品ID');
+      console.log('tiao guoBatchUpdateProductStatusTest，mei you ke yong deProductID');
       return;
     }
 
@@ -247,17 +247,17 @@ describe('管理员商品管理API测试', () => {
       expect(response.data.success).to.be.true;
       expect(response.data.data).to.have.property('updatedCount');
       
-      console.log('批量更新商品状态成功:', response.data.data);
+      console.log('BatchUpdateProductStatusSucceeded:', response.data.data);
     } catch (error) {
-      console.error('批量更新商品状态失败:', error.response?.data || error.message);
+      console.error('BatchUpdateProductStatusFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试删除商品
-  it('应该能够删除商品', async () => {
+  // TestDeleteProduct
+  it('ying gai neng gouDeleteProduct', async () => {
     if (!testProductId) {
-      console.log('跳过删除商品测试，没有可用的商品ID');
+      console.log('tiao guoDeleteProductTest，mei you ke yong deProductID');
       return;
     }
 
@@ -269,17 +269,17 @@ describe('管理员商品管理API测试', () => {
       expect(response.status).to.equal(200);
       expect(response.data.success).to.be.true;
       
-      console.log('删除商品成功');
+      console.log('DeleteProductSucceeded');
     } catch (error) {
-      console.error('删除商品失败:', error.response?.data || error.message);
+      console.error('DeleteProductFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试删除商品分类
-  it('应该能够删除商品分类', async () => {
+  // TestDeleteProductCategory
+  it('ying gai neng gouDeleteProductCategory', async () => {
     if (!testCategoryId) {
-      console.log('跳过删除分类测试，没有可用的分类ID');
+      console.log('tiao guoDeleteCategoryTest，mei you ke yong deCategoryID');
       return;
     }
 
@@ -291,17 +291,17 @@ describe('管理员商品管理API测试', () => {
       expect(response.status).to.equal(200);
       expect(response.data.success).to.be.true;
       
-      console.log('删除分类成功');
+      console.log('DeleteCategorySucceeded');
     } catch (error) {
-      console.error('删除分类失败:', error.response?.data || error.message);
+      console.error('DeleteCategoryFailed:', error.response?.data || error.message);
       throw error;
     }
   });
 
-  // 测试公开API
-  describe('公开商品API测试', () => {
-    // 测试获取公开商品列表
-    it('应该能够获取公开商品列表', async () => {
+  // Testgong kaiAPI
+  describe('gong kaiProductAPITest', () => {
+    // Testhuo qu gong kaiProductList
+    it('ying gai neng gou huo qu gong kaiProductList', async () => {
       try {
         const response = await axios.get(`${BASE_URL}/products`);
 
@@ -310,15 +310,15 @@ describe('管理员商品管理API测试', () => {
         expect(response.data.data).to.have.property('products');
         expect(response.data.data.products).to.be.an('array');
         
-        console.log('获取公开商品列表成功，商品数量:', response.data.data.products.length);
+        console.log('huo qu gong kaiProductListSucceeded，Productshu liang:', response.data.data.products.length);
       } catch (error) {
-        console.error('获取公开商品列表失败:', error.response?.data || error.message);
+        console.error('huo qu gong kaiProductListFailed:', error.response?.data || error.message);
         throw error;
       }
     });
 
-    // 测试获取商品分类
-    it('应该能够获取公开商品分类', async () => {
+    // Testhuo quProductCategory
+    it('ying gai neng gou huo qu gong kaiProductCategory', async () => {
       try {
         const response = await axios.get(`${BASE_URL}/products/categories`);
 
@@ -326,37 +326,37 @@ describe('管理员商品管理API测试', () => {
         expect(response.data.success).to.be.true;
         expect(response.data.data).to.be.an('array');
         
-        console.log('获取公开商品分类成功，分类数量:', response.data.data.length);
+        console.log('huo qu gong kaiProductCategorySucceeded，Categoryshu liang:', response.data.data.length);
       } catch (error) {
-        console.error('获取公开商品分类失败:', error.response?.data || error.message);
+        console.error('huo qu gong kaiProductCategoryFailed:', error.response?.data || error.message);
         throw error;
       }
     });
 
-    // 测试搜索商品
-    it('应该能够搜索商品', async () => {
+    // TestSearchProduct
+    it('ying gai neng gouSearchProduct', async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/products?keyword=手机&category=1&sort=points_desc`);
+        const response = await axios.get(`${BASE_URL}/products?keyword=shou ji&category=1&sort=points_desc`);
 
         expect(response.status).to.equal(200);
         expect(response.data.success).to.be.true;
         expect(response.data.data).to.have.property('products');
         expect(response.data.data.products).to.be.an('array');
         
-        console.log('搜索商品成功，商品数量:', response.data.data.products.length);
+        console.log('SearchProductSucceeded，Productshu liang:', response.data.data.products.length);
       } catch (error) {
-        console.error('搜索商品失败:', error.response?.data || error.message);
+        console.error('SearchProductFailed:', error.response?.data || error.message);
         throw error;
       }
     });
   });
 });
 
-// 如果直接运行此文件，执行测试
+// ru guo zhi jie yun xing ci wen jian，zhi xingTest
 if (require.main === module) {
-  // 启动服务器
-  console.log('开始测试管理员商品管理API...');
-  console.log('请确保服务器已经启动在 http://localhost:3001');
-  console.log('如果需要，请先运行: npm start');
+  // qi dong fu wu qi
+  console.log('kai shiTestAdminProduct ManagementAPI...');
+  console.log('qing que bao fu wu qi yi jing qi dong zai http://localhost:3001');
+  console.log('ru guo xu yao，qing xian yun xing: npm start');
   console.log('');
 }
